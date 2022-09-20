@@ -160,9 +160,7 @@ function Notification() {
                       </ListItemSecondaryAction>
                     </ListItemButton>
                     <Divider />
-                    <ListItemButton
-                      sx={{ textAlign: "center", py: `${12}px !important` }}
-                    >
+                    <ListItemButton sx={{ textAlign: "center", py: `${12}px !important` }}>
                       <ListItemText
                         primary={
                           <Typography variant="h6" color="primary">

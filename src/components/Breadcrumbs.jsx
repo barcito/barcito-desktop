@@ -50,13 +50,7 @@ function Breadcrumbs({ navigation, title, ...others }) {
   // collapse item
   if (main && main.type === "collapse") {
     mainContent = (
-      <Typography
-        component={Link}
-        to={document.location.pathname}
-        variant="h6"
-        sx={{ textDecoration: "none" }}
-        color="textSecondary"
-      >
+      <Typography component={Link} to={document.location.pathname} variant="h6" sx={{ textDecoration: "none" }} color="textSecondary">
         {main.title}
       </Typography>
     );
@@ -74,28 +68,11 @@ function Breadcrumbs({ navigation, title, ...others }) {
     // main
     if (item.breadcrumbs !== false) {
       breadcrumbContent = (
-        <MainCard
-          border={false}
-          sx={{ mb: 3, bgcolor: "transparent" }}
-          {...others}
-          content={false}
-        >
-          <Grid
-            container
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            spacing={1}
-          >
+        <MainCard border={false} sx={{ mb: 3, bgcolor: "transparent" }} {...others} content={false}>
+          <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1}>
             <Grid item>
               <MuiBreadcrumbs aria-label="breadcrumb">
-                <Typography
-                  component={Link}
-                  to="/"
-                  color="textSecondary"
-                  variant="h6"
-                  sx={{ textDecoration: "none" }}
-                >
+                <Typography component={Link} to="/" color="textSecondary" variant="h6" sx={{ textDecoration: "none" }}>
                   Home
                 </Typography>
                 {mainContent}

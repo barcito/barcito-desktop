@@ -104,14 +104,7 @@ function SalesColumnChart() {
       xaxis: {
         labels: {
           style: {
-            colors: [
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-            ],
+            colors: [secondary, secondary, secondary, secondary, secondary, secondary],
           },
         },
       },
@@ -140,12 +133,7 @@ function SalesColumnChart() {
 
   return (
     <div id="chart">
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={430}
-      />
+      <ReactApexChart options={options} series={series} type="bar" height={430} />
     </div>
   );
 }

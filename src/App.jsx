@@ -8,13 +8,9 @@ import MinimalLayout from "./layout/MinimalLayout";
 const NotFound = Loadable(lazy(() => import("./pages/NotFound")));
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")));
 const SamplePage = Loadable(lazy(() => import("./pages/demos/SamplePage")));
-const ReactQueryDemo = Loadable(
-  lazy(() => import("./pages/demos/ReactQueryDemo"))
-);
+const ReactQueryDemo = Loadable(lazy(() => import("./pages/demos/ReactQueryDemo")));
 const AuthLogin = Loadable(lazy(() => import("./pages/authentication/Login")));
-const AuthRegister = Loadable(
-  lazy(() => import("./pages/authentication/Register"))
-);
+const AuthRegister = Loadable(lazy(() => import("./pages/authentication/Register")));
 
 function App() {
   return (

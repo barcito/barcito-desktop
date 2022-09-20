@@ -42,9 +42,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === "desc" ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
@@ -98,12 +96,7 @@ function OrderTableHead({ order, orderBy }) {
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.align}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
+          <TableCell key={headCell.id} align={headCell.align} padding={headCell.disablePadding ? "none" : "normal"} sortDirection={orderBy === headCell.id ? order : false}>
             {headCell.label}
           </TableCell>
         ))}
@@ -185,48 +178,28 @@ export default function OrderTable() {
         >
           <OrderTableHead order={order} orderBy={orderBy} />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy)).map(
-              (row, index) => {
-                const isItemSelected = isSelected(row.trackingNo);
-                const labelId = `enhanced-table-checkbox-${index}`;
+            {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
+              const isItemSelected = isSelected(row.trackingNo);
+              const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.trackingNo}
-                    selected={isItemSelected}
-                  >
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      align="left"
-                    >
-                      <Link color="secondary" component={RouterLink} to="">
-                        {row.trackingNo}
-                      </Link>
-                    </TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="left">
-                      <OrderStatus status={row.carbs} />
-                    </TableCell>
-                    <TableCell align="right">
-                      <NumberFormat
-                        value={row.protein}
-                        displayType="text"
-                        thousandSeparator
-                        prefix="$"
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              }
-            )}
+              return (
+                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={row.trackingNo} selected={isItemSelected}>
+                  <TableCell component="th" id={labelId} scope="row" align="left">
+                    <Link color="secondary" component={RouterLink} to="">
+                      {row.trackingNo}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell align="left">
+                    <OrderStatus status={row.carbs} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

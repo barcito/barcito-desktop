@@ -35,39 +35,10 @@ function IncomeAreaChart({ slot }) {
       ...prevState,
       colors: [theme.palette.primary.main, theme.palette.primary[700]],
       xaxis: {
-        categories:
-          slot === "month"
-            ? [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-              ]
-            : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        categories: slot === "month" ? ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         labels: {
           style: {
-            colors: [
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-              secondary,
-            ],
+            colors: [secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary],
           },
         },
         axisBorder: {
@@ -107,29 +78,16 @@ function IncomeAreaChart({ slot }) {
     setSeries([
       {
         name: "Page Views",
-        data:
-          slot === "month"
-            ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35]
-            : [31, 40, 28, 51, 42, 109, 100],
+        data: slot === "month" ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] : [31, 40, 28, 51, 42, 109, 100],
       },
       {
         name: "Sessions",
-        data:
-          slot === "month"
-            ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41]
-            : [11, 32, 45, 32, 34, 52, 41],
+        data: slot === "month" ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41] : [11, 32, 45, 32, 34, 52, 41],
       },
     ]);
   }, [slot]);
 
-  return (
-    <ReactApexChart
-      options={options}
-      series={series}
-      type="area"
-      height={450}
-    />
-  );
+  return <ReactApexChart options={options} series={series} type="area" height={450} />;
 }
 
 export default IncomeAreaChart;

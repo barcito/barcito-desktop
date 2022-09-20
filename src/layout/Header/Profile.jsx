@@ -97,31 +97,19 @@ function Profile() {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MainCard elevation={0} border={false} content={false}>
                     <CardContent sx={{ px: 2.5, pt: 3 }}>
-                      <Grid
-                        container
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
+                      <Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>
-                          <Stack
-                            direction="row"
-                            spacing={1.25}
-                            alignItems="center"
-                          >
+                          <Stack direction="row" spacing={1.25} alignItems="center">
                             <Stack>
-                              <Typography variant="h6">John Doe</Typography>
+                              <Typography variant="h6">Pepe Perez</Typography>
                               <Typography variant="body2" color="textSecondary">
-                                UI/UX Designer
+                                Barcito FI
                               </Typography>
                             </Stack>
                           </Stack>
                         </Grid>
                         <Grid item>
-                          <IconButton
-                            size="large"
-                            color="secondary"
-                            onClick={handleLogout}
-                          >
+                          <IconButton size="large" color="secondary" onClick={handleLogout}>
                             <LogoutOutlined />
                           </IconButton>
                         </Grid>

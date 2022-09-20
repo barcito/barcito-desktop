@@ -12,12 +12,7 @@ function LogoSection({ sx, to }) {
   const theme = useTheme();
 
   return (
-    <ButtonBase
-      disableRipple
-      component={Link}
-      to={!to ? config.defaultPath : to}
-      sx={sx}
-    >
+    <ButtonBase disableRipple component={Link} to={!to ? config.defaultPath : to} sx={sx}>
       <Stack direction="row" spacing={2}>
         <img src={logo} alt="Mantis" width="30" />
         <Typography>Hourly</Typography>

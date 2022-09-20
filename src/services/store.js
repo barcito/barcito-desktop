@@ -17,8 +17,7 @@ const useStore = create(
       colorScheme: "light",
       toggleColorScheme: (value) =>
         set((state) => ({
-          colorScheme:
-            value || (state.colorScheme === "dark" ? "light" : "dark"),
+          colorScheme: value || (state.colorScheme === "dark" ? "light" : "dark"),
         })),
     }),
     {

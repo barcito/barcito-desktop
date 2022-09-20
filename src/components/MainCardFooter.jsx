@@ -15,9 +15,7 @@ function MainCardFooter({ children }) {
   const [showFooter, setShowFooter] = useState(false);
   return (
     <Box sx={{ position: "relative" }}>
-      <CardActions
-        sx={{ justifyContent: "flex-end", p: 1, mb: showFooter ? 1 : 0 }}
-      >
+      <CardActions sx={{ justifyContent: "flex-end", p: 1, mb: showFooter ? 1 : 0 }}>
         <Box sx={{ display: "flex", position: "inherit", right: 0, top: 6 }}>
           <CopyToClipboard
             text={reactElementToJSXString(children, {
@@ -26,36 +24,20 @@ function MainCardFooter({ children }) {
             })}
           >
             <Tooltip title="Copy the source" placement="top-end">
-              <IconButton
-                color="secondary"
-                size="small"
-                sx={{ fontSize: "0.875rem" }}
-              >
+              <IconButton color="secondary" size="small" sx={{ fontSize: "0.875rem" }}>
                 <CopyOutlined />
               </IconButton>
             </Tooltip>
           </CopyToClipboard>
-          <Divider
-            orientation="vertical"
-            variant="middle"
-            flexItem
-            sx={{ mx: 1 }}
-          />
+          <Divider orientation="vertical" variant="middle" flexItem sx={{ mx: 1 }} />
           <Tooltip title="Show card footer" placement="top-end">
-            <IconButton
-              sx={{ fontSize: "0.875rem" }}
-              size="small"
-              color={showFooter ? "primary" : "secondary"}
-              onClick={() => setShowFooter(!showFooter)}
-            >
+            <IconButton sx={{ fontSize: "0.875rem" }} size="small" color={showFooter ? "primary" : "secondary"} onClick={() => setShowFooter(!showFooter)}>
               <CodeOutlined />
             </IconButton>
           </Tooltip>
         </Box>
       </CardActions>
-      <Collapse in={showFooter}>
-        {showFooter && <CardContent>Card Footer</CardContent>}
-      </Collapse>
+      <Collapse in={showFooter}>{showFooter && <CardContent>Card Footer</CardContent>}</Collapse>
     </Box>
   );
 }

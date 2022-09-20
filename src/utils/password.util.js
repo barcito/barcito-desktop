@@ -1,8 +1,6 @@
 const hasNumber = (number) => new RegExp(/[0-9]/).test(number);
-const hasBothSmallAndCapitalLettersMixed = (number) =>
-  new RegExp(/[a-z]/).test(number) && new RegExp(/[A-Z]/).test(number);
-const hasSpecialChars = (number) =>
-  new RegExp(/[!#@$%^&*)(+=._-]/).test(number);
+const hasBothSmallAndCapitalLettersMixed = (number) => new RegExp(/[a-z]/).test(number) && new RegExp(/[A-Z]/).test(number);
+const hasSpecialChars = (number) => new RegExp(/[!#@$%^&*)(+=._-]/).test(number);
 
 export const strengthIndicator = (number) => {
   let strengths = 0;

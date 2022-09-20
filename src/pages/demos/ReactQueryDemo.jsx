@@ -6,9 +6,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
 function ReactQueryDemo() {
-  const { isLoading, error, data } = useQuery("repoData", () =>
-    axios.get("https://api.github.com/orgs/jhu-collab").then((res) => res.data)
-  );
+  const { isLoading, error, data } = useQuery("repoData", () => axios.get("https://api.github.com/orgs/jhu-collab").then((res) => res.data));
 
   if (isLoading) return <Alert severity="warning">Loading</Alert>;
 

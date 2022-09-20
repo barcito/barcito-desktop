@@ -26,7 +26,8 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
-    "react-element-to-jsx-string": "^15.0.0"
+    "react-element-to-jsx-string": "^15.0.0",
+    "react-number-format": "^4.9.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",

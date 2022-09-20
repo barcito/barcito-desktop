@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import ThemeCustomization from "./themes";
+import ScrollTop from "./components/ScrollTop";
+import Loadable from "./components/Loadable";
+import MainLayout from "./layout/MainLayout";
+import MinimalLayout from "./layout/MinimalLayout";
+const NotFound = Loadable(lazy(() => import("./pages/NotFound")));
+const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")));
+const SamplePage = Loadable(lazy(() => import("./pages/demos/SamplePage")));
+const ReactQueryDemo = Loadable(
+  lazy(() => import("./pages/demos/ReactQueryDemo"))
+);
+const AuthLogin = Loadable(lazy(() => import("./pages/authentication/Login")));
+const AuthRegister = Loadable(
+  lazy(() => import("./pages/authentication/Register"))
+);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <ThemeCustomization>
+      <ScrollTop>
+        <Routes>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route path="/" element={<DashboardDefault />} />
+            <Route path="sample-page" element={<SamplePage />} />
+            <Route path="react-query" element={<ReactQueryDemo />} />
+          </Route>
+          <Route path="/" element={<MinimalLayout />}>
+            <Route path="login" element={<AuthLogin />} />
+            <Route path="register" element={<AuthRegister />} />
+          </Route>
+        </Routes>
+      </ScrollTop>
+    </ThemeCustomization>
+  );
 }
 
-export default App
+export default App;

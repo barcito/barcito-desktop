@@ -1,5 +1,5 @@
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
@@ -18,11 +18,14 @@ import { Formik } from "formik";
 import AnimateButton from "../../components/AnimateButton";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import OtherLogin from "./OtherLogin";
+import { AuthAPI } from "../../services/authAPI";
 
 function AuthLogin() {
-  const [checked, setChecked] = React.useState(false);
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
+  const [logged, setLogged] = useState(false);
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -31,12 +34,18 @@ function AuthLogin() {
     event.preventDefault();
   };
 
+  useEffect(() => {
+    if(logged){
+      navigate("/testing");
+    }
+  }, [logged]);
+
   return (
     <>
       <Formik
         initialValues={{
-          email: "info@codedthemes.com",
-          password: "123456",
+          email: "",
+          password: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
@@ -45,8 +54,10 @@ function AuthLogin() {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            await AuthAPI.signIn(values, true);
             setStatus({ success: false });
             setSubmitting(false);
+            setLogged(true);
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });

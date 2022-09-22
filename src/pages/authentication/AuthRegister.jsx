@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, redirect } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -19,6 +19,7 @@ import AnimateButton from "../../components/AnimateButton";
 import { strengthColor, strengthIndicator } from "../../utils/password.util";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import OtherLogin from "./OtherLogin";
+import { AuthAPI } from "../../services/authAPI";
 
 function AuthRegister() {
   const [level, setLevel] = useState();
@@ -43,22 +44,23 @@ function AuthRegister() {
   return (
     <>
       <Formik
-        initialValues={{
+        initialValues={{/* 
           firstname: "",
-          lastname: "",
+          lastname: "", */
           email: "",
-          company: "",
+          /* company: "", */
           password: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
-          firstname: Yup.string().max(255).required("First Name is required"),
-          lastname: Yup.string().max(255).required("Last Name is required"),
+          /* firstname: Yup.string().max(255).required("First Name is required"),
+          lastname: Yup.string().max(255).required("Last Name is required"), */
           email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            await AuthAPI.signUp(values, true);
             setStatus({ success: false });
             setSubmitting(false);
           } catch (err) {
@@ -72,7 +74,7 @@ function AuthRegister() {
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="firstname-signup">First Name*</InputLabel>
                   <OutlinedInput id="firstname-login" type="firstname" value={values.firstname} name="firstname" onBlur={handleBlur} onChange={handleChange} placeholder="John" fullWidth error={Boolean(touched.firstname && errors.firstname)} />
@@ -104,7 +106,7 @@ function AuthRegister() {
                     </FormHelperText>
                   )}
                 </Stack>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
@@ -191,14 +193,14 @@ function AuthRegister() {
                   </Button>
                 </AnimateButton>
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Divider>
                   <Typography variant="caption">Sign up with</Typography>
                 </Divider>
               </Grid>
               <Grid item xs={12}>
                 <OtherLogin />
-              </Grid>
+              </Grid> */}
             </Grid>
           </form>
         )}

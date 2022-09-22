@@ -5,12 +5,14 @@ import ScrollTop from "./components/ScrollTop";
 import Loadable from "./components/Loadable";
 import MainLayout from "./layout/MainLayout";
 import MinimalLayout from "./layout/MinimalLayout";
+
 const NotFound = Loadable(lazy(() => import("./pages/NotFound")));
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")));
 const SamplePage = Loadable(lazy(() => import("./pages/demos/SamplePage")));
 const ReactQueryDemo = Loadable(lazy(() => import("./pages/demos/ReactQueryDemo")));
 const AuthLogin = Loadable(lazy(() => import("./pages/authentication/Login")));
 const AuthRegister = Loadable(lazy(() => import("./pages/authentication/Register")));
+const Testing = Loadable(lazy(() => import("./pages/dashboard/testing")));
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
             <Route path="/" element={<DashboardDefault />} />
             <Route path="sample-page" element={<SamplePage />} />
             <Route path="react-query" element={<ReactQueryDemo />} />
+            <Route path="testing" element={<Testing />} />
           </Route>
           <Route path="/" element={<MinimalLayout />}>
             <Route path="login" element={<AuthLogin />} />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
@@ -23,7 +23,6 @@ import { AuthAPI } from "../../services/authAPI";
 function AuthLogin() {
   const navigate = useNavigate();
   const [checked, setChecked] = useState(false);
-  const [logged, setLogged] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -33,12 +32,6 @@ function AuthLogin() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  useEffect(() => {
-    if(logged){
-      navigate("/testing");
-    }
-  }, [logged]);
 
   return (
     <>
@@ -54,10 +47,12 @@ function AuthLogin() {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await AuthAPI.signIn(values, true);
+            const response = await AuthAPI.signIn(values, true);
+            if(response){
+              navigate("/");
+            }
             setStatus({ success: false });
             setSubmitting(false);
-            setLogged(true);
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });

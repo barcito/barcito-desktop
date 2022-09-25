@@ -9,7 +9,7 @@ export const AuthAPI = {
             data: userData,
             signal: cancel ? cancelApiObject[this.signUp.name].handleRequestCancellation().signal : undefined,
         });
-        if(response.status === 200){
+        if(response.status === 201){
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("roles", response.data.roles);
         }
@@ -24,9 +24,7 @@ export const AuthAPI = {
             signal: cancel ? cancelApiObject[this.signIn.name].handleRequestCancellation().signal : undefined,
         });
 
-        console.log(response.data);
-
-        if(response.status === 200){
+        if(response.status === 201){
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("roles", response.data.roles);
         }
@@ -37,11 +35,16 @@ export const AuthAPI = {
     signOut: async function (cancel = false) {
         localStorage.removeItem("email");
         localStorage.removeItem("roles");
-        await api.request({
+        const response = await api.request({
           url: "/auth/logout",
           method: "GET",
           signal: cancel ? cancelApiObject[this.signOut.name].handleRequestCancellation().signal : undefined,
         });
+
+        if(response.status === 200){
+            localStorage.removeItem("email");
+            localStorage.removeItem("roles");
+        }
     },
 
     refresh: async function (cancel = false) {

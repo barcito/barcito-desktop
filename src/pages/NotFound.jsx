@@ -8,7 +8,7 @@ function NotFound() {
         <img src={NotFoundImage} alt={"not found"} />
       </Grid>
       <Grid item>
-        <h1>This page could not be found</h1>
+        <h1>Página no encontrada</h1>
       </Grid>
     </Grid>
   );

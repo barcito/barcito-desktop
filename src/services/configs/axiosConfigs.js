@@ -8,13 +8,12 @@ export const api = axios.create({
 // defining a custom error handler for all APIs
 const errorHandler = (error) => {
   const statusCode = error.response?.status;
-
+  const message = error.response?.data?.message || "Sin conexión";
   // logging only errors that are not 401
   if (statusCode && statusCode !== 401) {
     console.error(error);
   }
-
-  return Promise.reject(error);
+  return Promise.reject(message);
 }
 
 // registering the custom error handler to the

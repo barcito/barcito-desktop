@@ -20,6 +20,7 @@ import SalesColumnChart from "./SalesColumnChart";
 import MainCard from "../../components/MainCard";
 import AnalyticEcommerce from "../../components/AnalyticEcommerce";
 import { GiftOutlined, MessageOutlined, SettingOutlined } from "@ant-design/icons";
+import UnderConstruction from "../../assets/images/underConstruction.png";
 
 const avatarSX = {
   width: 36,
@@ -56,9 +57,15 @@ function DashboardDefault() {
   const [slot, setSlot] = useState("week");
 
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
+    <Grid container rowSpacing={4.5} columnSpacing={2.75} direction="column" alignItems="center">
+      <Grid item>
+        <img src={UnderConstruction} alt={"under construction"} width={"500rem"} />
+      </Grid>
+      <Grid item>
+        <h1>En construcción</h1>
+      </Grid>
       {/* row 1 */}
-      <Grid item xs={12} sx={{ mb: -2.25 }}>
+      {/* <Grid item xs={12} sx={{ mb: -2.25 }}>
         <Typography variant="h5">Dashboard</Typography>
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -73,10 +80,10 @@ function DashboardDefault() {
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <AnalyticEcommerce title="Total Sales" count="$35,078" percentage={27.4} isLoss color="warning" extra="$20,395" />
       </Grid>
-      <Grid item md={8} sx={{ display: { sm: "none", md: "block", lg: "none" } }} />
+      <Grid item md={8} sx={{ display: { sm: "none", md: "block", lg: "none" } }} /> */}
 
       {/* row 2 */}
-      <Grid item xs={12} md={7} lg={8}>
+      {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Unique Visitor</Typography>
@@ -116,10 +123,10 @@ function DashboardDefault() {
           </Box>
           <MonthlyBarChart />
         </MainCard>
-      </Grid>
+      </Grid> */}
 
       {/* row 3 */}
-      <Grid item xs={12} md={7} lg={8}>
+      {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Recent Orders</Typography>
@@ -154,10 +161,10 @@ function DashboardDefault() {
           </List>
           <ReportAreaChart />
         </MainCard>
-      </Grid>
+      </Grid> */}
 
       {/* row 4 */}
-      <Grid item xs={12} md={7} lg={8}>
+      {/* <Grid item xs={12} md={7} lg={8}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography variant="h5">Sales Report</Typography>
@@ -304,7 +311,7 @@ function DashboardDefault() {
             </Button>
           </Stack>
         </MainCard>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

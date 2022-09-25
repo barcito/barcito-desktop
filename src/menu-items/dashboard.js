@@ -5,12 +5,12 @@ const icons = {
 
 export const dashboard = {
   id: "group-dashboard",
-  title: "Navigation",
+  title: "Dashboard",
   type: "group",
   children: [
     {
       id: "dashboard",
-      title: "Dashboard",
+      title: "Inicio",
       type: "item",
       url: "/",
       icon: icons.DashboardOutlined,

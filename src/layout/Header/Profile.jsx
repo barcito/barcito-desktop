@@ -14,12 +14,16 @@ import MainCard from "../../components/MainCard";
 import Transitions from "../../components/Transitions";
 import ProfileMenu from "./ProfileMenu";
 import { LogoutOutlined } from "@ant-design/icons";
+import { AuthAPI } from "../../services/authAPI";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const handleLogout = async () => {
-    // logout
+    await AuthAPI.signOut();
+    navigate("/login");
   };
 
   const anchorRef = useRef(null);

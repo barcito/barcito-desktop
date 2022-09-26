@@ -49,12 +49,7 @@ function ProfileMenu({ handleLogout }) {
       </ListItemButton>
       <ListItemButton
         selected={selectedIndex === 2}
-        onClick={
-          (() => {
-            AuthAPI.signOut();
-          },
-          () => navigate("/"))
-        }
+        onClick={ () => handleLogout() }
       >
         <ListItemIcon>
           <LogoutOutlined />

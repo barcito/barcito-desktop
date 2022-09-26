@@ -9,6 +9,7 @@ import MinimalLayout from "./layout/MinimalLayout";
 const PublicRoute = Loadable(lazy(() => import("./routes/PublicRoute")));
 const PrivateRoute = Loadable(lazy(() => import("./routes/PrivateRoute")));
 const NotFound = Loadable(lazy(() => import("./pages/NotFound")));
+const NotAuthorized = Loadable(lazy(() => import("./pages/NotAuthorized")));
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")));
 const SamplePage = Loadable(lazy(() => import("./pages/demos/SamplePage")));
 const ReactQueryDemo = Loadable(lazy(() => import("./pages/demos/ReactQueryDemo")));

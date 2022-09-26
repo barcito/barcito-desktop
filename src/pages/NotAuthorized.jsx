@@ -1,14 +1,14 @@
 import Grid from "@mui/material/Grid";
-import NotFoundImage from "../assets/images/notFound.png";
+import NotAuthorizedImage from "../assets/images/notAuthrorized.png";
 
-function NotFound() {
+function NotAuthorized() {
   return (
     <Grid container direction="column" alignItems="center">
       <Grid item>
-        <img src={NotFoundImage} alt={"not found"} />
+        <img src={NotAuthorizedImage} alt={"not authorized"} />
       </Grid>
       <Grid item>
-        <h1>Página no encontrada</h1>
+        <h1>Acceso restringido</h1>
       </Grid>
     </Grid>
   );

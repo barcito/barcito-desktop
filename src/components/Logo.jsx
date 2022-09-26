@@ -4,8 +4,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { config } from "../config";
-// import logoDark from '../assets/images/logo-dark.svg';
-import logo from "../assets/images/logo.svg";
+import logo from "../assets/favicon.ico";
 import useTheme from "@mui/material/styles/useTheme";
 
 function LogoSection({ sx, to }) {
@@ -14,8 +13,10 @@ function LogoSection({ sx, to }) {
   return (
     <ButtonBase disableRipple component={Link} to={!to ? config.defaultPath : to} sx={sx}>
       <Stack direction="row" spacing={2}>
-        <img src={logo} alt="Mantis" width="30" />
-        <Typography>Hourly</Typography>
+        <img src={logo} alt="Barcito" width="30" />
+        <Typography variant="h3" component="h1" fontWeight="normal">
+          Barcito
+        </Typography>
       </Stack>
     </ButtonBase>
   );

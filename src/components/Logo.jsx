@@ -14,7 +14,7 @@ function LogoSection({ sx, to }) {
     <ButtonBase disableRipple component={Link} to={!to ? config.defaultPath : to} sx={sx}>
       <Stack direction="row" spacing={2}>
         <img src={logo} alt="Barcito" width="30" />
-        <Typography variant="h3" fontWeight={"bold"}>
+        <Typography variant="h3" component="h1" fontWeight="normal">
           Barcito
         </Typography>
       </Stack>

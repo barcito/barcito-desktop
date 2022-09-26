@@ -6,6 +6,8 @@ import Loadable from "./components/Loadable";
 import MainLayout from "./layout/MainLayout";
 import MinimalLayout from "./layout/MinimalLayout";
 
+const PublicRoute = Loadable(lazy(() => import("./routes/PublicRoute")));
+const PrivateRoute = Loadable(lazy(() => import("./routes/PrivateRoute")));
 const NotFound = Loadable(lazy(() => import("./pages/NotFound")));
 const NotAuthorized = Loadable(lazy(() => import("./pages/NotAuthorized")));
 const DashboardDefault = Loadable(lazy(() => import("./pages/dashboard")));
@@ -21,15 +23,22 @@ function App() {
       <ScrollTop>
         <Routes>
           <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<MainLayout />}>
-            <Route path="/" element={<DashboardDefault />} />
-            <Route path="sample-page" element={<SamplePage />} />
-            <Route path="react-query" element={<ReactQueryDemo />} />
-            <Route path="testing" element={<Testing />} />
+          <Route path="/" element={<PrivateRoute role="all" />}>
+            <Route path="/" element={<MainLayout />}>
+              <Route path="/" element={<DashboardDefault />} />
+              <Route path="administracion" element={<DashboardDefault />} />
+              <Route path="barcitos" element={<DashboardDefault />} />
+              <Route path="usuarios" element={<DashboardDefault />} />
+              <Route path="sample-page" element={<SamplePage />} />
+              <Route path="react-query" element={<ReactQueryDemo />} />
+              <Route path="testing" element={<Testing />} />
+            </Route>
           </Route>
-          <Route path="/" element={<MinimalLayout />}>
-            <Route path="login" element={<AuthLogin />} />
-            <Route path="register" element={<AuthRegister />} />
+          <Route element={<PublicRoute />}>
+            <Route element={<MinimalLayout />}>
+              <Route path="login" element={<AuthLogin />} />
+              <Route path="register" element={<AuthRegister />} />
+            </Route>
           </Route>
         </Routes>
       </ScrollTop>

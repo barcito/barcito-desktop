@@ -1,3 +1,4 @@
+import { Navigate, useNavigate } from "react-router-dom";
 import { api } from "./configs/axiosConfigs";
 import { defineCancelApiObject } from "./configs/axiosUtils";
 
@@ -33,8 +34,6 @@ export const AuthAPI = {
     },
 
     signOut: async function (cancel = false) {
-        localStorage.removeItem("email");
-        localStorage.removeItem("roles");
         const response = await api.request({
           url: "/auth/logout",
           method: "GET",

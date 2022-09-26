@@ -14,12 +14,16 @@ import MainCard from "../../components/MainCard";
 import Transitions from "../../components/Transitions";
 import ProfileMenu from "./ProfileMenu";
 import { LogoutOutlined } from "@ant-design/icons";
+import { AuthAPI } from "../../services/authAPI";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const handleLogout = async () => {
-    // logout
+    await AuthAPI.signOut();
+    navigate("/login");
   };
 
   const anchorRef = useRef(null);
@@ -59,7 +63,7 @@ function Profile() {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          <Typography variant="subtitle1">John Doe</Typography>
+          <Typography variant="subtitle1">{localStorage.getItem("email")}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -101,18 +105,18 @@ function Profile() {
                         <Grid item>
                           <Stack direction="row" spacing={1.25} alignItems="center">
                             <Stack>
-                              <Typography variant="h6">Pepe Perez</Typography>
+                              <Typography variant="h6">{localStorage.getItem("email")}</Typography>
                               <Typography variant="body2" color="textSecondary">
                                 Barcito FI
                               </Typography>
                             </Stack>
                           </Stack>
                         </Grid>
-                        <Grid item>
+                        {/* <Grid item>
                           <IconButton size="large" color="secondary" onClick={handleLogout}>
                             <LogoutOutlined />
                           </IconButton>
-                        </Grid>
+                        </Grid> */}
                       </Grid>
                     </CardContent>
                     {open && <ProfileMenu handleLogout={handleLogout} />}

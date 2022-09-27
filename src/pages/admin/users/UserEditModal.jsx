@@ -58,7 +58,7 @@ export default function UserEditModal({ user, modalOpen, closeModal }) {
                         surname: "" || user?.fullName.split(" ")[0],
                         email: "" || user?.email,
                         /* password: "", */
-                        academicUnit: "" || user?.academicUnit,/* 
+                        academicUnit: "Sin definir" || user?.academicUnit,/* 
                         certificate: "" || user?.certificate, */
                         phone: "" || user?.phone,
                         dni: "" || user?.dni,/* 
@@ -74,7 +74,16 @@ export default function UserEditModal({ user, modalOpen, closeModal }) {
                     })}
                     onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                         try {
-                            const response = await UserAPI.update(user.id, values, true);
+                            let response = null;
+                            if(user?.id){
+                                response = await UserAPI.update(user.id, values, true);
+                            }else{
+                                const data = {
+                                    ...values,
+                                    password: "123456"
+                                }
+                                response = await UserAPI.create(values, true);
+                            }
                             if (response) {
                                 setStatus({ success: true });
                                 setSubmitting(false);

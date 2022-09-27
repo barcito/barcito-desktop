@@ -34,16 +34,18 @@ export const AuthAPI = {
     },
 
     signOut: async function (cancel = false) {
+        localStorage.removeItem("email");
+        localStorage.removeItem("roles");
         const response = await api.request({
           url: "/auth/logout",
           method: "GET",
           signal: cancel ? cancelApiObject[this.signOut.name].handleRequestCancellation().signal : undefined,
         });
 
-        if(response.status === 200){
+        /* if(response.status === 200){
             localStorage.removeItem("email");
             localStorage.removeItem("roles");
-        }
+        } */
     },
 
     refresh: async function (cancel = false) {

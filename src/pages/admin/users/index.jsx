@@ -156,6 +156,11 @@ export default function User() {
 
     const isUserNotFound = filteredUsers.length === 0;
 
+    const handleNew = () => {
+        setUserOnAction(null);
+        setModalOpen(true);
+    }
+
     const handleEdit = ( user ) => {
         setUserOnAction(user);
         setModalOpen(true)
@@ -195,7 +200,7 @@ export default function User() {
                 <Typography variant="h2" gutterBottom>
                     Usuarios
                 </Typography>
-                <Button variant="contained" to="#">
+                <Button variant="contained" onClick={() => handleNew()}>
                     Nuevo Usuario
                 </Button>
             </Stack>

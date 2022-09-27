@@ -15,7 +15,7 @@ const SamplePage = Loadable(lazy(() => import("./pages/demos/SamplePage")));
 const ReactQueryDemo = Loadable(lazy(() => import("./pages/demos/ReactQueryDemo")));
 const AuthLogin = Loadable(lazy(() => import("./pages/authentication/Login")));
 const AuthRegister = Loadable(lazy(() => import("./pages/authentication/Register")));
-const Testing = Loadable(lazy(() => import("./pages/dashboard/testing")));
+const Users = Loadable(lazy(() => import("./pages/admin/users")));
 
 function App() {
   return (
@@ -28,10 +28,9 @@ function App() {
               <Route path="/" element={<DashboardDefault />} />
               <Route path="administracion" element={<DashboardDefault />} />
               <Route path="barcitos" element={<DashboardDefault />} />
-              <Route path="usuarios" element={<DashboardDefault />} />
+              <Route path="usuarios" element={<Users />} />
               <Route path="sample-page" element={<SamplePage />} />
               <Route path="react-query" element={<ReactQueryDemo />} />
-              <Route path="testing" element={<Testing />} />
             </Route>
           </Route>
           <Route element={<PublicRoute />}>

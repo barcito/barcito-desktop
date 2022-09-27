@@ -3,7 +3,7 @@ import { AccountProfile } from "./AccountProfile";
 import { AccountProfileDetails } from "./AccountProfileDetails";
 // import { DashboardLayout } from "../components/dashboard-layout";
 
-function Account() {
+export default function Account() {
   return (
     <>
       <Box

@@ -22,6 +22,7 @@ import UserMoreMenu from './UserMoreMenu';
 import { useEffect } from 'react';
 import { UserAPI } from '../../../services/userAPI';
 import ConfirmDialog from '../../../components/ConfirmDialog';
+import UserEditModal from './UserEditModal';
 
 const TABLE_HEAD = [
     { id: 'fullName', label: 'Nombre completo', alignRight: false },

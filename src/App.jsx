@@ -16,6 +16,7 @@ const ReactQueryDemo = Loadable(lazy(() => import("./pages/demos/ReactQueryDemo"
 const AuthLogin = Loadable(lazy(() => import("./pages/authentication/Login")));
 const AuthRegister = Loadable(lazy(() => import("./pages/authentication/Register")));
 const Users = Loadable(lazy(() => import("./pages/admin/users")));
+const Account = Loadable(lazy(() => import("./pages/profile/Account")));
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="barcitos" element={<DashboardDefault />} />
               <Route path="usuarios" element={<Users />} />
               <Route path="sample-page" element={<SamplePage />} />
+              <Route path="perfil" element={<Account />} />
               <Route path="react-query" element={<ReactQueryDemo />} />
             </Route>
           </Route>

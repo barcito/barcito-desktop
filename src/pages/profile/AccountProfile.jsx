@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Avatar,
   Box,
@@ -8,19 +9,19 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { UserAPI } from "../../services/userAPI";
 
-const user = {
-  avatar: "/static/images/avatars/avatar_6.png",
-  city: "Los Angeles",
-  country: "USA",
-  jobTitle: "Senior Developer",
-  name: "Katarina Smith",
-  timezone: "GTM-7",
-};
+//TODO: Los datos cargados tienen que ser acordes a la informacion que queremos dar la posibilidad de cambiar
+//TODO: Esta constante debería definirse con la informacion del usuario traida de la API
+//!Esto no esta correcto asi, solo lo dejo como un ejemplo de lo que deberia hacer, probablement
 
-export function AccountProfile(props) {
+export function AccountProfile({userData, setUserData}) {
+
+  //TODO: Setear el objeto con
+  // setUserData(getUserData(id));
+
   return (
-    <Card {...props}>
+    <Card>
       <CardContent>
         <Box
           sx={{
@@ -30,7 +31,7 @@ export function AccountProfile(props) {
           }}
         >
           <Avatar
-            src={user.avatar}
+            src={userData.avatar}
             sx={{
               height: 64,
               mb: 2,
@@ -38,14 +39,14 @@ export function AccountProfile(props) {
             }}
           />
           <Typography color="textPrimary" gutterBottom variant="h5">
-            {user.name}
+            {userData.name}
+          </Typography>
+          {/* <Typography color="textSecondary" variant="body2">
+            {`${userData.city} ${userData.country}`}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            {`${user.city} ${user.country}`}
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            {user.timezone}
-          </Typography>
+            {userData.timezone}
+          </Typography> */}
         </Box>
       </CardContent>
       <Divider />
@@ -57,3 +58,10 @@ export function AccountProfile(props) {
     </Card>
   );
 }
+
+/**
+ * Funcion que setearia el objeto con la informacion???
+ */
+// async function getUserData(id) {
+//   return UserAPI.get(id); //? Algo asi quedaria? Capaz en el elemento padre Account
+// }

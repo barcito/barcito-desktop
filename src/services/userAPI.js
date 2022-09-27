@@ -32,6 +32,14 @@ export const UserAPI = {
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
   },
+
+  delete: async function (id, cancel = false) {
+    await api.request({
+      url: `/users/${id}`,
+      method: "DELETE",
+      signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
+    })
+  }
 }
 
 // defining the cancel API object for UserAPI

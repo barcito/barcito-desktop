@@ -90,7 +90,6 @@ export default function User() {
         const getUsers = async () => {
             const users = await UserAPI.getAll();
             const formattedUsers = users.map((user) => {
-                let roles = Object.values(user.roles); 
                 return {
                     id: user.id,
                     fullName: `${user.surname} ${user.name}`,
@@ -100,7 +99,7 @@ export default function User() {
                     validated: false,
                     phone: user.phone,
                     dni: user.dni,
-                    roles: roles.map( (rol) => `${rol} `)
+                    roles: Object.values(user.roles)
                 }
             })
             setUserList(formattedUsers);
@@ -247,7 +246,7 @@ export default function User() {
                                         </TableCell>
                                         <TableCell align="left">{phone}</TableCell>
                                         <TableCell align="left">{dni}</TableCell>
-                                        <TableCell align="left">{roles}</TableCell>
+                                        <TableCell align="left">{roles.map( (rol) => `${rol} `)}</TableCell>
                                         <TableCell align="right">
                                             <UserMoreMenu user={row} handleEdit={handleEdit} handleDelete={handleDelete}/>
                                         </TableCell>

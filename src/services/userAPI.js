@@ -24,6 +24,21 @@ export const UserAPI = {
     return response.data
   },
 
+  update: async function (id, user, cancel = false) {
+    const response = await api.request({
+      url: `/users/${id}`,
+      method: "PATCH",
+      data: user,
+      signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
+    })
+
+    if(response.status === 200){
+      return true
+    }
+
+    return false
+  },
+
   create: async function (user, cancel = false) {
     await api.request({
       url: `/users`,

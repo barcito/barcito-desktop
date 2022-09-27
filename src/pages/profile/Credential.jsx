@@ -15,7 +15,7 @@ import { UserAPI } from "../../services/userAPI";
 //TODO: Esta constante debería definirse con la informacion del usuario traida de la API
 //!Esto no esta correcto asi, solo lo dejo como un ejemplo de lo que deberia hacer, probablement
 
-export function AccountProfile({userData, setUserData}) {
+export function Credential({user}) {
 
   //TODO: Setear el objeto con
   // setUserData(getUserData(id));
@@ -30,16 +30,16 @@ export function AccountProfile({userData, setUserData}) {
             flexDirection: "column",
           }}
         >
-          <Avatar
-            src={userData.avatar}
+          {/* <Avatar
+            src={user.avatar}
             sx={{
               height: 64,
               mb: 2,
               width: 64,
             }}
-          />
+          /> */}
           <Typography color="textPrimary" gutterBottom variant="h5">
-            {userData.name}
+            {`${user.surname} ${user.name}`}
           </Typography>
           {/* <Typography color="textSecondary" variant="body2">
             {`${userData.city} ${userData.country}`}

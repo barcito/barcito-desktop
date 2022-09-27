@@ -21,7 +21,6 @@ export const UserAPI = {
       // retrieving the signal value by using the property name
       signal: cancel ? cancelApiObject[this.get.name].handleRequestCancellation().signal : undefined,
     })
-
     // returning the product returned by the API
     return response.data
   },

@@ -86,6 +86,8 @@ export default function User() {
 
     const [modalOpen, setModalOpen] = useState(false);
 
+    const [editUser, setEditUser] = useState(null);
+
     useEffect(() => {
         const getUsers = async () => {
             const users = await UserAPI.getAll();
@@ -105,7 +107,7 @@ export default function User() {
             setUserList(formattedUsers);
         }
         getUsers();
-    }, []);
+    }, [editUser]);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -286,7 +288,7 @@ export default function User() {
                 />
             </MainCard>
             <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario/s?"} confirmDelete={confirmDelete} closeDialog={setDialogOpen} />
-            <UserEditModal user={userOnAction} modalOpen={modalOpen} closeModal={setModalOpen} />
+            <UserEditModal user={userOnAction} modalOpen={modalOpen} closeModal={setModalOpen} setEditUser={setEditUser} />
         </Container>
     );
 }

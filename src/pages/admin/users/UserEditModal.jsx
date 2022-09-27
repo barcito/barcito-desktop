@@ -22,7 +22,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { UserAPI } from "../../../services/userAPI";
 import { MenuItem, Select } from "@mui/material";
 
-export default function UserEditModal({ user, modalOpen, closeModal }) {
+export default function UserEditModal({ user, modalOpen, closeModal, setEditUser }) {
 
     const academicUnits = [
         "Sin definir",
@@ -87,7 +87,8 @@ export default function UserEditModal({ user, modalOpen, closeModal }) {
                             if (response) {
                                 setStatus({ success: true });
                                 setSubmitting(false);
-                                closeModal();
+                                setEditUser(user?.id);
+                                closeModal(false);
                             }
                         } catch (err) {
                             console.error(err);

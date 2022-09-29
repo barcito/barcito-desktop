@@ -261,7 +261,7 @@ export default function User() {
                                         </TableCell>
                                         <TableCell align="left">
                                             <Label variant="ghost" color={validColor}>
-                                                {validated}
+                                                {validated || 'Sin realizar'}
                                             </Label>
                                         </TableCell>
                                         <TableCell align="left">{phone}</TableCell>

@@ -12,6 +12,8 @@ import {
     Typography,
     TableContainer,
     TablePagination,
+    Chip,
+    Link,
 } from '@mui/material';
 import MainCard from "../../../components/MainCard";
 import Label from '../../../components/Label';
@@ -23,6 +25,7 @@ import { useEffect } from 'react';
 import { UserAPI } from '../../../services/userAPI';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 import UserEditModal from './UserEditModal';
+import { Visibility } from '@mui/icons-material';
 
 const TABLE_HEAD = [
     { id: 'fullName', label: 'Nombre completo', alignRight: false },
@@ -97,8 +100,8 @@ export default function User() {
                     fullName: `${user.surname} ${user.name}`,
                     email: user.email,
                     academicUnit: user.academicUnit,
-                    certificate: 'path',
-                    validated: false,
+                    certificate: user.applicationDone?.certificatePath || null,
+                    validated: user.applicationDone?.status || null,
                     phone: user.phone,
                     dni: user.dni,
                     roles: Object.values(user.roles)
@@ -224,6 +227,9 @@ export default function User() {
                             {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 const { id, fullName, email, academicUnit, certificate, validated, phone, dni, roles } = row;
                                 const isItemSelected = selected.indexOf(id) !== -1;
+                                let validColor = 'error';
+                                if( validated === 'Aceptado') validColor = 'success';
+                                if( validated === 'Pendiente') validColor = 'warning';
                                 return (
                                     <TableRow
                                         hover
@@ -245,15 +251,24 @@ export default function User() {
                                         </TableCell>
                                         <TableCell align="left">{email}</TableCell>
                                         <TableCell align="left">{academicUnit}</TableCell>
-                                        <TableCell align="left">{certificate}</TableCell>
+                                        <TableCell align="left">{
+                                            certificate ?
+                                                <Link href={certificate} target="_blank" underline='none'>
+                                                    <Chip variant='outlined' color='primary' label="Ver" icon={<Visibility />} sx={{ cursor: 'pointer'}} />
+                                                </Link>
+                                                :
+                                                'No posee'}
+                                        </TableCell>
                                         <TableCell align="left">
-                                            {<Label variant="ghost" color={validated ? 'success' : 'error'}>
-                                                {validated ? 'Si' : 'No'}
-                                            </Label>}
+                                            <Label variant="ghost" color={validColor}>
+                                                {validated}
+                                            </Label>
                                         </TableCell>
                                         <TableCell align="left">{phone}</TableCell>
                                         <TableCell align="left">{dni}</TableCell>
-                                        <TableCell align="left">{roles.map( (rol) => `${rol} `)}</TableCell>
+                                        <TableCell align="left">{roles.map( (rol) => {
+                                            return <Chip key={rol} variant='outlined' color='primary' size='small' label={rol} sx={{ mx: 0.25 }} />
+                                        })}</TableCell>
                                         <TableCell align="right">
                                             <UserMoreMenu user={row} handleEdit={handleEdit} handleDelete={handleDelete}/>
                                         </TableCell>

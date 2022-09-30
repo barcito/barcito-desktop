@@ -227,7 +227,7 @@ export default function Users() {
                             {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                 const { id, fullName, email, academicUnit, certificate, validated, phone, dni, roles } = row;
                                 const isItemSelected = selected.indexOf(id) !== -1;
-                                let validColor = 'error';
+                                let validColor = 'secondary';
                                 if( validated === 'Aceptado') validColor = 'success';
                                 if( validated === 'Pendiente') validColor = 'warning';
                                 return (

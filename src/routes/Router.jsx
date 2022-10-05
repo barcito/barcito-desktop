@@ -4,7 +4,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Loadable from "../components/Loadable";
 import MainLayout from "../layout/MainLayout";
 import MinimalLayout from "../layout/MinimalLayout";
-import { loader as usersLoader } from "../pages/admin/users";
 
 const PublicRoute = Loadable(lazy(() => import("./PublicRoute")));
 const PrivateRoute = Loadable(lazy(() => import("./PrivateRoute")));

@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { BarcitoAPI } from '../../../services/barcitoAPI';
 import ManagersTable from './ManagersTable';
 import TabPanel from './TabPanel';
+import BarcitoImage from './BarcitoImage';
 
 export default function Barcitos() {
 
@@ -42,7 +43,7 @@ export default function Barcitos() {
                         gridAutoColumns: "minmax(320px, 1fr)"
                     }}>
                         {barcitos.map((bar, i) => (
-                            <ImageListItem key={i} sx={{ height: '320px', width: '320px' }}>
+                            <ImageListItem key={i} sx={ barFocus.id === bar.id ? { width: '320px', border: 2, borderColor: 'red' } : { width: '320px' } }>
                                 <img
                                     src={bar.imagePath}
                                     alt={bar.name}
@@ -69,58 +70,21 @@ export default function Barcitos() {
 
                     <MainCard>
                         <TabPanel value={value} index={0}>
-                            <BarcitoForm barcito={barFocus} setBarFocus={setBarFocus} />
+                            <Stack spacing={1} direction="row">
+                                <BarcitoForm barcito={barFocus} setBarFocus={setBarFocus} />
+                                {barFocus.id &&
+                                    <BarcitoImage image={barFocus.imagePath} alt={barFocus.name} />
+                                }
+                            </Stack>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                                <Stack spacing={1}>
-                                    <Box sx={{ height: "195px", width: "100%" }}>
-                                        {barFocus.id ?
-                                            <img
-                                                src={barFocus.imagePath}
-                                                alt={barFocus.name}
-                                                loading='lazy'
-                                                height="200px"
-                                            /> : <p>None</p>
-                                        }
-                                    </Box>
-                                    <Box sx={{ backgroundColor: "red", height: "195px", width: "100%" }}>
-                                        {barFocus.id && barFocus.managers ?
-                                            <ManagersTable managers={managers} setManagers={setManagers}></ManagersTable>
-                                            :
-                                            <p>None</p>
-                                        }
-                                    </Box>
-                                </Stack>
+                            {barFocus.id && barFocus.managers ?
+                                <ManagersTable managers={managers} setManagers={setManagers}></ManagersTable>
+                                :
+                                <p>None</p>
+                            }
                         </TabPanel>
                     </MainCard>
-                    {/* <MainCard>
-                        <Grid container spacing={1}>
-                            <Grid item md={6}>
-                                <BarcitoForm barcito={barFocus} setBarFocus={setBarFocus} />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Stack spacing={1}>
-                                    <Box sx={{ height: "195px", width: "100%" }}>
-                                        {barFocus.id ?
-                                            <img
-                                                src={barFocus.imagePath}
-                                                alt={barFocus.name}
-                                                loading='lazy'
-                                                height="200px"
-                                            /> : <p>None</p>
-                                        }
-                                    </Box>
-                                    <Box sx={{ backgroundColor: "red", height: "195px", width: "100%" }}>
-                                        {barFocus.id && barFocus.managers ?
-                                            <ManagersTable managers={managers} setManagers={setManagers}></ManagersTable>
-                                            :
-                                            <p>None</p>
-                                        }
-                                    </Box>
-                                </Stack>
-                            </Grid>
-                        </Grid>
-                    </MainCard> */}
                 </Grid>
             </Grid>
         </Container>

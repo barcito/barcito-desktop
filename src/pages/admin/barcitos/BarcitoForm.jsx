@@ -22,8 +22,7 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
         academicUnit: 'Sin definir',
         openTime: '',
         closeTime: '',
-        location: '',
-        imagePath: ''
+        location: ''
     }
 
     return (
@@ -35,7 +34,6 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                 openTime: Yup.string().max(255).required("Campo obligatorio"),
                 closeTime: Yup.string().max(255).required("Campo obligatorio"),
                 location: Yup.string().max(255).required("Campo obligatorio"),
-                imagePath: Yup.string().max(255).required("Campo obligatorio"),
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
@@ -66,7 +64,7 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
             {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                 <form noValidate onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="name-bar">Nombre</InputLabel>
                                 <OutlinedInput id="name-bar" type="name" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Barcito" fullWidth error={Boolean(touched.name && errors.name)} />
@@ -77,7 +75,6 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                                 )}
                             </Stack>
                         </Grid>
-
                         <Grid item xs={12}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="academicUnit-bar">Unidad academica</InputLabel>
@@ -88,8 +85,7 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                                 </ Select>
                             </Stack>
                         </Grid>
-
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="openTime-bar">Horario apertura</InputLabel>
                                 <OutlinedInput fullWidth error={Boolean(touched.openTime && errors.openTime)} id="openTime-bar" type="openTime" value={values.openTime} name="openTime" onBlur={handleBlur} onChange={handleChange} placeholder="HH:MM" inputProps={{}} />
@@ -99,7 +95,8 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                                     </FormHelperText>
                                 )}
                             </Stack>
-                        </Grid><Grid item xs={12}>
+                        </Grid>
+                        <Grid item xs={12}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="closeTime-bar">Horario cierre</InputLabel>
                                 <OutlinedInput fullWidth error={Boolean(touched.closeTime && errors.closeTime)} id="closeTime-bar" type="closeTime" value={values.closeTime} name="closeTime" onBlur={handleBlur} onChange={handleChange} placeholder="HH:MM" inputProps={{}} />
@@ -117,17 +114,6 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                                 {touched.location && errors.location && (
                                     <FormHelperText error id="helper-text-location-bar">
                                         {errors.location}
-                                    </FormHelperText>
-                                )}
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Stack spacing={1}>
-                                <InputLabel htmlFor="imagePath-bar">Foto</InputLabel>
-                                <OutlinedInput fullWidth error={Boolean(touched.imagePath && errors.imagePath)} id="imagePath-bar" value={values.imagePath} name="imagePath" onBlur={handleBlur} onChange={handleChange} placeholder="??????" inputProps={{}} />
-                                {touched.imagePath && errors.imagePath && (
-                                    <FormHelperText error id="helper-text-imagePath-bar">
-                                        {errors.imagePath}
                                     </FormHelperText>
                                 )}
                             </Stack>

@@ -4,7 +4,7 @@ export default function ManagersTable({ managers, setManagers }){
 
     return(
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+            <Table sx={{ minWidth: 450 }} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
                         <TableCell align='center'>Nombre Completo</TableCell>

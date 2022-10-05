@@ -9,27 +9,27 @@ import { Formik } from "formik";
 import AnimateButton from "../../../components/AnimateButton";
 import { MenuItem, Select } from "@mui/material";
 import { BarcitoAPI } from '../../../services/barcitoAPI';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
-export default function BarcitoForm({ barFocus, submitSuccess }) {
-
-    const [barcito, setBarcito] = useState(barFocus);
-
-    useEffect( () => {
-        setBarcito(barFocus);
-    }, [barFocus]);
+export default function BarcitoForm({ barcito, setBarFocus }) {
 
     const academicUnits = [
         "Sin definir",
         "Facultad de Informatica"
     ];
 
-    const asArray = Object.entries(barcito);
+    const initialValues = barcito.id ? barcito : {
+        name: '',
+        academicUnit: 'Sin definir',
+        openTime: '',
+        closeTime: '',
+        location: '',
+        imagePath: ''
+    }
 
     return (
         <Formik
-            initialValues={{...barFocus, academicUnit: 'Sin definir'}}
+            enableReinitialize={true}
+            initialValues={initialValues}
             validationSchema={Yup.object().shape({
                 name: Yup.string().max(255).required("Campo obligatorio"),
                 openTime: Yup.string().max(255).required("Campo obligatorio"),
@@ -41,19 +41,19 @@ export default function BarcitoForm({ barFocus, submitSuccess }) {
                 try {
                     let response = null;
                     if(barcito){
+                        const asArray = Object.entries(barcito);
                         const filtered = Object.entries(values).filter( (field, i) => 
                             field[1] !== asArray[i][1]
                         );
                         const dataToSend = Object.fromEntries(filtered);
                         response = await BarcitoAPI.update(barcito.id, dataToSend);
-                        console.log(barcito.id)
                     }else{
                         response = await BarcitoAPI.create(values);
                     }
                     if (response) {
-                        submitSuccess(response)
                         setStatus({ success: true });
                         setSubmitting(false);
+                        setBarFocus(response);
                     }
                 } catch (err) {
                     console.error(err);

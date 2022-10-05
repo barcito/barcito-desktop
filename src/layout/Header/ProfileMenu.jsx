@@ -49,7 +49,7 @@ function ProfileMenu({ handleLogout }) {
       </ListItemButton>
       <ListItemButton
         selected={selectedIndex === 2}
-        onClick={ () => handleLogout() }
+        onClick={ () => {handleLogout(); navigate('/login');} }
       >
         <ListItemIcon>
           <LogoutOutlined />

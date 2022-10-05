@@ -7,22 +7,22 @@ const icons = {
 
 export const menuBarcitos = {
   id: "menu",
-  title: "Menu Barcitos",
+  title: "Menu Admin",
   type: "group",
   children: [
     {
       id: "menu1",
-      title: "Listado Barcitos",
-      type: "item",
-      url: "/barcitos",
-      icon: icons.ShopOutlined,
-    },
-    {
-      id: "menu2",
-      title: "Listado Usuarios",
+      title: "Usuarios",
       type: "item",
       url: "/usuarios",
       icon: icons.UserOutlined,
+    },
+    {
+      id: "menu2",
+      title: "Barcitos",
+      type: "item",
+      url: "/barcitos",
+      icon: icons.ShopOutlined,
     },
   ],
 };

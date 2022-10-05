@@ -36,7 +36,6 @@ const router = createBrowserRouter([
                     {
                         path: 'usuarios',
                         element: <Users />,
-                        loader: usersLoader(queryClient)
                     },
                     {
                         path: 'barcitos',

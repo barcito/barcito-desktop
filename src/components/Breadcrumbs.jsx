@@ -81,7 +81,7 @@ function Breadcrumbs({ navigation, title, ...others }) {
             </Grid>
             {title && (
               <Grid item sx={{ mt: 2 }}>
-                <Typography variant="h5">{item.title}</Typography>
+                <Typography variant="h2">{item.title}</Typography>
               </Grid>
             )}
           </Grid>

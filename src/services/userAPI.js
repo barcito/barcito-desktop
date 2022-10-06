@@ -11,7 +11,18 @@ export const UserAPI = {
     })
 
     // returning the product returned by the API
-    return response.data
+    return response.data;
+  },
+
+  getByEmail: async function (email, cancel = false) {
+    const response = await api.request({
+      url: `/users/email/${email}`,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: cancel ? cancelApiObject[this.get.name].handleRequestCancellation().signal : undefined,
+    })
+    // returning the product returned by the API
+    return response.data;
   },
 
   getAll: async function (cancel = false) {
@@ -21,17 +32,40 @@ export const UserAPI = {
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
     })
 
-    return response.data
+    return response.data;
+  },
+
+  update: async function (id, user, cancel = false) {
+    const response = await api.request({
+      url: `/users/${id}`,
+      method: "PATCH",
+      data: user,
+      signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
+    })
+
+    return response.data;
   },
 
   create: async function (user, cancel = false) {
-    await api.request({
+    const response = await api.request({
       url: `/users`,
       method: "POST",
       data: user,
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
+
+    return response.data;
   },
+
+  delete: async function (id, cancel = false) {
+    const response = await api.request({
+      url: `/users/${id}`,
+      method: "DELETE",
+      signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
+    })
+
+    return response.data;
+  }
 }
 
 // defining the cancel API object for UserAPI

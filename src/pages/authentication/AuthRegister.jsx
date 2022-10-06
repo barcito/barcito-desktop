@@ -91,7 +91,7 @@ function AuthRegister() {
               <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="name-signup">Nombre</InputLabel>
-                  <OutlinedInput id="name-login" type="name" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
+                  <OutlinedInput id="name-signup" type="name" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
                   {touched.name && errors.name && (
                     <FormHelperText error id="helper-text-name-signup">
                       {errors.name}

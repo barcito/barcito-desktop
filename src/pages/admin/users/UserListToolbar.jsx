@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import { PersonAdd } from "@mui/icons-material";
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
@@ -31,7 +31,7 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName, handleDelete }) {
+export default function UserListToolbar({ numSelected, filterName, onFilterName, handleNew, handleDelete }) {
   return (
     <RootStyle
       sx={{
@@ -60,14 +60,14 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
 
       {numSelected > 0 ? (
         <Tooltip title="Borrar Usuario(s)">
-          <IconButton onClick={() => handleDelete()}>
-            <DeleteIcon />
+          <IconButton color="error" onClick={() => handleDelete()}>
+            <DeleteIcon fontSize="large" />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filtrar Listado">
-          <IconButton>
-            <FilterListIcon />
+          <IconButton color="primary" onClick={() => handleNew()}>
+            <PersonAdd fontSize="large"/>
           </IconButton>
         </Tooltip>
       )}

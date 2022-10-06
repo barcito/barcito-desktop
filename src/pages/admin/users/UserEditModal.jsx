@@ -43,8 +43,8 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
             name: Yup.string().max(255).required("Campo obligatorio"),
             surname: Yup.string().max(255).required("Campo obligatorio"),
             email: Yup.string().email("El email es inválido").max(255).required("Campo obligatorio"),
-            phone: Yup.number().min(100000000, "Teléfono inválido").max(99999999999, "Teléfono inválido").required("Campo obligatorio"),
-            dni: Yup.number().min(1000000, "DNI inválido").max(99999999, "DNI inválido").required("Campo obligatorio"),
+            phone: Yup.string().matches(/^\d+$/, "Este campo acepta solo números").min(9, "Telefono invalido").max(11, "Telefono invalido").required("Campo obligatorio"),
+            dni: Yup.string().matches(/^\d+$/, "Este campo acepta solo números").min(7, "DNI invalido").max(9, "DNI invalido").required("Campo obligatorio"),
             roles: Yup.array().min(1, "Seleccionar al menos un rol"),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
@@ -114,7 +114,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
                 <Grid item xs={12}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="phone-edit">Telefono</InputLabel>
-                    <OutlinedInput fullWidth error={Boolean(touched.phone && errors.phone)} id="phone-edit" value={values.phone} name="phone" onBlur={handleBlur} onChange={handleChange} placeholder="12.345.678" inputProps={{}} type="number" />
+                    <OutlinedInput fullWidth error={Boolean(touched.phone && errors.phone)} id="phone-edit" value={values.phone} name="phone" onBlur={handleBlur} onChange={handleChange} placeholder="12.345.678" inputProps={{}} />
                     {touched.phone && errors.phone && (
                       <FormHelperText error id="helper-text-phone-edit">
                         {errors.phone}
@@ -125,7 +125,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
                 <Grid item xs={12}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="dni-edit">DNI</InputLabel>
-                    <OutlinedInput fullWidth error={Boolean(touched.dni && errors.dni)} id="dni-edit" value={values.dni} name="dni" onBlur={handleBlur} onChange={handleChange} placeholder="12.345.678" inputProps={{}} type="number" />
+                    <OutlinedInput fullWidth error={Boolean(touched.dni && errors.dni)} id="dni-edit" value={values.dni} name="dni" onBlur={handleBlur} onChange={handleChange} placeholder="12.345.678" inputProps={{}} />
                     {touched.dni && errors.dni && (
                       <FormHelperText error id="helper-text-dni-edit">
                         {errors.dni}

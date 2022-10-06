@@ -182,16 +182,8 @@ export default function Users() {
 
   return (
     <Container sx={{ pt: 4 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h2" gutterBottom>
-          Usuarios
-        </Typography>
-        <Button variant="contained" onClick={() => handleNew()}>
-          Nuevo Usuario
-        </Button>
-      </Stack>
       <MainCard>
-        <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} handleDelete={handleDelete} />
+        <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} handleNew={handleNew} handleDelete={handleDelete} />
         <TableContainer>
           <Table sx={{ minWidth: 800 }}>
             <UserListHead order={order} orderBy={orderBy} headLabel={TABLE_HEAD} rowCount={userList.length} numSelected={selected.length} onRequestSort={handleRequestSort} onSelectAllClick={handleSelectAllClick} />

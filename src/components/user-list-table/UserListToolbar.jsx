@@ -64,13 +64,13 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
             <DeleteIcon fontSize="large" />
           </IconButton>
         </Tooltip>
-      ) : (
-        <Tooltip title="Filtrar Listado">
+      ) : ( handleNew &&
+        <Tooltip title="Nuevo Usuario">
           <IconButton color="primary" onClick={() => handleNew()}>
             <PersonAdd fontSize="large"/>
           </IconButton>
         </Tooltip>
-      )}
+        )}
     </RootStyle>
   );
 }

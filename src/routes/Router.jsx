@@ -17,6 +17,7 @@ const AuthRegister = Loadable(lazy(() => import("../pages/authentication/Registe
 const Barcitos = Loadable(lazy(() => import("../pages/admin/barcitos")));
 const Users = Loadable(lazy(() => import("../pages/admin/users")));
 const Account = Loadable(lazy(() => import("../pages/profile/Account")));
+const Associates = Loadable(lazy(() => import("../pages/manager/associates")));
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     {
         element: <PrivateRoute role='all' />,
         children: [
-            {   
+            {
                 path: '/',
                 element: <MainLayout />,
                 children: [
@@ -40,6 +41,25 @@ const router = createBrowserRouter([
                         path: 'barcitos',
                         element: <Barcitos />
                     }
+                ]
+            },
+        ],
+    },
+    {
+        element: <PrivateRoute role='manager' />,
+        children: [
+            {
+                path: '/',
+                element: <MainLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <DashboardDefault />
+                    },
+                    {
+                        path: 'socios',
+                        element: <Associates />,
+                    },
                 ]
             },
         ],
@@ -66,6 +86,6 @@ const router = createBrowserRouter([
         path: '*',
         element: <NotFound />
     }
-  ]);
+]);
 
 export default router;

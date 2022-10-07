@@ -27,8 +27,8 @@ export default function ConfirmDialog({ dialogOpen, text, confirmDelete, closeDi
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={ () => closeDialog(false) }>Disagree</Button>
-                <Button onClick={ () => confirmDelete() }>Agree</Button>
+                <Button onClick={ () => closeDialog(false) }>Cancelar</Button>
+                <Button onClick={ () => confirmDelete() }>Aceptar</Button>
             </DialogActions>
         </Dialog>
     );

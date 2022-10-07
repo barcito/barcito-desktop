@@ -5,8 +5,8 @@ const icons = {
   UserOutlined,
 };
 
-export const menuBarcitos = {
-  id: "menu",
+export const menuAdmin = {
+  id: "admin",
   title: "Menu Admin",
   type: "group",
   children: [

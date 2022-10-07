@@ -1,10 +1,8 @@
 import { useRef, useState } from "react";
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import EditIcon from "@mui/icons-material/Edit";
-import PersonRemove from "@mui/icons-material/PersonRemove";
 
-export default function UserMoreMenu({ user, handleEdit, handleDelete }) {
+export default function UserMoreMenu({ user, actionOne, actionTwo }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,27 +25,27 @@ export default function UserMoreMenu({ user, handleEdit, handleDelete }) {
         <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => {
-            handleEdit(user, "Editar ");
+            actionOne.fn(user);
             setIsOpen(false);
           }}
         >
           <ListItemIcon>
-            <EditIcon width={24} height={24} />
+            {actionOne.icon}
           </ListItemIcon>
-          <ListItemText primary="Editar Usuario" primaryTypographyProps={{ variant: "body2" }} />
+          <ListItemText primary={actionOne.label} primaryTypographyProps={{ variant: "body2" }} />
         </MenuItem>
 
         <MenuItem
           sx={{ color: "text.secondary" }}
           onClick={() => {
-            handleDelete(user);
+            actionTwo.fn(user);
             setIsOpen(false);
           }}
         >
           <ListItemIcon>
-            <PersonRemove width={24} height={24} />
+            {actionTwo.icon}
           </ListItemIcon>
-          <ListItemText primary="Eliminar Usuario" primaryTypographyProps={{ variant: "body2" }} />
+          <ListItemText primary={actionTwo.label} primaryTypographyProps={{ variant: "body2" }} />
         </MenuItem>
       </Menu>
     </>

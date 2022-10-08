@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
+import RuleIcon from "@mui/icons-material/Rule";
 
 const visuallyHidden = {
   border: 0,
@@ -67,6 +68,11 @@ export default function UserListHead({
             </TableSortLabel>
           </TableCell>
         ))}
+          <TableCell key={'action'} align='center'>
+            <TableSortLabel hideSortIcon active={false} sx={{cursor: 'default'}}>
+              <RuleIcon />
+            </TableSortLabel>
+          </TableCell>
       </TableRow>
     </TableHead>
   );

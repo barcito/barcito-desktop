@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Loadable from "../components/Loadable";
 import MainLayout from "../layout/MainLayout";
 import MinimalLayout from "../layout/MinimalLayout";
+import { loader as applicationsLoader } from "../pages/manager/associates";
 
 const PublicRoute = Loadable(lazy(() => import("./PublicRoute")));
 const PrivateRoute = Loadable(lazy(() => import("./PrivateRoute")));
@@ -58,7 +59,8 @@ const router = createBrowserRouter([
                     },
                     {
                         path: 'socios',
-                        element: <Associates />,
+                        element: <Associates  />,
+                        loader: applicationsLoader(queryClient)
                     },
                 ]
             },

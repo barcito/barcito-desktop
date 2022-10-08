@@ -88,7 +88,7 @@ export default function Users() {
   return (
     <Container sx={{ pt: 4 }}>
       <UserList userList={userList} tableHead={TABLE_HEAD} handleNew={handleNew} actionOne={handleEdit} actionTwo={handleDelete} />
-      <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario/s?"} confirmDelete={confirmDelete} closeDialog={setDialogOpen} />
+      <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario/s?"} confirmAction={confirmDelete} closeDialog={setDialogOpen} />
       <UserEditModal user={userOnAction} modalOpen={modalOpen} closeModal={setModalOpen} setEditUser={setEditUser} />
     </Container>
   );

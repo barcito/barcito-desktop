@@ -158,7 +158,7 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
                                                 return <Chip key={rol} variant="outlined" color="primary" size="small" label={rol} sx={{ mx: 0.25 }} />;
                                             })}
                                         </TableCell>}
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <UserMoreMenu
                                             user={row}
                                             actionOne={{

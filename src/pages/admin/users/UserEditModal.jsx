@@ -11,25 +11,34 @@ import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import AnimateButton from "../../../components/AnimateButton";
-import { UserAPI } from "../../../services/userAPI";
 import { MenuItem, Select, FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
 
-export default function UserEditModal({ user, modalOpen, closeModal, setEditUser }) {
+export default function UserEditModal({ user, modalOpen, closeModal, mutation }) {
+  
   const academicUnits = ["Sin definir", "Facultad de Informatica"];
 
   const availableRoles = ["admin", "manager", "submanager", "user"];
 
-  const initialValues = {
-    name: "" || user?.fullName.split(" ")[1],
-    surname: "" || user?.fullName.split(" ")[0],
-    email: "" || user?.email,
-    /* password: "", */
-    academicUnit: "Sin definir" || user?.academicUnit /* 
-        certificate: "" || user?.certificate, */,
-    phone: "" || user?.phone,
-    dni: "" || user?.dni,
-    roles: user?.roles || [],
-  };
+  const initialValues = user.id ? 
+    {
+      name: user.fullName.split(" ")[1],
+      surname: user.fullName.split(" ")[0],
+      email: user.email,
+      academicUnit: user.academicUnit,
+      phone: user.phone,
+      dni: user.dni,
+      roles: user.roles
+    }
+    :
+    {
+      name: "",
+      surname: "",
+      email: "",
+      academicUnit: "Sin definir",
+      phone: "",
+      dni: "",
+      roles: []
+    };
 
   const asArray = Object.entries(initialValues);
 
@@ -49,24 +58,19 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
-              let response = null;
               if (user?.id) {
                 const filtered = Object.entries(values).filter((field, i) => field[1] !== asArray[i][1]);
                 const dataToSend = Object.fromEntries(filtered);
-                response = await UserAPI.update(user.id, dataToSend, true);
+                mutation.mutate({id: user.id, data: dataToSend});
               } else {
                 const data = {
                   ...values,
                   password: "123456",
                 };
-                response = await UserAPI.create(data, true);
+                mutation.mutate({ id: null, data: data});
               }
-              if (response) {
-                setStatus({ success: true });
-                setSubmitting(false);
-                setEditUser(user?.id);
-                closeModal(false);
-              }
+              setStatus({ success: true });
+              setSubmitting(false);
             } catch (err) {
               console.error(err);
               setStatus({ success: false });

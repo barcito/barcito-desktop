@@ -11,9 +11,13 @@ const NotFound = Loadable(lazy(() => import("../pages/NotFound")));
 const NotAuthorized = Loadable(lazy(() => import("../pages/NotAuthorized")));
 const DashboardDefault = Loadable(lazy(() => import("../pages/dashboard")));
 const SamplePage = Loadable(lazy(() => import("../pages/demos/SamplePage")));
-const ReactQueryDemo = Loadable(lazy(() => import("../pages/demos/ReactQueryDemo")));
+const ReactQueryDemo = Loadable(
+  lazy(() => import("../pages/demos/ReactQueryDemo"))
+);
 const AuthLogin = Loadable(lazy(() => import("../pages/authentication/Login")));
-const AuthRegister = Loadable(lazy(() => import("../pages/authentication/Register")));
+const AuthRegister = Loadable(
+  lazy(() => import("../pages/authentication/Register"))
+);
 const Barcitos = Loadable(lazy(() => import("../pages/admin/barcitos")));
 const Users = Loadable(lazy(() => import("../pages/admin/users")));
 const Account = Loadable(lazy(() => import("../pages/profile/Account")));
@@ -22,70 +26,74 @@ const Associates = Loadable(lazy(() => import("../pages/manager/associates")));
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
-    {
-        element: <PrivateRoute role='all' />,
+  {
+    element: <PrivateRoute role="all" />,
+    children: [
+      {
+        path: "/",
+        element: <MainLayout />,
         children: [
-            {
-                path: '/',
-                element: <MainLayout />,
-                children: [
-                    {
-                        index: true,
-                        element: <DashboardDefault />
-                    },
-                    {
-                        path: 'usuarios',
-                        element: <Users />,
-                    },
-                    {
-                        path: 'barcitos',
-                        element: <Barcitos />
-                    }
-                ]
-            },
+          {
+            index: true,
+            element: <DashboardDefault />,
+          },
+          {
+            path: "usuarios",
+            element: <Users />,
+          },
+          {
+            path: "barcitos",
+            element: <Barcitos />,
+          },
+          {
+            path: "perfil",
+            element: <Account />,
+          },
         ],
-    },
-    {
-        element: <PrivateRoute role='manager' />,
+      },
+    ],
+  },
+  {
+    element: <PrivateRoute role="manager" />,
+    children: [
+      {
+        path: "/",
+        element: <MainLayout />,
         children: [
-            {
-                path: '/',
-                element: <MainLayout />,
-                children: [
-                    {
-                        index: true,
-                        element: <DashboardDefault />
-                    },
-                    {
-                        path: 'socios',
-                        element: <Associates  />
-                    },
-                ]
-            },
+          {
+            index: true,
+            element: <DashboardDefault />,
+          },
+          {
+            path: "socios",
+            element: <Associates />,
+          },
         ],
-    },
-    {
-        element: <PublicRoute />,
+      },
+    ],
+  },
+  {
+    element: <PublicRoute />,
+    children: [
+      {
+        element: <MinimalLayout />,
         children: [
-            {
-                element: <MinimalLayout />,
-                children: [
-                    {
-                        path: 'login',
-                        element: <AuthLogin />
-                    },
-                    {
-                        path: 'registro',
-                        element: <AuthRegister />
-                    }
-                ]
-            },
-        ]
-    },
-    {
-        path: '*',
-        element: <NotFound />
-    }
+          {
+            path: "login",
+            element: <AuthLogin />,
+          },
+          {
+            path: "registro",
+            element: <AuthRegister />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default router;

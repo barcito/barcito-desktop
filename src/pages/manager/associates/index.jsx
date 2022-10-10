@@ -57,6 +57,10 @@ export default function Associates() {
     return <p>Loading...</p>
   }
 
+  if(!data){
+    return <p>No data!</p>
+  }
+
   return (
     <Container sx={{ pt: 4 }}>
       <UserList

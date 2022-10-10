@@ -31,7 +31,10 @@ export default function Users() {
 
   const mutation = useMutation(
     ({id, data}) => {
-      return id ? UserAPI.update(id, data) : UserAPI.create(data);
+      if(id){
+        return data ? UserAPI.update(id, data) : UserAPI.delete(id);
+      }
+      return UserAPI.create(data);
     },
     {
       onSuccess: () => {
@@ -41,28 +44,18 @@ export default function Users() {
     }
   );
 
-  const handleNew = () => {
-    setUserOnAction({});
-    setModalOpen(true);
-  };
-
   const handleAction = (user) => {
     setUserOnAction(user);
     setModalOpen(true);
   };
 
-  // TODO: refactor and find a way to delete all selected users
+  const handleDelete = (user) => {
+    setUserOnAction(user);
+    setDialogOpen(true);
+  };
+
   const confirmDelete = () => {
-    const deleteUser = async (id) => {
-      try {
-        await UserAPI.delete(id);
-      } catch (err) {
-        alert(err);
-      }
-    };
-    if (userOnAction) {
-      deleteUser(userOnAction.id);
-    }
+    mutation.mutate({id: userOnAction.id, data: null});
     setDialogOpen(false);
   };
 
@@ -86,11 +79,11 @@ export default function Users() {
             roles: Object.values(user.roles),};
         })}
         tableHead={TABLE_HEAD}
-        handleNew={handleNew}
+        handleNew={handleAction}
         actionOne={handleAction}
-        actionTwo={handleAction}
+        actionTwo={handleDelete}
       />
-      <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario/s?"} confirmAction={confirmDelete} closeDialog={setDialogOpen} />
+      <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario?"} confirmAction={confirmDelete} closeDialog={setDialogOpen} />
       <UserEditModal user={userOnAction} modalOpen={modalOpen} closeModal={setModalOpen} mutation={mutation} />
     </Container>
   );

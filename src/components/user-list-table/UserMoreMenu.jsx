@@ -2,13 +2,13 @@ import { useRef, useState } from "react";
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-export default function UserMoreMenu({ user, actionOne, actionTwo }) {
+export default function UserMoreMenu({ disabled, user, actionOne, actionTwo }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+      <IconButton ref={ref} onClick={() => setIsOpen(true)} disabled={disabled}>
         <MoreVertIcon width={20} height={20} />
       </IconButton>
 

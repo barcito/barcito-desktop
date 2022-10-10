@@ -22,6 +22,7 @@ const Barcitos = Loadable(lazy(() => import("../pages/admin/barcitos")));
 const Users = Loadable(lazy(() => import("../pages/admin/users")));
 const Account = Loadable(lazy(() => import("../pages/profile/Account")));
 const Associates = Loadable(lazy(() => import("../pages/manager/associates")));
+const Products = Loadable(lazy(() => import("../pages/manager/stock/products")));
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
             path: "socios",
             element: <Associates />,
           },
+          {
+            path: "productos",
+            element: <Products />
+          }
         ],
       },
     ],

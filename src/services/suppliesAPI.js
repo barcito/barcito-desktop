@@ -1,10 +1,10 @@
 import { api } from "./configs/axiosConfigs";
 import { defineCancelApiObject } from "./configs/axiosUtils";
 
-export const ProductsAPI = {
+export const SuppliesAPI = {
   get: async function (id, cancel = false) {
     const response = await api.request({
-      url: `/products/${id}`,
+      url: `/supplies/${id}`,
       method: "GET",
       // retrieving the signal value by using the property name
       signal: cancel ? cancelApiObject[this.get.name].handleRequestCancellation().signal : undefined,
@@ -16,7 +16,7 @@ export const ProductsAPI = {
 
   getAll: async function (cancel = false) {
     const response = await api.request({
-      url: "/products/",
+      url: "/supplies/",
       method: "GET",
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
     })
@@ -24,22 +24,22 @@ export const ProductsAPI = {
     return response.data;
   },
 
-  update: async function (id, product, cancel = false) {
+  update: async function (id, supply, cancel = false) {
     const response = await api.request({
-      url: `/products/${id}`,
+      url: `/supplies/${id}`,
       method: "PATCH",
-      data: product,
+      data: supply,
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
     })
 
     return response.data;
   },
 
-  create: async function (product, cancel = false) {
+  create: async function (supply, cancel = false) {
     const response = await api.request({
-      url: `/products`,
+      url: `/supplies`,
       method: "POST",
-      data: product,
+      data: supply,
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
 
@@ -48,7 +48,7 @@ export const ProductsAPI = {
 
   delete: async function (id, cancel = false) {
     const response = await api.request({
-      url: `/products/${id}`,
+      url: `/supplies/${id}`,
       method: "DELETE",
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
     })
@@ -57,4 +57,4 @@ export const ProductsAPI = {
   }
 }
 
-const cancelApiObject = defineCancelApiObject(ProductsAPI)
+const cancelApiObject = defineCancelApiObject(SuppliesAPI)

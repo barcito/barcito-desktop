@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 import { useState } from "react";
-import { Table, Stack, Checkbox, TableRow, TableBody, TableCell, Typography, TableContainer, TablePagination } from "@mui/material";
+import { Table, Stack, Checkbox, TableRow, TableBody, TableCell, Typography, TableContainer, TablePagination, IconButton } from "@mui/material";
 import MainCard from "../MainCard";
 import StockListHead from "./StockListHead";
 import SearchNotFound from "../user-list-table/SearchNotFound";
@@ -29,12 +29,12 @@ function applySortFilter(array, comparator, query) {
         return a[1] - b[1];
     });
     if (query) {
-        return filter(array, (_item) => _item.fullName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+        return filter(array, (_item) => _item.description.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     }
     return stabilizedThis.map((el) => el[0]);
 }
 
-export default function StockList({ stockList, tableHead }) {
+export default function StockList({ stockList, tableHead, handleNew, handleEdit }) {
 
     const [page, setPage] = useState(0);
 
@@ -99,7 +99,7 @@ export default function StockList({ stockList, tableHead }) {
 
     return (
         <MainCard>
-            <StockListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+            <StockListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} handleNew={handleNew} />
             <TableContainer>
                 <Table sx={{ minWidth: 800 }}>
                     <StockListHead order={order} orderBy={orderBy} headLabel={tableHead} rowCount={stockList.length} numSelected={selected.length} onRequestSort={handleRequestSort} onSelectAllClick={handleSelectAllClick} />
@@ -146,7 +146,9 @@ export default function StockList({ stockList, tableHead }) {
                                     { supplies && <TableCell align="center">{supplies.length}</TableCell>}
                                     
                                     <TableCell align="center">
-                                        <OpenInNew />
+                                        <IconButton color="primary" onClick={ () => handleEdit(id)}>
+                                            <OpenInNew />
+                                        </IconButton>
                                     </TableCell>
 
                                 </TableRow>

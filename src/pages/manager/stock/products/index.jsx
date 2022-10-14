@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 import { ProductsAPI } from "../../../../services/productsAPI";
 import StockList from "../../../../components/stock-list-table/StockList";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = [
   { id: "description", label: "Descripcion", alignCenter: false },
@@ -15,42 +16,23 @@ const TABLE_HEAD = [
   { id: "supplies", label: "Insumos", alignCenter: true },
 ];
 
-export default function Products() {
+export default function ProductList() {
 
   const client = useQueryClient();
 
+  const navigate = useNavigate();
+
   const { data, isLoading } = useQuery(['products'], async () => ProductsAPI.getAll());
 
-  const [productOnAction, setProductOnAction] = useState({});
-
-  /* const [dialogOpen, setDialogOpen] = useState(false);
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const mutation = useMutation(
-    (id) => {
-      return UserAPI.delete(id);
-    },
-    {
-      onSuccess: () => {
-        client.invalidateQueries(['users']);
-      }
-    }
-  );
+  /* const [productOnAction, setProductOnAction] = useState({}); */
 
   const handleNew = () => {
-    
+    navigate('/stock/producto/nuevo');
   }
 
-  const handleDelete = (user) => {
-    setUserOnAction(user);
-    setDialogOpen(true);
-  };
-
-  const confirmDelete = () => {
-    mutation.mutate({id: userOnAction.id, data: null});
-    setDialogOpen(false);
-  }; */
+  const handleEdit = (id) => {
+    navigate(`/stock/producto/editar/${id}`);
+  }
 
   if(isLoading){
     return <p>Loading...</p>;
@@ -61,10 +43,9 @@ export default function Products() {
       <StockList 
         stockList={data}
         tableHead={TABLE_HEAD}
-        /*
-        actionOne={handleNew}
-        actionTwo={handleDelete}
-        */
+        handleNew={handleNew}
+        handleEdit={handleEdit}
+        /* actionTwo={handleDelete} */
       />
       {/* <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario?"} confirmAction={confirmDelete} closeDialog={setDialogOpen} /> */}
     </Container>

@@ -22,7 +22,10 @@ const Barcitos = Loadable(lazy(() => import("../pages/admin/barcitos")));
 const Users = Loadable(lazy(() => import("../pages/admin/users")));
 const Account = Loadable(lazy(() => import("../pages/profile/Account")));
 const Associates = Loadable(lazy(() => import("../pages/manager/associates")));
-const Products = Loadable(lazy(() => import("../pages/manager/stock/products")));
+const ProductList = Loadable(lazy(() => import("../pages/manager/stock/products")));
+const NewProduct = Loadable(lazy(() => import("../pages/manager/stock/products/NewProduct")));
+const EditProduct = Loadable(lazy(() => import("../pages/manager/stock/products/EditProduct")));
+const Supplies = Loadable(lazy(() => import("../pages/manager/stock/supplies")));
 
 const queryClient = new QueryClient();
 
@@ -70,9 +73,28 @@ const router = createBrowserRouter([
             element: <Associates />,
           },
           {
-            path: "productos",
-            element: <Products />
-          }
+            path: "stock",
+            children: [
+              {
+                path: "productos",
+                element: <ProductList />
+              },
+              {
+                path: "insumos",
+                element: <Supplies />
+              },
+              {
+                path: "producto/nuevo",
+                element: <NewProduct />
+              },
+              {
+                path: "producto/editar/:productId",
+                element: <EditProduct />
+              }
+            ]
+          },
+          
+
         ],
       },
     ],

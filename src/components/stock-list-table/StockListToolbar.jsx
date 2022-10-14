@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { PersonAdd } from "@mui/icons-material";
+import { AddBox } from "@mui/icons-material";
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
@@ -49,7 +49,7 @@ export default function StockListToolbar({ numSelected, filterName, onFilterName
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Buscar usuario..."
+          placeholder="Buscar item..."
           startAdornment={
             <InputAdornment position="start">
               <SearchIcon sx={{ color: "text.disabled", width: 20, height: 20 }} />
@@ -59,15 +59,15 @@ export default function StockListToolbar({ numSelected, filterName, onFilterName
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Borrar Usuario(s)">
+        <Tooltip title="Borrar Item(s)">
           <IconButton color="error" /* onClick={() => handleDelete()} */>
             <DeleteIcon fontSize="large" />
           </IconButton>
         </Tooltip>
-      ) : ( handleNew &&
-        <Tooltip title="Nuevo Usuario">
-          <IconButton color="primary" /* onClick={() => handleNew()} */>
-            <PersonAdd fontSize="large"/>
+      ) : (
+        <Tooltip title="Nuevo Item">
+          <IconButton color="primary" onClick={() => handleNew()}>
+            <AddBox fontSize="large"/>
           </IconButton>
         </Tooltip>
         )}

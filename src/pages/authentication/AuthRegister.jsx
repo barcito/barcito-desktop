@@ -91,7 +91,7 @@ function AuthRegister() {
               <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="name-signup">Nombre</InputLabel>
-                  <OutlinedInput id="name-signup" type="name" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
+                  <OutlinedInput id="name-signup" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
                   {touched.name && errors.name && (
                     <FormHelperText error id="helper-text-name-signup">
                       {errors.name}
@@ -102,7 +102,7 @@ function AuthRegister() {
               <Grid item xs={12} md={6}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="surname-signup">Apellido</InputLabel>
-                  <OutlinedInput fullWidth error={Boolean(touched.surname && errors.surname)} id="surname-signup" type="surname" value={values.surname} name="surname" onBlur={handleBlur} onChange={handleChange} placeholder="Fulanito" inputProps={{}} />
+                  <OutlinedInput fullWidth error={Boolean(touched.surname && errors.surname)} id="surname-signup" value={values.surname} name="surname" onBlur={handleBlur} onChange={handleChange} placeholder="Fulanito" inputProps={{}} />
                   {touched.surname && errors.surname && (
                     <FormHelperText error id="helper-text-surname-signup">
                       {errors.surname}

@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import AnimateButton from "../../../components/AnimateButton";
 import { MenuItem, Select, FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
+import compareObjects from '../../../utils/compareObjects';
 
 export default function UserEditModal({ user, modalOpen, closeModal, mutation }) {
   
@@ -40,8 +41,6 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
       roles: []
     };
 
-  const asArray = Object.entries(initialValues);
-
   return (
     <Dialog open={modalOpen} onClose={() => closeModal(false)}>
       <DialogTitle>{user ? "Editar" : "Nuevo"} usuario</DialogTitle>
@@ -59,8 +58,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
               if (user?.id) {
-                const filtered = Object.entries(values).filter((field, i) => field[1] !== asArray[i][1]);
-                const dataToSend = Object.fromEntries(filtered);
+                const dataToSend = compareObjects(initialValues, values);
                 mutation.mutate({id: user.id, data: dataToSend});
               } else {
                 const data = {
@@ -85,7 +83,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
                 <Grid item xs={12} md={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="name-edit">Nombre</InputLabel>
-                    <OutlinedInput id="name-login" type="name" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
+                    <OutlinedInput id="name-login" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
                     {touched.name && errors.name && (
                       <FormHelperText error id="helper-text-name-edit">
                         {errors.name}
@@ -96,7 +94,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
                 <Grid item xs={12} md={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="surname-edit">Apellido</InputLabel>
-                    <OutlinedInput fullWidth error={Boolean(touched.surname && errors.surname)} id="surname-edit" type="surname" value={values.surname} name="surname" onBlur={handleBlur} onChange={handleChange} placeholder="Fulanito" inputProps={{}} />
+                    <OutlinedInput fullWidth error={Boolean(touched.surname && errors.surname)} id="surname-edit" value={values.surname} name="surname" onBlur={handleBlur} onChange={handleChange} placeholder="Fulanito" inputProps={{}} />
                     {touched.surname && errors.surname && (
                       <FormHelperText error id="helper-text-surname-edit">
                         {errors.surname}

@@ -11,14 +11,14 @@ export const menuAdmin = {
   type: "group",
   children: [
     {
-      id: "menu1",
+      id: "admin1",
       title: "Usuarios",
       type: "item",
       url: "/usuarios",
       icon: icons.UserOutlined,
     },
     {
-      id: "menu2",
+      id: "admin2",
       title: "Barcitos",
       type: "item",
       url: "/barcitos",

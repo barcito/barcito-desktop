@@ -21,7 +21,7 @@ export default function Users() {
 
   const client = useQueryClient();
 
-  const { data, isLoading } = useQuery(['users'], async () => UserAPI.getAll());
+  const { data, isLoading } = useQuery(['users'], () => UserAPI.getAll());
 
   const [userOnAction, setUserOnAction] = useState({});
 
@@ -45,7 +45,7 @@ export default function Users() {
   );
 
   const handleAction = (user) => {
-    setUserOnAction(user);
+    user ? setUserOnAction(user) : setUserOnAction({});
     setModalOpen(true);
   };
 

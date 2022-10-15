@@ -6,9 +6,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import AnimateButton from "../../../components/AnimateButton";
+import AnimateButton from "@/components/AnimateButton";
 import { MenuItem, Select } from "@mui/material";
-import { BarcitoAPI } from '../../../services/barcitoAPI';
+import { BarcitoAPI } from '@/services/barcitoAPI';
 
 export default function BarcitoForm({ barcito, setBarFocus }) {
 

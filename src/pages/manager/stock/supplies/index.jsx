@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container } from "@mui/material";
-import { SuppliesAPI } from "../../../../services/suppliesAPI";
-import StockList from "../../../../components/stock-list-table/StockList";
+import { SuppliesAPI } from "@/services/suppliesAPI";
+import StockList from "@/components/stock-list-table/StockList";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const TABLE_HEAD = [

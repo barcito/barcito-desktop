@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container } from "@mui/material";
-import { ProductsAPI } from "../../../../services/productsAPI";
-import StockList from "../../../../components/stock-list-table/StockList";
+import { ProductsAPI } from "@/services/productsAPI";
+import StockList from "@/components/stock-list-table/StockList";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 

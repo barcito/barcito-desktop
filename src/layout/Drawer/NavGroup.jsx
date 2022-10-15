@@ -5,7 +5,7 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Collapse from "@mui/material/Collapse";
 import NavItem from "./NavItem";
-import useStore from "../../services/store";
+import useStore from "@/services/store";
 
 function NavGroup({ item, level }) {
   const { openSidebar } = useStore();

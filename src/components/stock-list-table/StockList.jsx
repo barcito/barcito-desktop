@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 import { useState } from "react";
-import { Table, Stack, Checkbox, TableRow, TableBody, TableCell, Typography, TableContainer, TablePagination, IconButton } from "@mui/material";
+import { Table, Stack, Checkbox, TableRow, TableBody, TableCell, Typography, TableContainer, TablePagination, IconButton, Tooltip } from "@mui/material";
 import MainCard from "../MainCard";
 import StockListHead from "./StockListHead";
 import SearchNotFound from "../user-list-table/SearchNotFound";
@@ -146,9 +146,11 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
                                     { supplies && <TableCell align="center">{supplies.length}</TableCell>}
                                     
                                     <TableCell align="center">
-                                        <IconButton color="primary" onClick={ () => handleEdit(id)}>
-                                            <OpenInNew />
-                                        </IconButton>
+                                        <Tooltip title="Editar">
+                                            <IconButton color="primary" onClick={ () => handleEdit(id)}>
+                                                <OpenInNew />
+                                            </IconButton>
+                                        </Tooltip>
                                     </TableCell>
 
                                 </TableRow>

@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Container } from "@mui/material";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import { ApplicationsAPI } from "../../../services/applicationsAPI";
-import ConfirmDialog from "../../../components/ConfirmDialog";
-import UserList from "../../../components/user-list-table/UserList";
+import { ApplicationsAPI } from "@/services/applicationsAPI";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import UserList from "@/components/user-list-table/UserList";
 
 const TABLE_HEAD = [
   { id: "fullName", label: "Nombre", alignRight: false },

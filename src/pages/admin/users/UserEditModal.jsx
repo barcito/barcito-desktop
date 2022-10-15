@@ -10,9 +10,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import AnimateButton from "../../../components/AnimateButton";
+import AnimateButton from "@/components/AnimateButton";
 import { MenuItem, Select, FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
-import compareObjects from '../../../utils/compareObjects';
+import compareObjects from '@/utils/compareObjects';
 
 export default function UserEditModal({ user, modalOpen, closeModal, mutation }) {
   

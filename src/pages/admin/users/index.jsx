@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Container } from "@mui/material";
-import { UserAPI } from "../../../services/userAPI";
-import ConfirmDialog from "../../../components/ConfirmDialog";
+import { UserAPI } from "@/services/userAPI";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import UserEditModal from "./UserEditModal";
-import UserList from "../../../components/user-list-table/UserList";
+import UserList from "@/components/user-list-table/UserList";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const TABLE_HEAD = [

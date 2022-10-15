@@ -16,10 +16,10 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import AnimateButton from "../../components/AnimateButton";
-import { strengthColor, strengthIndicator } from "../../utils/password.util";
+import AnimateButton from "@/components/AnimateButton";
+import { strengthColor, strengthIndicator } from "@/utils/password.util";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { UserAPI } from "../../services/userAPI";
+import { UserAPI } from "@/services/userAPI";
 import { MenuItem, Select } from "@mui/material";
 
 export function AccountProfileDetails({ user }) {

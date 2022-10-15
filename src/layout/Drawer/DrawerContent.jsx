@@ -1,5 +1,5 @@
 import Navigation from "./Navigation";
-import SimpleBar from "../../components/SimpleBar";
+import SimpleBar from "@/components/SimpleBar";
 
 function DrawerContent() {
   return (

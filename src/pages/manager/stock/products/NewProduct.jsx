@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 import ProductForm from './ProductForm';
-import { ProductsAPI } from '../../../../services/productsAPI';
+import { ProductsAPI } from '@/services/productsAPI';
 import { useNavigate } from 'react-router-dom';
 
 export default function NewProduct() {

@@ -15,8 +15,8 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import MainCard from "../../components/MainCard";
-import Transitions from "../../components/Transitions";
+import MainCard from "@/components/MainCard";
+import Transitions from "@/components/Transitions";
 import { BellOutlined, CloseOutlined, GiftOutlined } from "@ant-design/icons";
 
 const avatarSX = {

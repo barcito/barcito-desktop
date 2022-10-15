@@ -13,10 +13,10 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import AnimateButton from "../../components/AnimateButton";
-import { strengthColor, strengthIndicator } from "../../utils/password.util";
+import AnimateButton from "@/components/AnimateButton";
+import { strengthColor, strengthIndicator } from "@/utils/password.util";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { AuthAPI } from "../../services/authAPI";
+import { AuthAPI } from "@/services/authAPI";
 import { MenuItem, Select } from "@mui/material";
 
 function AuthRegister() {

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Container, ImageList, ImageListItem, Stack, Typography, Box, Grid, ImageListItemBar, Button, Tab, Tabs } from "@mui/material";
 import { AddBusinessOutlined } from '@mui/icons-material';
-import MainCard from '../../../components/MainCard';
+import MainCard from '@/components/MainCard';
 import BarcitoForm from './BarcitoForm';
 import { useEffect } from 'react';
-import { BarcitoAPI } from '../../../services/barcitoAPI';
+import { BarcitoAPI } from '@/services/barcitoAPI';
 import ManagersTable from './ManagersTable';
 import TabPanel from './TabPanel';
 import BarcitoImage from './BarcitoImage';

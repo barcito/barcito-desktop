@@ -15,10 +15,10 @@ import Link from "@mui/material/Link";
 import InputLabel from "@mui/material/InputLabel";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import AnimateButton from "../../components/AnimateButton";
+import AnimateButton from "@/components/AnimateButton";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import OtherLogin from "./OtherLogin";
-import { AuthAPI } from "../../services/authAPI";
+import { AuthAPI } from "@/services/authAPI";
 
 function AuthLogin() {
   const navigate = useNavigate();

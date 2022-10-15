@@ -9,7 +9,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Search from "./Search";
 import Profile from "./Profile";
-import Transitions from "../../components/Transitions";
+import Transitions from "@/components/Transitions";
 import { MoreOutlined } from "@ant-design/icons";
 
 function MobileSection() {

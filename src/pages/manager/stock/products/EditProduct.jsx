@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { ProductsAPI } from '../../../../services/productsAPI';
+import { ProductsAPI } from '@/services/productsAPI';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import ProductForm from './ProductForm';

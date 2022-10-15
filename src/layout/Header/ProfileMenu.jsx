@@ -6,7 +6,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { EditOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { AuthAPI } from "../../services/authAPI";
+import { AuthAPI } from "@/services/authAPI";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function ProfileMenu({ handleLogout }) {

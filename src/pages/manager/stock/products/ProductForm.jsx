@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
-import MainCard from '../../../../components/MainCard';
+import MainCard from '@/components/MainCard';
 import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText } from '@mui/material';
-import AnimateButton from "../../../../components/AnimateButton";
+import AnimateButton from "@/components/AnimateButton";
 import { Formik, useFormikContext, useField, Field } from 'formik';
 import * as Yup from 'yup';
 import { useQuery } from 'react-query';
-import MultiSelect from '../../../../components/MultiSelect';
-import { SuppliesAPI } from '../../../../services/suppliesAPI';
-import { CategoriesAPI } from '../../../../services/categoriesAPI';
-import compareObjects from '../../../../utils/compareObjects';
+import MultiSelect from '@/components/MultiSelect';
+import { SuppliesAPI } from '@/services/suppliesAPI';
+import { CategoriesAPI } from '@/services/categoriesAPI';
+import compareObjects from '@/utils/compareObjects';
 
 export default function ProductForm({ product, mutation, handleNew }) {
 

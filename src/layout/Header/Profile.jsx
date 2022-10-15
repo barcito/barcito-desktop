@@ -10,11 +10,11 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import MainCard from "../../components/MainCard";
-import Transitions from "../../components/Transitions";
+import MainCard from "@/components/MainCard";
+import Transitions from "@/components/Transitions";
 import ProfileMenu from "./ProfileMenu";
 import { LogoutOutlined } from "@ant-design/icons";
-import { AuthAPI } from "../../services/authAPI";
+import { AuthAPI } from "@/services/authAPI";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {

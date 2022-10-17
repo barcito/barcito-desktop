@@ -12,18 +12,18 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 import AnimateButton from "@/components/AnimateButton";
 import { strengthColor, strengthIndicator } from "@/utils/password.util";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { AuthAPI } from "@/services/authAPI";
-import { MenuItem, Select } from "@mui/material";
+import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
+import { useQuery } from "react-query";
+import MultiSelect from '@/components/MultiSelect';
 
 function AuthRegister() {
-  const academicUnits = [
-    "Sin definir",
-    "Facultad de Informatica"
-  ];
+
+  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
 
   const navigate = useNavigate();
 
@@ -46,7 +46,9 @@ function AuthRegister() {
     changePassword("");
   }, []);
 
-
+  if(isLoading){
+    return <p>Loading...</p>
+  }
 
   return (
     <>
@@ -58,7 +60,7 @@ function AuthRegister() {
           surname: "",
           dni: "",
           phone: "",
-          academicUnit: "Sin definir",
+          academicUnit: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
@@ -136,11 +138,18 @@ function AuthRegister() {
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="academicUnit-signup">Unidad academica</InputLabel>
-                  <Select fullWidth id="academicUnit-signup" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
-                    {academicUnits.map( (unit, index) => 
-                      <MenuItem key={index} value={unit}>{unit}</MenuItem>
+                  <Field
+                        id="academicUnit-signup"
+                        name="academicUnit"
+                        options={academicUnits}
+                        component={MultiSelect}
+                        placeholder="Seleccione unidad academica"
+                    />
+                    {touched.supplies && errors.supplies && (
+                        <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                            {errors.supplies}
+                        </FormHelperText>
                     )}
-                  </ Select>
                 </Stack>
               </Grid>
 

@@ -136,7 +136,7 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
                                         </Stack>
                                     </TableCell>
                                     <TableCell align="left">{email}</TableCell>
-                                    <TableCell align="left">{academicUnit}</TableCell>
+                                    <TableCell align="left">{academicUnit.shortName}</TableCell>
                                     <TableCell align="left">
                                         {certificate ? (
                                             <Link href={certificate} target="_blank" underline="none">

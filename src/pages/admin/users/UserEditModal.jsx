@@ -9,14 +9,17 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
+import MultiSelect from '@/components/MultiSelect';
 import AnimateButton from "@/components/AnimateButton";
 import { MenuItem, Select, FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
 import compareObjects from '@/utils/compareObjects';
+import { useQuery } from "react-query";
+import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
 
 export default function UserEditModal({ user, modalOpen, closeModal, mutation }) {
   
-  const academicUnits = ["Sin definir", "Facultad de Informatica"];
+  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
 
   const availableRoles = ["admin", "manager", "submanager", "user"];
 
@@ -25,7 +28,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
       name: user.fullName.split(" ")[1],
       surname: user.fullName.split(" ")[0],
       email: user.email,
-      academicUnit: user.academicUnit,
+      academicUnit: user.academicUnit.id,
       phone: user.phone,
       dni: user.dni,
       roles: user.roles
@@ -35,11 +38,15 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
       name: "",
       surname: "",
       email: "",
-      academicUnit: "Sin definir",
+      academicUnit: "",
       phone: "",
       dni: "",
       roles: []
     };
+
+  if(isLoading){
+    <p>Loading...</p>
+  }
 
   return (
     <Dialog open={modalOpen} onClose={() => closeModal(false)}>
@@ -139,13 +146,25 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
                 <Grid item xs={12}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="academicUnit-edit">Unidad academica</InputLabel>
-                    <Select fullWidth id="academicUnit-edit" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
+                    <Field
+                        id="academicUnit-edit"
+                        name="academicUnit"
+                        options={academicUnits}
+                        component={MultiSelect}
+                        placeholder="Seleccione unidad academica"
+                    />
+                    {touched.supplies && errors.supplies && (
+                        <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                            {errors.supplies}
+                        </FormHelperText>
+                    )}
+                    {/* <Select fullWidth id="academicUnit-edit" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
                       {academicUnits.map((unit, index) => (
                         <MenuItem key={index} value={unit}>
                           {unit}
                         </MenuItem>
                       ))}
-                    </Select>
+                    </Select> */}
                   </Stack>
                 </Grid>
 

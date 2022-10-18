@@ -5,24 +5,27 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 import AnimateButton from "@/components/AnimateButton";
-import { MenuItem, Select } from "@mui/material";
+import { useQuery } from "react-query";
+import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
 import { BarcitoAPI } from '@/services/barcitoAPI';
+import MultiSelect from '@/components/MultiSelect';
 
 export default function BarcitoForm({ barcito, setBarFocus }) {
 
-    const academicUnits = [
-        "Sin definir",
-        "Facultad de Informatica"
-    ];
-
-    const initialValues = barcito.id ? barcito : {
+    const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
+    console.log(barcito);
+    const initialValues = barcito.id ? {...barcito, academicUnit: barcito.academicUnit?.id} : {
         name: '',
-        academicUnit: 'Sin definir',
+        academicUnit: '',
         openTime: '',
         closeTime: '',
         location: ''
+    }
+
+    if(isLoading){
+        return <p>Loading...</p>
     }
 
     return (
@@ -78,11 +81,23 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                         <Grid item xs={12}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="academicUnit-bar">Unidad academica</InputLabel>
-                                <Select fullWidth id="academicUnit-bar" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
+                                <Field
+                                    id="academicUnit-bar"
+                                    name="academicUnit"
+                                    options={academicUnits}
+                                    component={MultiSelect}
+                                    placeholder="Seleccione unidad academica"
+                                />
+                                {touched.supplies && errors.supplies && (
+                                    <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                                        {errors.supplies}
+                                    </FormHelperText>
+                                )}
+                                {/* <Select fullWidth id="academicUnit-bar" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
                                     {academicUnits.map((unit, index) =>
                                         <MenuItem key={index} value={unit}>{unit}</MenuItem>
                                     )}
-                                </ Select>
+                                </ Select> */}
                             </Stack>
                         </Grid>
                         <Grid item xs={12}>

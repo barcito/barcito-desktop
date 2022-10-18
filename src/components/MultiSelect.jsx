@@ -18,7 +18,6 @@ export const MultiSelect = ({
   };
 
   const getValue = () => {
-    console.log(field);
     if (options) {
       return isMulti
         ? options.filter(option => field.value.indexOf(option.id) >= 0)

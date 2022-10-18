@@ -52,7 +52,7 @@ export default function Barcitos() {
                                 <Button onClick={() => { setBarFocus(bar); setManagers(bar.managers); }}>
                                     <ImageListItemBar
                                         title={bar.name}
-                                        subtitle={bar.academicUnit}
+                                        subtitle={bar.academicUnit?.shortName}
                                     ></ImageListItemBar>
                                 </Button>
                             </ImageListItem>

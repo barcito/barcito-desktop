@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 import { SuppliesAPI } from "@/services/suppliesAPI";
 import StockList from "@/components/stock-list-table/StockList";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = [
   { id: "description", label: "Descripcion", alignCenter: false },
@@ -16,38 +17,19 @@ export default function SuppliesList() {
 
   const client = useQueryClient();
 
+  const navigate = useNavigate();
+
   const { data, isLoading } = useQuery(['supplies'], async () => SuppliesAPI.getAll());
 
-  const [supplyOnAction, setSupplyOnAction] = useState({});
-
-  /* const [dialogOpen, setDialogOpen] = useState(false);
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const mutation = useMutation(
-    (id) => {
-      return UserAPI.delete(id);
-    },
-    {
-      onSuccess: () => {
-        client.invalidateQueries(['users']);
-      }
-    }
-  );
+  /* const [supplyOnAction, setSupplyOnAction] = useState({}); */
 
   const handleNew = () => {
-    
+    navigate('/stock/insumos/nuevo');
   }
 
-  const handleDelete = (user) => {
-    setUserOnAction(user);
-    setDialogOpen(true);
+  const handleEdit = (id) => {
+    navigate(`/stock/insumos/editar/${id}`);
   };
-
-  const confirmDelete = () => {
-    mutation.mutate({id: userOnAction.id, data: null});
-    setDialogOpen(false);
-  }; */
 
   if(isLoading){
     return <p>Loading...</p>;
@@ -58,10 +40,8 @@ export default function SuppliesList() {
       <StockList 
         stockList={data}
         tableHead={TABLE_HEAD}
-        /*
-        actionOne={handleNew}
-        actionTwo={handleDelete}
-        */
+        handleNew={handleNew}
+        handleEdit={handleEdit}
       />
       {/* <ConfirmDialog dialogOpen={dialogOpen} text={"¿Eliminar usuario?"} confirmAction={confirmDelete} closeDialog={setDialogOpen} /> */}
     </Container>

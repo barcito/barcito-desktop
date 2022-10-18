@@ -27,11 +27,11 @@ export default function ProductList() {
   /* const [productOnAction, setProductOnAction] = useState({}); */
 
   const handleNew = () => {
-    navigate('/stock/producto/nuevo');
+    navigate('/stock/productos/nuevo');
   }
 
   const handleEdit = (id) => {
-    navigate(`/stock/producto/editar/${id}`);
+    navigate(`/stock/productos/editar/${id}`);
   }
 
   if(isLoading){

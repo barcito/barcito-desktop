@@ -58,10 +58,8 @@ export default function ProductForm({ product, mutation, handleNew }) {
                         }
                         if (product?.id) {
                             const editProduct = compareObjects(initialValues, formattedValues);
-                            console.log(editProduct);
                             mutation.mutate({ id: product.id, product: editProduct });
                         } else {
-                            console.log(formattedValues)
                             handleNew({ product: formattedValues });
                         }
                         setStatus({ success: true });

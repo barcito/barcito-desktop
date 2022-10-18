@@ -26,6 +26,9 @@ const ProductList = Loadable(lazy(() => import("@/pages/manager/stock/products")
 const NewProduct = Loadable(lazy(() => import("@/pages/manager/stock/products/NewProduct")));
 const EditProduct = Loadable(lazy(() => import("@/pages/manager/stock/products/EditProduct")));
 const Supplies = Loadable(lazy(() => import("@/pages/manager/stock/supplies")));
+const NewSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/NewSupply")));
+const EditSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/EditSupply")));
+const CategoriesList = Loadable(lazy(() => import("@/pages/manager/stock/categories")));
 
 const queryClient = new QueryClient();
 
@@ -80,16 +83,28 @@ const router = createBrowserRouter([
                 element: <ProductList />
               },
               {
+                path: "productos/nuevo",
+                element: <NewProduct />
+              },
+              {
+                path: "productos/editar/:productId",
+                element: <EditProduct />
+              },
+              {
                 path: "insumos",
                 element: <Supplies />
               },
               {
-                path: "producto/nuevo",
-                element: <NewProduct />
+                path: "insumos/nuevo",
+                element: <NewSupply />
               },
               {
-                path: "producto/editar/:productId",
-                element: <EditProduct />
+                path: "insumos/editar/:supplyId",
+                element: <EditSupply />
+              },
+              {
+                path: "categorias",
+                element: <CategoriesList />
               }
             ]
           },

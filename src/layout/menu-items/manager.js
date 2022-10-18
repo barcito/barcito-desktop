@@ -51,7 +51,7 @@ export const menuManager = {
           title: "Categorías",
           type: "item",
           url: "/stock/categorias",
-          icon: icons.BugOutlined
+          icon: icons.BugFilled
         },
         {
           id: "manager25",

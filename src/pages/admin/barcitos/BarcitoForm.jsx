@@ -9,16 +9,15 @@ import { Formik, Field } from "formik";
 import AnimateButton from "@/components/AnimateButton";
 import { useQuery } from "react-query";
 import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
-import { BarcitoAPI } from '@/services/barcitoAPI';
 import MultiSelect from '@/components/MultiSelect';
+import compareObjects from '@/utils/compareObjects';
 
-export default function BarcitoForm({ barcito, setBarFocus }) {
+export default function BarcitoForm({ barcito, mutation }) {
 
     const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
-    console.log(barcito);
     const initialValues = barcito.id ? {...barcito, academicUnit: barcito.academicUnit?.id} : {
         name: '',
-        academicUnit: '',
+        academicUnit: [],
         openTime: '',
         closeTime: '',
         location: ''
@@ -40,22 +39,14 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
-                    let response = null;
-                    if(barcito){
-                        const asArray = Object.entries(barcito);
-                        const filtered = Object.entries(values).filter( (field, i) => 
-                            field[1] !== asArray[i][1]
-                        );
-                        const dataToSend = Object.fromEntries(filtered);
-                        response = await BarcitoAPI.update(barcito.id, dataToSend);
+                    if(barcito.id){
+                        const dataToSend = compareObjects(initialValues, values);
+                        mutation.mutate({id: barcito.id, data: dataToSend});
                     }else{
-                        response = await BarcitoAPI.create(values);
+                        mutation.mutate({id: null, data: values});
                     }
-                    if (response) {
-                        setStatus({ success: true });
-                        setSubmitting(false);
-                        setBarFocus(response);
-                    }
+                    setStatus({ success: true });
+                    setSubmitting(false);
                 } catch (err) {
                     console.error(err);
                     setStatus({ success: false });
@@ -93,11 +84,6 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                                         {errors.supplies}
                                     </FormHelperText>
                                 )}
-                                {/* <Select fullWidth id="academicUnit-bar" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
-                                    {academicUnits.map((unit, index) =>
-                                        <MenuItem key={index} value={unit}>{unit}</MenuItem>
-                                    )}
-                                </ Select> */}
                             </Stack>
                         </Grid>
                         <Grid item xs={12}>

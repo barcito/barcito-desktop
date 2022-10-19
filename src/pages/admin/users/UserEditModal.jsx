@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import { Formik, Field } from "formik";
 import MultiSelect from '@/components/MultiSelect';
 import AnimateButton from "@/components/AnimateButton";
-import { MenuItem, Select, FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
+import { FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
 import compareObjects from '@/utils/compareObjects';
 import { useQuery } from "react-query";
 import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
@@ -28,7 +28,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
       name: user.fullName.split(" ")[1],
       surname: user.fullName.split(" ")[0],
       email: user.email,
-      academicUnit: user.academicUnit.id,
+      academicUnit: user.academicUnit?.id,
       phone: user.phone,
       dni: user.dni,
       roles: user.roles
@@ -158,13 +158,6 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
                             {errors.supplies}
                         </FormHelperText>
                     )}
-                    {/* <Select fullWidth id="academicUnit-edit" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
-                      {academicUnits.map((unit, index) => (
-                        <MenuItem key={index} value={unit}>
-                          {unit}
-                        </MenuItem>
-                      ))}
-                    </Select> */}
                   </Stack>
                 </Grid>
 

@@ -47,8 +47,6 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
 
     const [order, setOrder] = useState("asc");
 
-    /* const [selected, setSelected] = useState([]); */
-
     const [orderBy, setOrderBy] = useState("name");
 
     const [filterName, setFilterName] = useState("");
@@ -60,30 +58,6 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
     };
-
-    /* const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = userList.map((n) => n.id);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    }; */
-
-    /* const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-        }
-        setSelected(newSelected);
-    }; */
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -109,25 +83,19 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
             { associateToolbar ? 
                 <AssociateListToolbar filterName={filterName} onFilterName={handleFilterByName} />
             :
-                <UserListToolbar /* numSelected={selected.length} */ filterName={filterName} onFilterName={handleFilterByName} handleNew={handleNew} handleDelete={actionTwo} />
+                <UserListToolbar filterName={filterName} onFilterName={handleFilterByName} handleNew={handleNew} handleDelete={actionTwo} />
             }
             <TableContainer>
                 <Table sx={{ minWidth: 800 }}>
-                    <UserListHead order={order} orderBy={orderBy} headLabel={tableHead} rowCount={userList.length} /* numSelected={selected.length} */ onRequestSort={handleRequestSort} /* onSelectAllClick={handleSelectAllClick} */ />
+                    <UserListHead order={order} orderBy={orderBy} headLabel={tableHead} rowCount={userList.length} onRequestSort={handleRequestSort} />
                     <TableBody>
                         {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             const { id, fullName, email, academicUnit, certificate, validated, phone, dni, roles } = row;
-                            /* const isItemSelected = selected.indexOf(id) !== -1; */
                             let validColor = "secondary";
                             if (validated === "Aceptado") validColor = "success";
                             if (validated === "Pendiente") validColor = "warning";
                             return (
-                                <TableRow hover key={id} tabIndex={-1} role="checkbox" /* selected={isItemSelected} aria-checked={isItemSelected} */>
-                                    {/* { roles && 
-                                        <TableCell padding="checkbox">
-                                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} />
-                                        </TableCell>
-                                    } */}
+                                <TableRow hover key={id} tabIndex={-1} role="checkbox">
                                     <TableCell component="th" scope="row" padding="none">
                                         <Stack direction="row" alignItems="center" spacing={2}>
                                             <Typography variant="subtitle2" noWrap>
@@ -136,7 +104,7 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
                                         </Stack>
                                     </TableCell>
                                     <TableCell align="left">{email}</TableCell>
-                                    <TableCell align="left">{academicUnit.shortName}</TableCell>
+                                    <TableCell align="left">{academicUnit?.shortName}</TableCell>
                                     <TableCell align="left">
                                         {certificate ? (
                                             <Link href={certificate} target="_blank" underline="none">
@@ -180,7 +148,6 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
                         })}
                         {emptyRows > 0 && (
                             <TableRow style={{ height: 53 * emptyRows }}>
-                                {/* { !associateToolbar && <TableCell />} */}
                                 <TableCell colSpan={tableHead.length + 1} />
                             </TableRow>
                         )}
@@ -188,7 +155,6 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
                     {isUserNotFound && (
                         <TableBody>
                             <TableRow>
-                                {/* { !associateToolbar && <TableCell />} */}
                                 <TableCell align="center" colSpan={tableHead.length + 1} sx={{ py: 3 }}>
                                     <SearchNotFound searchQuery={filterName} />
                                 </TableCell>

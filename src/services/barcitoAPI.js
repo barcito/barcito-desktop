@@ -60,12 +60,12 @@ export const BarcitoAPI = {
     })
   },
 
-  updateImage: async function (id, data, cancel = false) {
+  updateImage: async function (id, barcitoImg, cancel = false) {
     const response = await api.request({
       url: `/barcitos/image-update/${id}`,
       method: 'PATCH',
       headers: {'Content-Type': 'multipart/form-data'},
-      data: data,
+      data: barcitoImg,
       signal: cancel ? cancelApiObject[this.updateImage.name].handleRequestCancellation().signal : undefined,
     });
 

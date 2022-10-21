@@ -54,6 +54,22 @@ export const ProductsAPI = {
     })
 
     return response.data;
+  },
+
+  updateImage: async function (id, productImg, cancel = false) {
+    const response = await api.request({
+      url: `/products/image-update/${id}`,
+      method: 'PATCH',
+      headers: {'Content-Type': 'multipart/form-data'},
+      data: productImg,
+      signal: cancel ? cancelApiObject[this.updateImage.name].handleRequestCancellation().signal : undefined,
+    });
+
+    if(response.status === 200){
+      return response.data
+    }
+
+    return false
   }
 }
 

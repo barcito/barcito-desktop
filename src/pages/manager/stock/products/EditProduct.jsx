@@ -10,16 +10,19 @@ export default function EditProduct() {
     const { data, isLoading } = useQuery(['product', params.productId], () => ProductsAPI.get(params.productId));
 
     const mutation = useMutation(
-        ({ id, product }) => {
-            if (product) {
-                return ProductsAPI.update(id, product);
+        async ({ id, product }) => {
+            if (product.product_img) {
+                const formData = new FormData();
+                formData.append('product_img', product.product_img);
+                delete product.product_img;
+                await ProductsAPI.updateImage(id, formData);
             }
-            /* return ProductsAPI.delete(id); */
+            return ProductsAPI.update(id, product);
         },
         {
             onSuccess: () => {
-                client.invalidateQueries(['product']);
                 alert('Product edited');
+                client.invalidateQueries(['product']);
             }
         }
     );

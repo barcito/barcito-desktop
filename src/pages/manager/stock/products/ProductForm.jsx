@@ -20,7 +20,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
             ...product,
             supplies: product.supplies.map(supply => supply.id),
             categories: product.categories.map(category => category.id),
-            /* product_img: "" */
+            product_img: ""
         }
         :
         {
@@ -34,8 +34,8 @@ export default function ProductForm({ product, mutation, handleNew }) {
             lowStockWarning: "",
             lastRestock: "",
             categories: [],
-            supplies: []/* ,
-            product_img: "" */
+            supplies: [],
+            product_img: ""
         };
 
     if (isLoadingSupplies || isLoadingProducts) {
@@ -71,7 +71,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({ errors, setFieldValue, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit}>
 
                         <Stack direction='row' spacing={1} divider={<Divider orientation="vertical" flexItem />}>
@@ -238,9 +238,12 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                 </Grid>
                             </Grid>
 
-                            {values.imagePath && <Box sx={{ width: '50%' }}>
-                                <img src={values.imagePath} width="350px" />
-                            </Box>}
+                            <Box sx={{ width: '50%' }}>
+                                <img src={values.imagePath || '../../../src/assets/images/product-placeholder.png'} width="350px" />
+                                <input id="product_img" name="product_img" type="file" onChange={(event) => {
+                                    setFieldValue("product_img", event.currentTarget.files[0]); }}
+                                />
+                            </Box>
 
                         </Stack>
                     </form>

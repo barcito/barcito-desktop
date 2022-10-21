@@ -8,8 +8,12 @@ export default function NewProduct() {
     const navigate = useNavigate();
 
     const handleNew = async ({ product }) => {
-        const res = await ProductsAPI.create(product);
-        if(res.id){
+        const formData = new FormData();
+        formData.append('product_img', product.product_img);
+        delete product.product_img;
+        const response = await ProductsAPI.create(product);
+        if(response.id){
+            await ProductsAPI.updateImage(response.id, formData);
             navigate('/stock/productos');
         }
     }

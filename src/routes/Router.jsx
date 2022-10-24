@@ -8,16 +8,9 @@ import MinimalLayout from "@/layout/MinimalLayout";
 const PublicRoute = Loadable(lazy(() => import("./PublicRoute")));
 const PrivateRoute = Loadable(lazy(() => import("./PrivateRoute")));
 const NotFound = Loadable(lazy(() => import("@/pages/NotFound")));
-const NotAuthorized = Loadable(lazy(() => import("@/pages/NotAuthorized")));
 const DashboardDefault = Loadable(lazy(() => import("@/pages/dashboard")));
-const SamplePage = Loadable(lazy(() => import("@/pages/demos/SamplePage")));
-const ReactQueryDemo = Loadable(
-  lazy(() => import("@/pages/demos/ReactQueryDemo"))
-);
 const AuthLogin = Loadable(lazy(() => import("@/pages/authentication/Login")));
-const AuthRegister = Loadable(
-  lazy(() => import("@/pages/authentication/Register"))
-);
+const AuthRegister = Loadable(lazy(() => import("@/pages/authentication/Register")));
 const Barcitos = Loadable(lazy(() => import("@/pages/admin/barcitos")));
 const Users = Loadable(lazy(() => import("@/pages/admin/users")));
 const Account = Loadable(lazy(() => import("@/pages/profile/Account")));
@@ -29,6 +22,8 @@ const Supplies = Loadable(lazy(() => import("@/pages/manager/stock/supplies")));
 const NewSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/NewSupply")));
 const EditSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/EditSupply")));
 const CategoriesList = Loadable(lazy(() => import("@/pages/manager/stock/categories")));
+const Orders = Loadable(lazy(()=> import("@/pages/manager/orders")));
+const OrderDetails = Loadable(lazy(()=> import("@/pages/manager/orders/OrderDetails")));
 
 const queryClient = new QueryClient();
 
@@ -108,8 +103,19 @@ const router = createBrowserRouter([
               }
             ]
           },
-          
-
+          {
+            path: "pedidos",
+            children: [
+              {
+                index: true,
+                element: <Orders />
+              },
+              {
+                path: ":orderCode",
+                element: <OrderDetails />
+              }
+            ]
+          },
         ],
       },
     ],

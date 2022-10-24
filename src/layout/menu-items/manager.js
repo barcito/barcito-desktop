@@ -17,7 +17,7 @@ export const menuManager = {
       title: "Pedidos",
       type: "item",
       url: "/pedidos",
-      icon: icons.BugOutlined,
+      icon: icons.BugFilled,
     },
     {
       id: "manager2",

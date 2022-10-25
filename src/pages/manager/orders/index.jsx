@@ -7,7 +7,7 @@ const TABLE_HEAD = [
     { id: "code", label: "Código de retiro", alignCenter: false },
     { id: "date", label: "Fecha", alignCenter: true },
     { id: "user", label: "Usuario", alignCenter: true },
-    { id: "status", label: "Estado", alignCenter: true },
+    { id: "status", label: "Estado", alignCenter: false },
     { id: "amount", label: "Monto", alignCenter: true },
   ];
 

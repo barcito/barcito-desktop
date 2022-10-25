@@ -6,6 +6,7 @@ import OrderListToolbar from "./OrderListToolbar";
 import OrderListHead from "./OrderListHead";
 import SearchNotFound from "../user-list-table/SearchNotFound";
 import OrderStatus from "./OrderStatus";
+import { useNavigate } from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -35,6 +36,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function OrderList({ orderList, tableHead, handleNew, handleEdit }) {
+
+    const navigate = useNavigate();
 
     const [page, setPage] = useState(0);
 
@@ -91,7 +94,7 @@ export default function OrderList({ orderList, tableHead, handleNew, handleEdit 
                                 <TableRow hover key={id} tabIndex={-1} role="checkbox">
 
                                     <TableCell component="th" scope="row" padding="none">
-                                        <Link color="secondary" to="">
+                                        <Link color="secondary" href={`/pedidos/${code}`}>
                                             {code}
                                         </Link>
                                     </TableCell>

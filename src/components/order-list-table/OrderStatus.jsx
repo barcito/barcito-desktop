@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import Dot from "@/components/Dot";
 
-const OrderStatus = ({ status }) => {
+const OrderStatus = ({ status, variant = "string" }) => {
     let color;
 
     switch (status) {
@@ -28,7 +28,7 @@ const OrderStatus = ({ status }) => {
     return (
         <Stack direction="row" spacing={1} alignItems="center">
             <Dot color={color} />
-            <Typography>{status}</Typography>
+            <Typography variant={variant}>{status}</Typography>
         </Stack>
     );
 };

@@ -17,12 +17,11 @@ const OrderStatus = ({ status, variant = "string" }) => {
         case "Cancelado":
             color = "secondary";
             break;
-        case "Listo":
+        case "Preparado":
             color = "primary";
             break;
         default:
             color = "primary";
-            title = "None";
     }
 
     return (

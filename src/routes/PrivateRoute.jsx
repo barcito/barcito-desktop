@@ -5,7 +5,7 @@ const PrivateRoute = ({ children, role }) => {
         if(localStorage.getItem("roles").includes(role) || role === "all"){
             return children ? children : <Outlet />;
         }
-        return <Navigate to="/" replace />
+        return <Navigate to="/unauthorized" replace />
     }
     return <Navigate to="/login" />;
 };

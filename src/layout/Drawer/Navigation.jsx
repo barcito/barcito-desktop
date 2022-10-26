@@ -7,7 +7,7 @@ function Navigation() {
   const navGroups = menuItems.items.map((item) => {
     switch (item.type) {
       case "group":
-        return <NavGroup key={item.id} item={item} level={1} />;
+        return localStorage.getItem("roles").includes(item.id) ? <NavGroup key={item.id} item={item} level={1} /> : null;
       default:
         return (
           <Typography key={item.id} variant="h6" color="error" align="center">

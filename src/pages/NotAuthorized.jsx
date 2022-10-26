@@ -14,4 +14,4 @@ function NotAuthorized() {
   );
 }
 
-export default NotFound;
+export default NotAuthorized;

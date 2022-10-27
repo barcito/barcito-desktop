@@ -114,33 +114,33 @@ const router = createBrowserRouter([
           },
         ]
       },
+    ],
+  },
+  {
+    element: <PublicRoute />,
+    children: [
       {
-        element: <PublicRoute />,
+        element: <MinimalLayout />,
         children: [
           {
-            element: <MinimalLayout />,
-            children: [
-              {
-                path: "login",
-                element: <AuthLogin />,
-              },
-              {
-                path: "registro",
-                element: <AuthRegister />,
-              },
-            ],
+            path: "login",
+            element: <AuthLogin />,
+          },
+          {
+            path: "registro",
+            element: <AuthRegister />,
           },
         ],
       },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
-      {
-        path: "/unauthorized",
-        element: <Unauthorized />
-      }
-    ]
+    ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />
   }
 ]);
 

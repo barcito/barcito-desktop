@@ -35,15 +35,15 @@ function applySortFilter(array, comparator, query) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-export default function OrderList({ orderList, tableHead, handleNew, handleEdit }) {
+export default function OrderList({ orderList, tableHead, handleNew }) {
 
     const navigate = useNavigate();
 
     const [page, setPage] = useState(0);
 
-    const [order, setOrder] = useState("asc");
+    const [order, setOrder] = useState("desc");
 
-    const [orderBy, setOrderBy] = useState("name");
+    const [orderBy, setOrderBy] = useState("createdAt");
 
     const [filterName, setFilterName] = useState("");
 
@@ -85,7 +85,7 @@ export default function OrderList({ orderList, tableHead, handleNew, handleEdit 
                             const {
                                 id,
                                 code,
-                                date,
+                                createdAt,
                                 user,
                                 status,
                                 amount
@@ -99,7 +99,7 @@ export default function OrderList({ orderList, tableHead, handleNew, handleEdit 
                                         </Link>
                                     </TableCell>
 
-                                    <TableCell align="center">{date}</TableCell>
+                                    <TableCell align="center">{new Date(createdAt).toLocaleString()}</TableCell>
 
                                     <TableCell align="center">{`${user?.name} ${user?.surname}`}</TableCell>
 

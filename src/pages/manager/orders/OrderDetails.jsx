@@ -1,21 +1,31 @@
 import { Container, Divider, Grid, Stack, Typography, Card, CardMedia, CardContent, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { OrdersAPI } from "@/services/ordersAPI";
 import MainCard from "@/components/MainCard";
 import OrderStatus from "@/components/order-list-table/OrderStatus";
 import { useState } from "react";
 
 export default function OrderDetails() {
+    const client = useQueryClient();
     const params = useParams();
     const { data: order, isLoading } = useQuery(['order'], () => OrdersAPI.getByCode(params.orderCode));
     const [status, setStatus] = useState("");
     const statusOptions = ['Rechazado', 'Cancelado', 'Pendiente', 'Preparado', 'Entregado'];
 
-    const handleSave = () => {
-        if( status !== "" ){
-            OrdersAPI.update(order.id, {status: status});
+    const mutation = useMutation(
+        () => {
+            return OrdersAPI.update(order.id, {status: status});
+        },
+        {
+            onSuccess: () => {
+                client.invalidateQueries(['order']);
+            }
         }
+    )
+
+    const handleSave = () => {
+        mutation.mutate();
     }
 
     if (isLoading) {
@@ -36,7 +46,7 @@ export default function OrderDetails() {
                     </Grid>
                     <Grid item xs={4}>
                         <Typography variant="h4">
-                            {order.date}
+                            {new Date(order.createdAt).toLocaleString()}
                         </Typography>
                     </Grid>
                 </Grid>

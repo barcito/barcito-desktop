@@ -9,15 +9,14 @@ export default function SupplyForm({ supply, mutation, handleNew }){
 
     const initialValues = supply ? supply : {
         description: "",
-        available: "",
+        available: false,
         buyPrice: "",
         stock: "",
-        lowStockWarning: "",
-        lastRestock: "",
+        lowStockWarning: ""
     }
 
     return(
-        <MainCard>
+        <MainCard sx={{ width: '65%' }}>
             <Formik
                 initialValues={initialValues}
                 validationSchema={Yup.object().shape({
@@ -58,12 +57,7 @@ export default function SupplyForm({ supply, mutation, handleNew }){
                                 <Grid item xs={4}>
                                     <Stack spacing={1} alignItems='center'>
                                         <InputLabel htmlFor="available-item">Disponible</InputLabel>
-                                        <Switch id="available-item" checked={values.available} value={values.available} name="available" onBlur={handleBlur} onChange={handleChange} /* error={Boolean(touched.available && errors.available)} */ />
-                                        {/* {touched.available && errors.available && (
-                                                <FormHelperText error id="standard-weight-helper-text-available-item">
-                                                    {errors.available}
-                                                </FormHelperText>
-                                            )} */}
+                                        <Switch id="available-item" checked={values.available} value={values.available} name="available" onBlur={handleBlur} onChange={handleChange} />
                                     </Stack>
                                 </Grid>
 
@@ -91,18 +85,6 @@ export default function SupplyForm({ supply, mutation, handleNew }){
                                     </Stack>
                                 </Grid>
 
-                                <Grid item xs={4}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="lastRestock-item">Ultima compra stock</InputLabel>
-                                        <OutlinedInput id="lastRestock-item" value={values.lastRestock} type='date' name="lastRestock" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar lastRestock" fullWidth error={Boolean(touched.lastRestock && errors.lastRestock)} />
-                                        {touched.lastRestock && errors.lastRestock && (
-                                            <FormHelperText error id="standard-weight-helper-text-lastRestock-item">
-                                                {errors.lastRestock}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
                                 <Grid item xs={3}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="buyPrice-item">Costo</InputLabel>
@@ -120,7 +102,7 @@ export default function SupplyForm({ supply, mutation, handleNew }){
                                         <FormHelperText error>{errors.submit}</FormHelperText>
                                     </Grid>
                                 )}
-                                <Grid item xs={2}>
+                                <Grid item xs={4}>
                                     <AnimateButton>
                                         <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
                                             Guardar

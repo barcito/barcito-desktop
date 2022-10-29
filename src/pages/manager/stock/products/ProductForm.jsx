@@ -32,7 +32,6 @@ export default function ProductForm({ product, mutation, handleNew }) {
             associatedSellPrice: "",
             stock: "",
             lowStockWarning: "",
-            lastRestock: "",
             categories: [],
             supplies: [],
             product_img: ""
@@ -53,8 +52,8 @@ export default function ProductForm({ product, mutation, handleNew }) {
                     try {
                         const formattedValues = {
                             ...values,
-                            supplies: values.supplies.map( (id) => ({id})),
-                            categories: values.categories.map( (id) => ({id}))
+                            supplies: values.supplies.map((id) => ({ id })),
+                            categories: values.categories.map((id) => ({ id }))
                         }
                         if (product?.id) {
                             const editProduct = compareObjects(initialValues, formattedValues);
@@ -125,18 +124,6 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                     </Stack>
                                 </Grid>
 
-                                <Grid item xs={4}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="lastRestock-item">Ultima compra stock</InputLabel>
-                                        <OutlinedInput id="lastRestock-item" value={values.lastRestock} type='date' name="lastRestock" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar lastRestock" fullWidth error={Boolean(touched.lastRestock && errors.lastRestock)} />
-                                        {touched.lastRestock && errors.lastRestock && (
-                                            <FormHelperText error id="standard-weight-helper-text-lastRestock-item">
-                                                {errors.lastRestock}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
                                 <Grid item xs={3}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="buyPrice-item">Costo</InputLabel>
@@ -149,21 +136,11 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                     </Stack>
                                 </Grid>
 
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="finalSellPrice-item">Precio final</InputLabel>
-                                        <OutlinedInput id="finalSellPrice-item" value={values.finalSellPrice} type='number' name="finalSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio final" fullWidth error={Boolean(touched.finalSellPrice && errors.finalSellPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
-                                        {touched.finalSellPrice && errors.finalSellPrice && (
-                                            <FormHelperText error id="standard-weight-helper-text-finalSellPrice-item">
-                                                {errors.finalSellPrice}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
+                                <Box width="100%"/> {/*breaks the row*/}
 
                                 <Grid item xs={3}>
                                     <Stack spacing={1}>
-                                        <InputLabel htmlFor="discount-item">Descuento</InputLabel>
+                                        <InputLabel htmlFor="discount-item">Descuento socio</InputLabel>
                                         <OutlinedInput id="discount-item" value={values.discount} type='number' name="discount" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar descuento" fullWidth error={Boolean(touched.discount && errors.discount)} endAdornment={<InputAdornment position="end">%</InputAdornment>} />
                                         {touched.discount && errors.discount && (
                                             <FormHelperText error id="standard-weight-helper-text-discount-item">
@@ -181,6 +158,18 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                         {touched.associatedSellPrice && errors.associatedSellPrice && (
                                             <FormHelperText error id="standard-weight-helper-text-associatedSellPrice-item">
                                                 {errors.associatedSellPrice}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="finalSellPrice-item">Precio final</InputLabel>
+                                        <OutlinedInput id="finalSellPrice-item" value={values.finalSellPrice} type='number' name="finalSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio final" fullWidth error={Boolean(touched.finalSellPrice && errors.finalSellPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                        {touched.finalSellPrice && errors.finalSellPrice && (
+                                            <FormHelperText error id="standard-weight-helper-text-finalSellPrice-item">
+                                                {errors.finalSellPrice}
                                             </FormHelperText>
                                         )}
                                     </Stack>
@@ -241,7 +230,8 @@ export default function ProductForm({ product, mutation, handleNew }) {
                             <Box sx={{ width: '50%' }}>
                                 <img src={values.imagePath || '../../../src/assets/images/product-placeholder.png'} width="350px" />
                                 <input id="product_img" name="product_img" type="file" onChange={(event) => {
-                                    setFieldValue("product_img", event.currentTarget.files[0]); }}
+                                    setFieldValue("product_img", event.currentTarget.files[0]);
+                                }}
                                 />
                             </Box>
 

@@ -131,7 +131,7 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
                                         </Stack>
                                     </TableCell>
 
-                                    <TableCell align="center">{buyPrice}</TableCell>
+                                    <TableCell align="center">${buyPrice}</TableCell>
 
                                     <TableCell align="center">{stock}</TableCell>
 
@@ -139,9 +139,9 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
 
                                     <TableCell align="center">{lastRestock}</TableCell>
 
-                                    { finalSellPrice && <TableCell align="center">{finalSellPrice}</TableCell>}
+                                    { finalSellPrice && <TableCell align="center">${finalSellPrice}</TableCell>}
 
-                                    { associatedSellPrice && <TableCell align="center">{associatedSellPrice}</TableCell>}
+                                    { associatedSellPrice && <TableCell align="center">${associatedSellPrice}</TableCell>}
 
                                     { supplies && <TableCell align="center">{supplies.length}</TableCell>}
                                     

@@ -7,13 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = [
   { id: "description", label: "Descripcion", alignCenter: false },
-  { id: "buyPrice", label: "Costo", alignCenter: true },
+  { id: "cost", label: "Costo", alignCenter: true },
   { id: "stock", label: "Stock", alignCenter: true },
-  { id: "lowStockWarning", label: "Advertencia", alignCenter: true },
-  { id: "lastRestock", label: "Ult. compra", alignCenter: true },
   { id: "finalSellPrice", label: "Precio Final", alignCenter: true },
   { id: "associatedSellPrice", label: "Precio Socio", alignCenter: true },
-  { id: "supplies", label: "Insumos", alignCenter: true },
+  { id: "productToSupplies", label: "Insumos", alignCenter: true },
+  { id: "categories", label: "Categorias", alignCenter: true },
 ];
 
 export default function ProductList() {

@@ -7,10 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = [
   { id: "description", label: "Descripcion", alignCenter: false },
-  { id: "buyPrice", label: "Costo", alignCenter: true },
-  { id: "stock", label: "Stock", alignCenter: true },
-  { id: "lowStockWarning", label: "Advertencia", alignCenter: true },
-  { id: "lastRestock", label: "Ult. compra", alignCenter: true }
+  { id: "cost", label: "Costo", alignCenter: true },
+  { id: "stock", label: "Stock", alignCenter: true }
 ];
 
 export default function SuppliesList() {

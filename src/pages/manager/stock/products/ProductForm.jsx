@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import MainCard from '@/components/MainCard';
-import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText } from '@mui/material';
+import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText, Typography, IconButton } from '@mui/material';
+import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 import AnimateButton from "@/components/AnimateButton";
-import { Formik, useFormikContext, useField, Field } from 'formik';
+import { Formik, useFormikContext, useField, Field, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import { useQuery } from 'react-query';
 import MultiSelect from '@/components/MultiSelect';
@@ -18,7 +19,11 @@ export default function ProductForm({ product, mutation, handleNew }) {
     const initialValues = product ?
         {
             ...product,
-            supplies: product.supplies.map(supply => supply.id),
+            stock: {
+                quantity: product.stock.quantity,
+                cost: product.stock.cost,
+                warning: product.stock.warning
+            },
             categories: product.categories.map(category => category.id),
             product_img: ""
         }
@@ -26,14 +31,16 @@ export default function ProductForm({ product, mutation, handleNew }) {
         {
             description: "",
             available: false,
-            buyPrice: "",
             finalSellPrice: "",
             discount: "",
             associatedSellPrice: "",
-            stock: "",
-            lowStockWarning: "",
+            stock: {
+                quantity: "",
+                cost: "",
+                warning: "",
+            },
             categories: [],
-            supplies: [],
+            productToSupplies: [],
             product_img: ""
         };
 
@@ -50,16 +57,22 @@ export default function ProductForm({ product, mutation, handleNew }) {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        const formattedValues = {
-                            ...values,
-                            supplies: values.supplies.map((id) => ({ id })),
-                            categories: values.categories.map((id) => ({ id }))
-                        }
                         if (product?.id) {
-                            const editProduct = compareObjects(initialValues, formattedValues);
+                            const editProduct = compareObjects(initialValues, values);
+                            if(editProduct.categories){
+                                editProduct.categories = editProduct.categories.map((id) => ({ id }));
+                            }
+                            if(editProduct.stock){
+                                editProduct.stock.id = product.stock.id;
+                            }
+                            console.log(editProduct);
                             mutation.mutate({ id: product.id, product: editProduct });
                         } else {
-                            handleNew({ product: formattedValues });
+                            const newProduct = {...values};
+                            if(values.categories){
+                                newProduct.categories = values.categories.map((id) => ({ id }));
+                            }
+                            handleNew({ product: newProduct });
                         }
                         setStatus({ success: true });
                         setSubmitting(false);
@@ -100,82 +113,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                     </Stack>
                                 </Grid>
 
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="stock-item">Stock</InputLabel>
-                                        <OutlinedInput id="stock-item" value={values.stock} type='number' name="stock" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar stock" fullWidth error={Boolean(touched.stock && errors.stock)} />
-                                        {touched.stock && errors.stock && (
-                                            <FormHelperText error id="standard-weight-helper-text-stock-item">
-                                                {errors.stock}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="lowStockWarning-item">Bajo stock</InputLabel>
-                                        <OutlinedInput id="lowStockWarning-item" type='number' value={values.lowStockWarning} name="lowStockWarning" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar lowStockWarning" fullWidth error={Boolean(touched.lowStockWarning && errors.lowStockWarning)} />
-                                        {touched.lowStockWarning && errors.lowStockWarning && (
-                                            <FormHelperText error id="standard-weight-helper-text-lowStockWarning-item">
-                                                {errors.lowStockWarning}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="buyPrice-item">Costo</InputLabel>
-                                        <OutlinedInput id="buyPrice-item" value={values.buyPrice} type='number' name="buyPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar costo" fullWidth error={Boolean(touched.buyPrice && errors.buyPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
-                                        {touched.buyPrice && errors.buyPrice && (
-                                            <FormHelperText error id="standard-weight-helper-text-buyPrice-item">
-                                                {errors.buyPrice}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
-                                <Box width="100%"/> {/*breaks the row*/}
-
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="discount-item">Descuento socio</InputLabel>
-                                        <OutlinedInput id="discount-item" value={values.discount} type='number' name="discount" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar descuento" fullWidth error={Boolean(touched.discount && errors.discount)} endAdornment={<InputAdornment position="end">%</InputAdornment>} />
-                                        {touched.discount && errors.discount && (
-                                            <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                {errors.discount}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="associatedSellPrice-item">Precio socio</InputLabel>
-                                        <AssociatedPriceField id="associatedSellPrice-item" value={values.associatedSellPrice} readOnly name="associatedSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio socio" fullWidth error={Boolean(touched.associatedSellPrice && errors.associatedSellPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
-                                        {/* <OutlinedInput id="associatedSellPrice-item" value={values.associatedSellPrice} readOnly name="associatedSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio socio" fullWidth error={Boolean(touched.associatedSellPrice && errors.associatedSellPrice)} /> */}
-                                        {touched.associatedSellPrice && errors.associatedSellPrice && (
-                                            <FormHelperText error id="standard-weight-helper-text-associatedSellPrice-item">
-                                                {errors.associatedSellPrice}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
-                                <Grid item xs={3}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="finalSellPrice-item">Precio final</InputLabel>
-                                        <OutlinedInput id="finalSellPrice-item" value={values.finalSellPrice} type='number' name="finalSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio final" fullWidth error={Boolean(touched.finalSellPrice && errors.finalSellPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
-                                        {touched.finalSellPrice && errors.finalSellPrice && (
-                                            <FormHelperText error id="standard-weight-helper-text-finalSellPrice-item">
-                                                {errors.finalSellPrice}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid>
-
-                                <Grid item xs={12}>
+                                <Grid item xs={6}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="category-item">Categorias</InputLabel>
                                         <Field
@@ -194,7 +132,129 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                     </Stack>
                                 </Grid>
 
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="stock-item">Stock</InputLabel>
+                                        <OutlinedInput id="stock-item" value={values.stock.quantity} type='number' name="stock.quantity" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar stock" fullWidth error={Boolean(touched.stock && errors.stock)} />
+                                        {touched.stock && errors.stock && (
+                                            <FormHelperText error id="standard-weight-helper-text-stock-item">
+                                                {errors.stock}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="warning-item">Advertencia por bajo stock</InputLabel>
+                                        <OutlinedInput id="warning-item" type='number' value={values.stock.warning} name="stock.warning" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar warning" fullWidth error={Boolean(touched.warning && errors.warning)} />
+                                        {touched.warning && errors.warning && (
+                                            <FormHelperText error id="standard-weight-helper-text-warning-item">
+                                                {errors.warning}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="cost-item">Costo</InputLabel>
+                                        <OutlinedInput id="cost-item" value={values.stock.cost} type='number' name="stock.cost" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar costo" fullWidth error={Boolean(touched.cost && errors.cost)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                        {touched.cost && errors.cost && (
+                                            <FormHelperText error id="standard-weight-helper-text-cost-item">
+                                                {errors.cost}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="finalSellPrice-item">Precio final</InputLabel>
+                                        <OutlinedInput id="finalSellPrice-item" value={values.finalSellPrice} type='number' name="finalSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio final" fullWidth error={Boolean(touched.finalSellPrice && errors.finalSellPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                        {touched.finalSellPrice && errors.finalSellPrice && (
+                                            <FormHelperText error id="standard-weight-helper-text-finalSellPrice-item">
+                                                {errors.finalSellPrice}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="discount-item">Descuento socio</InputLabel>
+                                        <OutlinedInput id="discount-item" value={values.discount} type='number' name="discount" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar descuento" fullWidth error={Boolean(touched.discount && errors.discount)} endAdornment={<InputAdornment position="end">%</InputAdornment>} />
+                                        {touched.discount && errors.discount && (
+                                            <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                                {errors.discount}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
+                                <Grid item xs={3}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="associatedSellPrice-item">Precio socio</InputLabel>
+                                        <AssociatedPriceField id="associatedSellPrice-item" value={values.associatedSellPrice} readOnly type='number' name="associatedSellPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar precio socio" fullWidth error={Boolean(touched.associatedSellPrice && errors.associatedSellPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                        {touched.associatedSellPrice && errors.associatedSellPrice && (
+                                            <FormHelperText error id="standard-weight-helper-text-associatedSellPrice-item">
+                                                {errors.associatedSellPrice}
+                                            </FormHelperText>
+                                        )}
+                                    </Stack>
+                                </Grid>
+
                                 <Grid item xs={12}>
+                                    <Stack direction="row" alignItems="center" spacing={1}>
+                                        <Typography variant='h5'>Agregar insumos</Typography>
+                                        <IconButton color="primary" onClick={
+                                            () => {
+                                                setFieldValue('productToSupplies', [...values.productToSupplies, {supplyId: "", quantity: ""}])
+                                            }}>
+                                            <AddBox fontSize="large"/>
+                                        </IconButton>
+                                        <IconButton color="primary" onClick={
+                                            () => {
+                                                values.productToSupplies.pop();
+                                                setFieldValue('productToSupplies', values.productToSupplies);
+                                            }}>
+                                            <IndeterminateCheckBox fontSize="large"/>
+                                        </IconButton>
+                                    </Stack>
+                                    <Grid container spacing={2}>
+                                    <FieldArray name="productToSupplies">
+                                        {() => (values.productToSupplies.map((supply, i) => {
+                                            return (
+                                                <React.Fragment key={i}>
+                                                    <Grid item xs={6}>
+                                                        <Field
+                                                            id={`supplies-item-${supply.id}`}
+                                                            name={`productToSupplies.${i}.supplyId`}
+                                                            options={supplies}
+                                                            component={MultiSelect}
+                                                            placeholder="Seleccione insumos"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                        <OutlinedInput id={`supplies-item-${supply.id}-quantity`} value={values.productToSupplies[i].quantity} type='number' name={`productToSupplies.${i}.quantity`} onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar cantidad" fullWidth error={Boolean(touched.discount && errors.discount)} startAdornment={<InputAdornment position="end">x</InputAdornment>} />
+                                                        {/* {touched.discount && errors.discount && (
+                                                            <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                                                {errors.discount}
+                                                            </FormHelperText>
+                                                        )} */}
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                        
+                                                    </Grid>
+                                                </React.Fragment>
+                                                )
+                                            }
+                                        ))}
+                                    </FieldArray>
+                                    </Grid>
+                                </Grid>
+
+                                {/* <Grid item xs={12}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="supplies-item">Insumos</InputLabel>
                                         <Field
@@ -211,7 +271,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                             </FormHelperText>
                                         )}
                                     </Stack>
-                                </Grid>
+                                </Grid> */}
 
                                 {errors.submit && (
                                     <Grid item xs={12}>

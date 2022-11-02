@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 import { useState } from "react";
-import { Table, Stack, Checkbox, TableRow, TableBody, TableCell, Typography, TableContainer, TablePagination, IconButton, Tooltip } from "@mui/material";
+import { Table, Stack, Checkbox, TableRow, TableBody, TableCell, Typography, TableContainer, TablePagination, IconButton, Tooltip, Chip } from "@mui/material";
 import MainCard from "../MainCard";
 import StockListHead from "./StockListHead";
 import SearchNotFound from "../user-list-table/SearchNotFound";
@@ -108,13 +108,11 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
                             const {
                                 id,
                                 description,
-                                buyPrice,
                                 stock,
-                                lowStockWarning,
-                                lastRestock,
                                 finalSellPrice,
                                 associatedSellPrice,
-                                supplies
+                                productToSupplies,
+                                categories
                             } = row;
                             const isItemSelected = selected.indexOf(id) !== -1;
                             return (
@@ -131,19 +129,22 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
                                         </Stack>
                                     </TableCell>
 
-                                    <TableCell align="center">${buyPrice}</TableCell>
+                                    <TableCell align="center">${stock.cost}</TableCell>
 
-                                    <TableCell align="center">{stock}</TableCell>
-
-                                    <TableCell align="center">{lowStockWarning}</TableCell>
-
-                                    <TableCell align="center">{lastRestock}</TableCell>
+                                    <TableCell align="center">{stock.quantity}</TableCell>
 
                                     { finalSellPrice && <TableCell align="center">${finalSellPrice}</TableCell>}
 
                                     { associatedSellPrice && <TableCell align="center">${associatedSellPrice}</TableCell>}
 
-                                    { supplies && <TableCell align="center">{supplies.length}</TableCell>}
+                                    <TableCell align="center">{productToSupplies ? productToSupplies.length : 0}</TableCell>
+
+                                    { categories && <TableCell align="center">
+                                            {categories.map((category) => {
+                                                return <Chip key={category.id} variant="outlined" color="primary" size="small" label={category.description} sx={{ mx: 0.25 }} />;
+                                            })}
+                                        </TableCell>
+                                    }
                                     
                                     <TableCell align="center">
                                         <Tooltip title="Editar">

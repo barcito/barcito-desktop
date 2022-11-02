@@ -7,12 +7,24 @@ import compareObjects from '@/utils/compareObjects';
 
 export default function SupplyForm({ supply, mutation, handleNew }){
 
-    const initialValues = supply ? supply : {
+    const initialValues = supply ?
+    {
+        ...supply,
+        stock: {
+            quantity: supply.stock.quantity,
+            cost: supply.stock.cost,
+            warning: supply.stock.warning
+        }
+    }
+    :
+    {
         description: "",
         available: false,
-        buyPrice: "",
-        stock: "",
-        lowStockWarning: ""
+        stock: {
+            quantity: "",
+            cost: "",
+            warning: "",
+        }
     }
 
     return(
@@ -26,6 +38,9 @@ export default function SupplyForm({ supply, mutation, handleNew }){
                     try {
                         if (supply?.id) {
                             const editSupply = compareObjects(initialValues, values);
+                            if(editSupply.stock){
+                                editSupply.stock.id = supply.stock.id;
+                            }
                             mutation.mutate({ id: supply.id, supply: editSupply });
                         } else {
                             handleNew({ supply: values });
@@ -64,10 +79,10 @@ export default function SupplyForm({ supply, mutation, handleNew }){
                                 <Grid item xs={3}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="stock-item">Stock</InputLabel>
-                                        <OutlinedInput id="stock-item" value={values.stock} type='number' name="stock" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar stock" fullWidth error={Boolean(touched.stock && errors.stock)} />
-                                        {touched.stock && errors.stock && (
+                                        <OutlinedInput id="stock-item" value={values.stock.quantity} type='number' name="stock.quantity" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar stock" fullWidth error={Boolean(touched.quantity && errors.quantity)} />
+                                        {touched.quantity && errors.quantity && (
                                             <FormHelperText error id="standard-weight-helper-text-stock-item">
-                                                {errors.stock}
+                                                {errors.quantity}
                                             </FormHelperText>
                                         )}
                                     </Stack>
@@ -75,11 +90,11 @@ export default function SupplyForm({ supply, mutation, handleNew }){
 
                                 <Grid item xs={3}>
                                     <Stack spacing={1}>
-                                        <InputLabel htmlFor="lowStockWarning-item">Bajo stock</InputLabel>
-                                        <OutlinedInput id="lowStockWarning-item" type='number' value={values.lowStockWarning} name="lowStockWarning" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar lowStockWarning" fullWidth error={Boolean(touched.lowStockWarning && errors.lowStockWarning)} />
-                                        {touched.lowStockWarning && errors.lowStockWarning && (
-                                            <FormHelperText error id="standard-weight-helper-text-lowStockWarning-item">
-                                                {errors.lowStockWarning}
+                                        <InputLabel htmlFor="warning-item">Bajo stock</InputLabel>
+                                        <OutlinedInput id="warning-item" type='number' value={values.stock.warning} name="stock.warning" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar warning" fullWidth error={Boolean(touched.warning && errors.warning)} />
+                                        {touched.warning && errors.warning && (
+                                            <FormHelperText error id="standard-weight-helper-text-warning-item">
+                                                {errors.warning}
                                             </FormHelperText>
                                         )}
                                     </Stack>
@@ -87,11 +102,11 @@ export default function SupplyForm({ supply, mutation, handleNew }){
 
                                 <Grid item xs={3}>
                                     <Stack spacing={1}>
-                                        <InputLabel htmlFor="buyPrice-item">Costo</InputLabel>
-                                        <OutlinedInput id="buyPrice-item" value={values.buyPrice} type='number' name="buyPrice" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar costo" fullWidth error={Boolean(touched.buyPrice && errors.buyPrice)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
-                                        {touched.buyPrice && errors.buyPrice && (
-                                            <FormHelperText error id="standard-weight-helper-text-buyPrice-item">
-                                                {errors.buyPrice}
+                                        <InputLabel htmlFor="cost-item">Costo</InputLabel>
+                                        <OutlinedInput id="cost-item" value={values.stock.cost} type='number' name="stock.cost" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar costo" fullWidth error={Boolean(touched.cost && errors.cost)} startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+                                        {touched.cost && errors.cost && (
+                                            <FormHelperText error id="standard-weight-helper-text-cost-item">
+                                                {errors.cost}
                                             </FormHelperText>
                                         )}
                                     </Stack>

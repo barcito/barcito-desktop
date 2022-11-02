@@ -121,12 +121,12 @@ export default function UserList({ userList, tableHead, associateToolbar, handle
                                     </TableCell>
                                     <TableCell align="left">{phone}</TableCell>
                                     <TableCell align="left">{dni}</TableCell>
-                                        { roles && <TableCell align="left">
-                                            {roles.map((rol) => {
-                                                return <Chip key={rol} variant="outlined" color="primary" size="small" label={rol} sx={{ mx: 0.25 }} />;
-                                            })}
-                                        </TableCell>
-                                        }
+                                    { roles && <TableCell align="left">
+                                        {roles.map((rol) => {
+                                            return <Chip key={rol} variant="outlined" color="primary" size="small" label={rol} sx={{ mx: 0.25 }} />;
+                                        })}
+                                    </TableCell>
+                                    }
                                     <TableCell align="center">
                                         <UserMoreMenu
                                             disabled={ associateToolbar && ( validated !== "Pendiente" ) }

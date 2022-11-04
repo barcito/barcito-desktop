@@ -14,7 +14,7 @@ import compareObjects from '@/utils/compareObjects';
 export default function ProductForm({ product, mutation, handleNew }) {
 
     const { data: supplies, isLoading: isLoadingSupplies } = useQuery(['supplies'], () => SuppliesAPI.getAll());
-    const { data: categories, isLoading: isLoadingProducts } = useQuery(['categories'], () => CategoriesAPI.getAll());
+    const { data: categories, isLoading: isLoadingCategories } = useQuery(['categories'], () => CategoriesAPI.getAll());
 
     const initialValues = product ?
         {
@@ -44,7 +44,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
             product_img: ""
         };
 
-    if (isLoadingSupplies || isLoadingProducts) {
+    if (isLoadingSupplies || isLoadingCategories) {
         return (<p>Loading...</p>)
     }
 
@@ -242,9 +242,6 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                                                 {errors.discount}
                                                             </FormHelperText>
                                                         )} */}
-                                                    </Grid>
-                                                    <Grid item xs={2}>
-                                                        
                                                     </Grid>
                                                 </React.Fragment>
                                                 )

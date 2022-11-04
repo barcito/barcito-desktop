@@ -60,7 +60,7 @@ export default function SupplyForm({ supply, mutation, handleNew }){
                                 <Grid item xs={8}>
                                     <Stack spacing={1}>
                                         <InputLabel htmlFor="description-item">Descripcion</InputLabel>
-                                        <OutlinedInput id="description-item" type="description" value={values.description} name="description" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar descripcion" fullWidth error={Boolean(touched.description && errors.description)} />
+                                        <OutlinedInput id="description-item" type="text" value={values.description} name="description" onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar descripcion" fullWidth error={Boolean(touched.description && errors.description)} />
                                         {touched.description && errors.description && (
                                             <FormHelperText error id="standard-weight-helper-text-description-item">
                                                 {errors.description}

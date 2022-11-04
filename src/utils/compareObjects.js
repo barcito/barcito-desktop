@@ -1,6 +1,4 @@
-import { isArrayLikeObject, isPlainObject } from "lodash";
-import { isObject, isObjectLike } from "lodash";
-import { isEmpty } from "lodash";
+import { isPlainObject, isEmpty } from "lodash";
 
 /**
  * Function that receives two objects,
@@ -12,7 +10,7 @@ const compareObjects = (obj1, obj2, asArray = false) => {
     const array2 = Object.entries(obj2);
     const filtered= [];
     array2.forEach( (field, i) => {
-        if(field[1] && isPlainObject(field[1])/*  typeof field[1] === 'object' */){
+        if(field[1] && isPlainObject(field[1])){
             const sub = compareObjects(array1[i][1], field[1]);
             if(!isEmpty(sub)){
                 filtered.push([field[0], sub]);

@@ -54,22 +54,28 @@ export default function ProductForm({ product, mutation, handleNew }) {
                 initialValues={initialValues}
                 validationSchema={Yup.object().shape({
                     description: Yup.string().max(255).required("La descripción es obligatoria"),
+                    productToSupplies: Yup.array().of(
+                        Yup.object().shape({
+                            supplyId: Yup.number().required('Debe seleccionar un insumo'),
+                            quantity: Yup.number().required('Debe cargar la cantidad')
+                        })
+                    )
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (product?.id) {
                             const editProduct = compareObjects(initialValues, values);
-                            if(editProduct.categories){
+                            if (editProduct.categories) {
                                 editProduct.categories = editProduct.categories.map((id) => ({ id }));
                             }
-                            if(editProduct.stock){
+                            if (editProduct.stock) {
                                 editProduct.stock.id = product.stock.id;
                             }
                             console.log(editProduct);
                             mutation.mutate({ id: product.id, product: editProduct });
                         } else {
-                            const newProduct = {...values};
-                            if(values.categories){
+                            const newProduct = { ...values };
+                            if (values.categories) {
                                 newProduct.categories = values.categories.map((id) => ({ id }));
                             }
                             handleNew({ product: newProduct });
@@ -209,66 +215,69 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                         <Typography variant='h5'>Agregar insumos</Typography>
                                         <IconButton color="primary" onClick={
                                             () => {
-                                                setFieldValue('productToSupplies', [...values.productToSupplies, {supplyId: "", quantity: ""}])
+                                                setFieldValue('productToSupplies', [...values.productToSupplies, { supplyId: "", quantity: "" }])
                                             }}>
-                                            <AddBox fontSize="large"/>
+                                            <AddBox fontSize="large" />
                                         </IconButton>
                                         <IconButton color="primary" onClick={
                                             () => {
                                                 values.productToSupplies.pop();
                                                 setFieldValue('productToSupplies', values.productToSupplies);
                                             }}>
-                                            <IndeterminateCheckBox fontSize="large"/>
+                                            <IndeterminateCheckBox fontSize="large" />
                                         </IconButton>
                                     </Stack>
                                     <Grid container spacing={2}>
-                                    <FieldArray name="productToSupplies">
-                                        {() => (values.productToSupplies.map((supply, i) => {
-                                            return (
-                                                <React.Fragment key={i}>
-                                                    <Grid item xs={6}>
-                                                        <Field
-                                                            id={`supplies-item-${supply.id}`}
-                                                            name={`productToSupplies.${i}.supplyId`}
-                                                            options={supplies}
-                                                            component={MultiSelect}
-                                                            placeholder="Seleccione insumos"
-                                                        />
-                                                    </Grid>
-                                                    <Grid item xs={2}>
-                                                        <OutlinedInput id={`supplies-item-${supply.id}-quantity`} value={values.productToSupplies[i].quantity} type='number' name={`productToSupplies.${i}.quantity`} onBlur={handleBlur} onChange={handleChange} placeholder="Ingresar cantidad" fullWidth error={Boolean(touched.discount && errors.discount)} startAdornment={<InputAdornment position="end">x</InputAdornment>} />
-                                                        {/* {touched.discount && errors.discount && (
+                                        <FieldArray name="productToSupplies">
+                                            {() => (values.productToSupplies.map((supply, i) => {
+                                                return (
+                                                    <React.Fragment key={i}>
+                                                        <Grid item xs={6}>
+                                                            <Stack spacing={1}>
+                                                                <Field
+                                                                    id={`supplies-item-${supply.id}`}
+                                                                    name={`productToSupplies.${i}.supplyId`}
+                                                                    options={supplies}
+                                                                    component={MultiSelect}
+                                                                    placeholder="Seleccione insumos"
+                                                                />
+                                                                {touched.productToSupplies && errors.productToSupplies && errors.productToSupplies[i]?.supplyId && (
+                                                                <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                                                    {errors.productToSupplies[i]?.supplyId}
+                                                                </FormHelperText>
+                                                                )}
+                                                            </Stack>
+                                                        </Grid>
+                                                        <Grid item xs={3}>
+                                                            <Stack spacing={1}>
+                                                            <OutlinedInput
+                                                                id={`supplies-item-${supply.id}-quantity`}
+                                                                value={values.productToSupplies[i].quantity}
+                                                                type='number'
+                                                                name={`productToSupplies.${i}.quantity`}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                                placeholder="Ingresar cantidad"
+                                                                fullWidth
+                                                                error={
+                                                                    Boolean(errors.productToSupplies && touched.productToSupplies && errors.productToSupplies[i]?.quantity)
+                                                                }
+                                                                startAdornment={<InputAdornment position="end">x</InputAdornment>}
+                                                            />
+                                                            {touched.productToSupplies && errors.productToSupplies && errors.productToSupplies[i]?.quantity && (
                                                             <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                                {errors.discount}
+                                                                {errors.productToSupplies[i]?.quantity}
                                                             </FormHelperText>
-                                                        )} */}
-                                                    </Grid>
-                                                </React.Fragment>
+                                                            )}
+                                                            </Stack>
+                                                        </Grid>
+                                                    </React.Fragment>
                                                 )
                                             }
-                                        ))}
-                                    </FieldArray>
+                                            ))}
+                                        </FieldArray>
                                     </Grid>
                                 </Grid>
-
-                                {/* <Grid item xs={12}>
-                                    <Stack spacing={1}>
-                                        <InputLabel htmlFor="supplies-item">Insumos</InputLabel>
-                                        <Field
-                                            id="supplies-item"
-                                            name="supplies"
-                                            options={supplies}
-                                            component={MultiSelect}
-                                            placeholder="Seleccione insumos"
-                                            isMulti={true}
-                                        />
-                                        {touched.supplies && errors.supplies && (
-                                            <FormHelperText error id="standard-weight-helper-text-supplies-item">
-                                                {errors.supplies}
-                                            </FormHelperText>
-                                        )}
-                                    </Stack>
-                                </Grid> */}
 
                                 {errors.submit && (
                                     <Grid item xs={12}>

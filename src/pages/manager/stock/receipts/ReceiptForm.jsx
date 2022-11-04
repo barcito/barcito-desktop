@@ -12,12 +12,7 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
     const multiProducts = prods.map( (prod) => ({ id: prod.stock.id, description: prod.description }));
     const multiSupplies = supps.map( (supp) => ({ id: supp.stock.id, description: supp.description }));
 
-    const initialValues = receipt ?
-    {
-        ...receipt,
-        receiptToStock: receipt.receiptToStock.map( rts => rts.stockId)
-    }
-    :
+    const initialValues =
     {
         date: "",
         ticket: "",
@@ -33,6 +28,20 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                 initialValues={initialValues}
                 validationSchema={Yup.object().shape({
                     date: Yup.string().max(255).required("La fecha es obligatoria"),
+                    products: Yup.array().of(
+                        Yup.object().shape({
+                            stockId: Yup.number().required('Debe seleccionar un producto'),
+                            quantity: Yup.number().required('Debe cargar la cantidad'),
+                            totalCost: Yup.number().required('Debe cargar el costo')
+                        })
+                    ),
+                    supplies: Yup.array().of(
+                        Yup.object().shape({
+                            stockId: Yup.number().required('Debe seleccionar un insumo'),
+                            quantity: Yup.number().required('Debe cargar la cantidad'),
+                            totalCost: Yup.number().required('Debe cargar el costo')
+                        })
+                    )
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -46,7 +55,6 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                         setStatus({ success: true });
                         setSubmitting(false);
                     } catch (err) {
-                        console.log(err)
                         setStatus({ success: false });
                         setErrors({ submit: err.message });
                         setSubmitting(false);
@@ -130,29 +138,66 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                                         return (
                                             <React.Fragment key={i}>
                                                 <Grid item xs={5}>
-                                                    <Field
-                                                        id={`products-item-${prod.id}`}
-                                                        name={`products.${i}.stockId`}
-                                                        options={multiProducts}
-                                                        component={MultiSelect}
-                                                        placeholder="Seleccione producto"
-                                                    />
+                                                    <Stack spacing={1}>
+                                                        <Field
+                                                            id={`products-item-${prod.id}`}
+                                                            name={`products.${i}.stockId`}
+                                                            options={multiProducts}
+                                                            component={MultiSelect}
+                                                            placeholder="Seleccione producto"
+                                                        />
+                                                        {touched.products && errors.products && errors.products[i]?.stockId && (
+                                                        <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                                            {errors.products[i]?.stockId}
+                                                        </FormHelperText>
+                                                        )}
+                                                    </Stack>
                                                 </Grid>
                                                 <Grid item xs={3}>
-                                                    <OutlinedInput id={`product-${prod.id}-quantity`} value={values.products[i].quantity} type='number' name={`products.${i}.quantity`} onBlur={handleBlur} onChange={handleChange} placeholder="Cantidad" fullWidth error={Boolean(touched.discount && errors.discount)} startAdornment={<InputAdornment position="end">x</InputAdornment>} />
-                                                    {/* {touched.discount && errors.discount && (
+                                                    <Stack spacing={1}>
+                                                        <OutlinedInput
+                                                            id={`product-${prod.id}-quantity`}
+                                                            value={values.products[i].quantity}
+                                                            type='number'
+                                                            name={`products.${i}.quantity`}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            placeholder="Cantidad"
+                                                            fullWidth
+                                                            error={
+                                                                Boolean(errors.products && touched.products && errors.products[i]?.quantity)
+                                                            }
+                                                            startAdornment={<InputAdornment position="end">x</InputAdornment>}
+                                                        />
+                                                        {touched.products && errors.products && errors.products[i]?.quantity && (
                                                         <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.discount}
+                                                            {errors.products[i]?.quantity}
                                                         </FormHelperText>
-                                                    )} */}
+                                                        )}
+                                                    </Stack>
                                                 </Grid>
                                                 <Grid item xs={4}>
-                                                    <OutlinedInput id={`product-${prod.id}-totalCost`} value={values.products[i].totalCost} type='number' name={`products.${i}.totalCost`} onBlur={handleBlur} onChange={handleChange} placeholder="Monto total" fullWidth error={Boolean(touched.discount && errors.discount)} startAdornment={<InputAdornment position="end">$</InputAdornment>} />
-                                                    {/* {touched.discount && errors.discount && (
-                                                        <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.discount}
-                                                        </FormHelperText>
-                                                    )} */}
+                                                    <Stack spacing={1}>
+                                                        <OutlinedInput
+                                                            id={`product-${prod.id}-totalCost`}
+                                                            value={values.products[i].totalCost}
+                                                            type='number'
+                                                            name={`products.${i}.totalCost`}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            placeholder="Monto total"
+                                                            fullWidth
+                                                            error={
+                                                                Boolean(errors.products && touched.products && errors.products[i]?.totalCost)
+                                                            }
+                                                            startAdornment={<InputAdornment position="end">$</InputAdornment>}
+                                                        />
+                                                        {touched.products && errors.products && errors.products[i]?.totalCost && (
+                                                            <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                                                {errors.products[i]?.totalCost}
+                                                            </FormHelperText>
+                                                        )}
+                                                    </Stack>
                                                 </Grid>
                                             </React.Fragment>
                                             )
@@ -187,29 +232,66 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                                         return (
                                             <React.Fragment key={i}>
                                                 <Grid item xs={5}>
-                                                    <Field
-                                                        id={`supplies-item-${supp.id}`}
-                                                        name={`supplies.${i}.stockId`}
-                                                        options={multiSupplies}
-                                                        component={MultiSelect}
-                                                        placeholder="Seleccione insumo"
-                                                    />
+                                                    <Stack spacing={1}>
+                                                        <Field
+                                                            id={`supplies-item-${supp.id}`}
+                                                            name={`supplies.${i}.stockId`}
+                                                            options={multiSupplies}
+                                                            component={MultiSelect}
+                                                            placeholder="Seleccione insumo"
+                                                        />
+                                                        {touched.supplies && errors.supplies && errors.supplies[i]?.stockId && (
+                                                        <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                                            {errors.supplies[i]?.stockId}
+                                                        </FormHelperText>
+                                                        )}
+                                                    </Stack>
                                                 </Grid>
                                                 <Grid item xs={3}>
-                                                    <OutlinedInput id={`supply-${supp.id}-quantity`} value={values.supplies[i].quantity} type='number' name={`supplies.${i}.quantity`} onBlur={handleBlur} onChange={handleChange} placeholder="Cantidad" fullWidth error={Boolean(touched.discount && errors.discount)} startAdornment={<InputAdornment position="end">x</InputAdornment>} />
-                                                    {/* {touched.discount && errors.discount && (
+                                                    <Stack spacing={1}>
+                                                        <OutlinedInput
+                                                            id={`supply-${supp.id}-quantity`}
+                                                            value={values.supplies[i].quantity}
+                                                            type='number'
+                                                            name={`supplies.${i}.quantity`}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            placeholder="Cantidad"
+                                                            fullWidth
+                                                            error={
+                                                                Boolean(errors.supplies && touched.supplies && errors.supplies[i]?.quantity)
+                                                            }
+                                                            startAdornment={<InputAdornment position="end">x</InputAdornment>}
+                                                        />
+                                                        {touched.supplies && errors.supplies && errors.supplies[i]?.quantity && (
                                                         <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.discount}
+                                                            {errors.supplies[i]?.quantity}
                                                         </FormHelperText>
-                                                    )} */}
+                                                        )}
+                                                    </Stack>
                                                 </Grid>
                                                 <Grid item xs={4}>
-                                                    <OutlinedInput id={`supply-${supp.id}-totalCost`} value={values.supplies[i].totalCost} type='number' name={`supplies.${i}.totalCost`} onBlur={handleBlur} onChange={handleChange} placeholder="Monto total" fullWidth error={Boolean(touched.discount && errors.discount)} startAdornment={<InputAdornment position="end">$</InputAdornment>} />
-                                                    {/* {touched.discount && errors.discount && (
+                                                    <Stack spacing={1}>
+                                                        <OutlinedInput
+                                                            id={`supply-${supp.id}-totalCost`}
+                                                            value={values.supplies[i].totalCost}
+                                                            type='number'
+                                                            name={`supplies.${i}.totalCost`}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            placeholder="Monto total"
+                                                            fullWidth
+                                                            error={
+                                                                Boolean(errors.supplies && touched.supplies && errors.supplies[i]?.totalCost)
+                                                            }
+                                                            startAdornment={<InputAdornment position="end">$</InputAdornment>}
+                                                        />
+                                                        {touched.supplies && errors.supplies && errors.supplies[i]?.totalCost && (
                                                         <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.discount}
+                                                            {errors.supplies[i]?.totalCost}
                                                         </FormHelperText>
-                                                    )} */}
+                                                        )}
+                                                    </Stack>
                                                 </Grid>
                                             </React.Fragment>
                                             )

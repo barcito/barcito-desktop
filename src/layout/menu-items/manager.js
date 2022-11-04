@@ -58,6 +58,13 @@ export const menuManager = {
           title: "Producto",
           type: "item",
           url: "/stock/producto"
+        },
+        {
+          id: "manager26",
+          title: "Recibos",
+          type: "item",
+          url: "/stock/recibos",
+          icon: icons.BugFilled
         }
       ]
     },

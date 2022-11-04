@@ -16,6 +16,8 @@ const Barcitos = Loadable(lazy(() => import("@/pages/admin/barcitos")));
 const Users = Loadable(lazy(() => import("@/pages/admin/users")));
 const Account = Loadable(lazy(() => import("@/pages/profile/Account")));
 const Associates = Loadable(lazy(() => import("@/pages/manager/associates")));
+const ReceiptList = Loadable(lazy(() => import("@/pages/manager/stock/receipts")));
+const NewReceipt = Loadable(lazy(() => import("@/pages/manager/stock/receipts/NewReceipt")));
 const ProductList = Loadable(lazy(() => import("@/pages/manager/stock/products")));
 const NewProduct = Loadable(lazy(() => import("@/pages/manager/stock/products/NewProduct")));
 const EditProduct = Loadable(lazy(() => import("@/pages/manager/stock/products/EditProduct")));
@@ -94,6 +96,14 @@ const router = createBrowserRouter([
                   {
                     path: "categorias",
                     element: <CategoriesList />
+                  },
+                  {
+                    path: "recibos",
+                    element: <ReceiptList />
+                  },
+                  {
+                    path: "recibos/nuevo",
+                    element: <NewReceipt />
                   }
                 ]
               },

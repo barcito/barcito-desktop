@@ -13,6 +13,7 @@ export const AuthAPI = {
         if(response.status === 201){
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("roles", response.data.roles);
+            localStorage.setItem("academic-unit", response.data.academicUnit);
         }
         return response.data;
     },
@@ -28,6 +29,10 @@ export const AuthAPI = {
         if(response.status === 201){
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("roles", response.data.roles);
+            localStorage.setItem("academic-unit", response.data.academicUnit);
+            if(response.data.barcitoId){
+                localStorage.setItem("barcito", response.data.barcitoId);
+            }
         }
 
         return response.data;

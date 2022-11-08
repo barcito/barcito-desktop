@@ -167,9 +167,9 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
                     <FormControl component="fieldset" variant="standard" error={Boolean(touched.roles && errors.roles)} onBlur={handleBlur} onChange={handleChange}>
                       <FormGroup>
                         <Grid container>
-                          {availableRoles.map((role) => (
+                          {availableRoles.map((role, i) => (
                             <Grid item xs={3} key={role}>
-                              <FormControlLabel control={<Checkbox checked={values.roles.includes(role)} id="roles-edit" name="roles" inputProps={{}} value={role} />} label={role} />
+                              <FormControlLabel control={<Checkbox checked={values.roles.includes(role)} id={`roles-edit-${i}`} name="roles" inputProps={{}} value={role} />} label={role} />
                             </Grid>
                           ))}
                         </Grid>

@@ -13,6 +13,13 @@ export const menuManager = {
   type: "group",
   children: [
     {
+      id: "manager0",
+      title: "Barcito",
+      type: "item",
+      url: "/barcito",
+      icon: icons.BugFilled
+    },
+    {
       id: "manager1",
       title: "Pedidos",
       type: "item",

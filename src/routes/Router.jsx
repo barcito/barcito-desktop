@@ -13,6 +13,7 @@ const DashboardDefault = Loadable(lazy(() => import("@/pages/dashboard")));
 const AuthLogin = Loadable(lazy(() => import("@/pages/authentication/Login")));
 const AuthRegister = Loadable(lazy(() => import("@/pages/authentication/Register")));
 const Barcitos = Loadable(lazy(() => import("@/pages/admin/barcitos")));
+const Barcito = Loadable(lazy(() => import("@/pages/manager/barcito")));
 const Users = Loadable(lazy(() => import("@/pages/admin/users")));
 const Account = Loadable(lazy(() => import("@/pages/profile/Account")));
 const Associates = Loadable(lazy(() => import("@/pages/manager/associates")));
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
           {
             element: <PrivateRoute role="manager" />,
             children: [
+              {
+                path: "barcito",
+                element: <Barcito />
+              },
               {
                 path: "socios",
                 element: <Associates />,

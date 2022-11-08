@@ -29,7 +29,7 @@ export default function Barcitos() {
         },
         {
             onSuccess: (data) => {
-                client.invalidateQueries(['users']);
+                client.invalidateQueries(['barcitos']);
                 alert('Success!');
                 setBarFocus(data);
             }

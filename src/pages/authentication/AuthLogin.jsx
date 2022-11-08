@@ -37,8 +37,7 @@ function AuthLogin() {
       <Formik
         initialValues={{
           email: "",
-          password: "",
-          submit: null,
+          password: ""
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email("El email es inválido").max(255).required("El email es obligatorio"),
@@ -54,7 +53,7 @@ function AuthLogin() {
             setSubmitting(false);
           } catch (err) {
             setStatus({ success: false });
-            setErrors({ submit: err });
+            setErrors({ submit: err.message });
             setSubmitting(false);
           }
         }}

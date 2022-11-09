@@ -24,6 +24,16 @@ export const SuppliesAPI = {
     return response.data;
   },
 
+  getByBarcito: async function (cancel = false) {
+    const response = await api.request({
+      url: `/supplies/barcito/${localStorage.getItem('barcito')}`,
+      method: "GET",
+      signal: cancel ? cancelApiObject[this.getByBarcito.name].handleRequestCancellation().signal : undefined,
+    })
+
+    return response.data;
+  },
+
   update: async function (id, supply, cancel = false) {
     const response = await api.request({
       url: `/supplies/${id}`,
@@ -39,7 +49,7 @@ export const SuppliesAPI = {
     const response = await api.request({
       url: `/supplies`,
       method: "POST",
-      data: supply,
+      data: {...supply, barcitoId: localStorage.getItem('barcito')},
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
 

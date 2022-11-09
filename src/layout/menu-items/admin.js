@@ -6,7 +6,7 @@ const icons = {
 };
 
 export const menuAdmin = {
-  id: "admin",
+  id: "Admin",
   title: "Menu Admin",
   type: "group",
   children: [

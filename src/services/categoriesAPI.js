@@ -24,6 +24,16 @@ export const CategoriesAPI = {
     return response.data;
   },
 
+  getByBarcito: async function (cancel = false) {
+    const response = await api.request({
+      url: `/categories/barcito/${localStorage.getItem('barcito')}`,
+      method: "GET",
+      signal: cancel ? cancelApiObject[this.getByBarcito.name].handleRequestCancellation().signal : undefined,
+    })
+
+    return response.data;
+  },
+
   update: async function (id, category, cancel = false) {
     const response = await api.request({
       url: `/categories/${id}`,
@@ -39,7 +49,7 @@ export const CategoriesAPI = {
     const response = await api.request({
       url: `/categories`,
       method: "POST",
-      data: category,
+      data: {...category, barcitoId: localStorage.getItem('barcito')},
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
 

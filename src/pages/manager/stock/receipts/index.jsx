@@ -15,7 +15,7 @@ export default function Receipts() {
 
     const navigate = useNavigate();
 
-    const {data: receipts, isLoading} = useQuery(['receipts'], () => ReceiptsAPI.getAll());
+    const {data: receipts, isLoading} = useQuery(['receipts'], () => ReceiptsAPI.getByBarcito());
 
     if(isLoading){
         return <p>Loading...</p>;

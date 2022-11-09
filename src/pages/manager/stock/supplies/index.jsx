@@ -17,7 +17,7 @@ export default function SuppliesList() {
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(['supplies'], async () => SuppliesAPI.getAll());
+  const { data, isLoading } = useQuery(['supplies'], async () => SuppliesAPI.getByBarcito());
 
   /* const [supplyOnAction, setSupplyOnAction] = useState({}); */
 

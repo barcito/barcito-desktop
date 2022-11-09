@@ -21,7 +21,7 @@ export default function ProductList() {
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(['products'], async () => ProductsAPI.getAll());
+  const { data, isLoading } = useQuery(['products'], async () => ProductsAPI.getByBarcito());
 
   /* const [productOnAction, setProductOnAction] = useState({}); */
 

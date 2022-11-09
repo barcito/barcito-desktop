@@ -8,7 +8,7 @@ const icons = {
 };
 
 export const menuManager = {
-  id: "manager",
+  id: "Gerente",
   title: "Menu Encargado",
   type: "group",
   children: [
@@ -77,13 +77,6 @@ export const menuManager = {
     },
     {
       id: "manager3",
-      title: "Personal",
-      type: "item",
-      url: "/personal",
-      icon: icons.BugOutlined,
-    },
-    {
-      id: "manager4",
       title: "Socios",
       type: "item",
       url: "/socios",

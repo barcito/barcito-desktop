@@ -94,7 +94,7 @@ export default function OrderList({ orderList, tableHead, handleNew }) {
                                 <TableRow hover key={id} tabIndex={-1} role="checkbox">
 
                                     <TableCell component="th" scope="row" padding="none">
-                                        <Link color="secondary" href={`/pedidos/${code}`}>
+                                        <Link color="secondary" href={`/pedidos/detalle/${code}`}>
                                             {code}
                                         </Link>
                                     </TableCell>

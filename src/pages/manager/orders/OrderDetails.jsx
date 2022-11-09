@@ -15,7 +15,7 @@ export default function OrderDetails() {
 
     const mutation = useMutation(
         () => {
-            return OrdersAPI.update(order.id, {status: status});
+            return OrdersAPI.update(order.id, {id: order.id, status: status});
         },
         {
             onSuccess: () => {
@@ -58,11 +58,11 @@ export default function OrderDetails() {
                                 Cliente
                             </Typography>
                             <Typography variant="string">
-                                Cosme Fulanito
+                                {`${order.user.name} ${order.user.surname}`}
                                 <br />
-                                2995863776
+                                {order.user.phone}
                                 <br />
-                                email@email.com
+                                {order.user.email}
                             </Typography>
                         </Stack>
                     </Grid>

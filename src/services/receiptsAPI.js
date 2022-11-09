@@ -22,6 +22,16 @@ export const ReceiptsAPI = {
     return response.data;
   },
 
+  getByBarcito: async function (cancel = false) {
+    const response = await api.request({
+      url: `/receipts/barcito/${localStorage.getItem('barcito')}`,
+      method: "GET",
+      signal: cancel ? cancelApiObject[this.getByBarcito.name].handleRequestCancellation().signal : undefined,
+    })
+
+    return response.data;
+  },
+
   update: async function (id, receipt, cancel = false) {
     const response = await api.request({
       url: `/receipts/${id}`,
@@ -37,7 +47,7 @@ export const ReceiptsAPI = {
     const response = await api.request({
       url: `/receipts`,
       method: "POST",
-      data: receipt,
+      data: {...receipt, barcitoId: localStorage.getItem('barcito')},
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
 

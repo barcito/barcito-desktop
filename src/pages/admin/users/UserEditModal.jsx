@@ -21,7 +21,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
   
   const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
 
-  const availableRoles = ["admin", "manager", "submanager", "user"];
+  const availableRoles = ["Admin", "Gerente", "Vendedor", "Socio", "No socio"];
 
   const initialValues = user.id ? 
     {

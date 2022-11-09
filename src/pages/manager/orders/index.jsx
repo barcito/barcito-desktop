@@ -4,6 +4,7 @@ import { Container, Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import OrderList from "@/components/order-list-table/OrderList";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = [
     { id: "code", label: "Código de retiro", alignCenter: false },
@@ -22,6 +23,8 @@ function a11yProps(index) {
 
 export default function Orders() {
 
+    const navigate = useNavigate();
+
     const {data: orders, isLoading} = useQuery(['orders'], () => OrdersAPI.getAll());
 
     const [value, setValue] = useState("All");
@@ -31,7 +34,7 @@ export default function Orders() {
     };
     
     const handleNew = () => {
-        console.log('new');
+        navigate('/pedidos/nuevo');
     }
 
     if(isLoading){

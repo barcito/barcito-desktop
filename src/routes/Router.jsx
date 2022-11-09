@@ -28,6 +28,7 @@ const EditSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/Ed
 const CategoriesList = Loadable(lazy(() => import("@/pages/manager/stock/categories")));
 const Orders = Loadable(lazy(() => import("@/pages/manager/orders")));
 const OrderDetails = Loadable(lazy(() => import("@/pages/manager/orders/OrderDetails")));
+const NewOrder = Loadable(lazy(() => import("@/pages/manager/orders/NewOrder")));
 
 const queryClient = new QueryClient();
 
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             element: <Account />,
           },
           {
-            element: <PrivateRoute role="admin" />,
+            element: <PrivateRoute role="Admin" />,
             children: [
               {
                 path: "usuarios",
@@ -61,7 +62,7 @@ const router = createBrowserRouter([
             ]
           },
           {
-            element: <PrivateRoute role="manager" />,
+            element: <PrivateRoute role="Gerente" />,
             children: [
               {
                 path: "barcito",
@@ -120,8 +121,12 @@ const router = createBrowserRouter([
                     element: <Orders />
                   },
                   {
-                    path: ":orderCode",
+                    path: "detalle/:orderCode",
                     element: <OrderDetails />
+                  },
+                  {
+                    path: "nuevo",
+                    element: <NewOrder />
                   }
                 ]
               },

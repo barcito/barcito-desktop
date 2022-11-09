@@ -12,7 +12,7 @@ import { useState } from 'react';
 export default function CategoriesList(){
 
     const client = useQueryClient();
-    const {data: categories, isLoading} = useQuery(['categories'], () => CategoriesAPI.getAll());
+    const {data: categories, isLoading} = useQuery(['categories'], () => CategoriesAPI.getByBarcito());
 
     const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);

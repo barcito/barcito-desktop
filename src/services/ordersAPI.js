@@ -24,6 +24,16 @@ export const OrdersAPI = {
     return response.data;
   },
 
+  getByBarcito: async function (cancel = false) {
+    const response = await api.request({
+      url: `/orders/barcito/${localStorage.getItem('barcito')}`,
+      method: "GET",
+      signal: cancel ? cancelApiObject[this.getByBarcito.name].handleRequestCancellation().signal : undefined,
+    })
+
+    return response.data;
+  },
+
   getByCode: async function (orderCode, cancel = false){
     const response = await api.request({
       url: `/orders/code/${orderCode}`,
@@ -49,7 +59,7 @@ export const OrdersAPI = {
     const response = await api.request({
       url: `/orders`,
       method: "POST",
-      data: order,
+      data: {...order, barcitoId: localStorage.getItem('barcito')},
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
 

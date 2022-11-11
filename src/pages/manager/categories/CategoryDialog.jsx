@@ -1,5 +1,5 @@
 import { forwardRef, useState} from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, TextField, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { useEffect } from 'react';
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -9,13 +9,15 @@ const Transition = forwardRef(function Transition(props, ref) {
 export default function CategoryDialog({ category, dialogOpen, mutation, setDialogOpen }) {
 
     const [description, setDescription] = useState("");
+    const [type, setType] = useState("");
 
     useEffect(()=>{
         setDescription(category.description);
+        setType(category.type);
     }, [category]);
 
     const handleSubmit = () => {
-        mutation.mutate({id: category.id, description});
+        mutation.mutate({id: category.id, description, type});
         setDialogOpen(false);
     }
 
@@ -27,16 +29,29 @@ export default function CategoryDialog({ category, dialogOpen, mutation, setDial
             onClose={ () => setDialogOpen(false) }
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle>{category ? "Crear categoría" : "Modificar categoría"}</DialogTitle>
+            <DialogTitle>{category ? "Modificar categoría" : "Crear categoría"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                    Ingrese el nombre de la categor&iacute;a
+                    Seleccione el tipo de categor&iacute;a
+                </DialogContentText>
+                <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                >
+                    <FormControlLabel value="Consumible" control={<Radio />} label="Consumible" />
+                    <FormControlLabel value="Insumo" control={<Radio />} label="Insumo" />
+                    <FormControlLabel value="Producto" control={<Radio />} label="Producto" />
+                </RadioGroup>
+                <DialogContentText id="alert-dialog-slide-description" sx={{ mt: 3 }}>
+                    Ingrese el nombre
                 </DialogContentText>
                 <TextField
                     autoFocus
                     margin="dense"
                     id="description"
-                    label="Nombre"
                     type="text"
                     fullWidth
                     variant="standard"

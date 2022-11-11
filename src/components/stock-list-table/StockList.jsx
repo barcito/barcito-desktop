@@ -34,7 +34,7 @@ function applySortFilter(array, comparator, query) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-export default function StockList({ stockList, tableHead, handleNew, handleEdit }) {
+export function StockList({ stockList, tableHead, handleNew, handleEdit }) {
 
     const [page, setPage] = useState(0);
 
@@ -108,11 +108,16 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
                             const {
                                 id,
                                 description,
-                                stock,
+                                //product
+                                available,
                                 finalSellPrice,
                                 associatedSellPrice,
-                                productToSupplies,
-                                categories
+                                productToStock,
+                                //stock
+                                cost,
+                                quantity,
+                                categories,
+                                updatedAt
                             } = row;
                             const isItemSelected = selected.indexOf(id) !== -1;
                             return (
@@ -129,22 +134,25 @@ export default function StockList({ stockList, tableHead, handleNew, handleEdit 
                                         </Stack>
                                     </TableCell>
 
-                                    <TableCell align="center">${stock.cost}</TableCell>
+                                    { finalSellPrice && <TableCell align="center">{`available`}</TableCell> }
 
-                                    <TableCell align="center">{stock.quantity}</TableCell>
+                                    { finalSellPrice && <TableCell align="center">${finalSellPrice}</TableCell> }
 
-                                    { finalSellPrice && <TableCell align="center">${finalSellPrice}</TableCell>}
+                                    { associatedSellPrice && <TableCell align="center">${associatedSellPrice}</TableCell> }
 
-                                    { associatedSellPrice && <TableCell align="center">${associatedSellPrice}</TableCell>}
+                                    { productToStock && <TableCell align="center">{productToStock.length}</TableCell> }
 
-                                    <TableCell align="center">{productToSupplies ? productToSupplies.length : 0}</TableCell>
+                                    {cost && <TableCell align="center">${cost}</TableCell>}
 
-                                    { categories && <TableCell align="center">
-                                            {categories.map((category) => {
-                                                return <Chip key={category.id} variant="outlined" color="primary" size="small" label={category.description} sx={{ mx: 0.25 }} />;
-                                            })}
-                                        </TableCell>
-                                    }
+                                    {quantity && <TableCell align="center">{quantity}</TableCell>}
+
+                                    <TableCell align="center">
+                                        {categories.map((category) => {
+                                            return <Chip key={category.id} variant="outlined" color="primary" size="small" label={category.description} sx={{ mx: 0.25 }} />;
+                                        })}
+                                    </TableCell>
+
+                                    <TableCell align="center">{new Date(updatedAt).toLocaleString()}</TableCell>
                                     
                                     <TableCell align="center">
                                         <Tooltip title="Editar">

@@ -1,10 +1,12 @@
 import { api } from "./configs/axiosConfigs";
 import { defineCancelApiObject } from "./configs/axiosUtils";
 
+const url = `/products/${localStorage.getItem('barcito')}`;
+
 export const ProductsAPI = {
   get: async function (id, cancel = false) {
     const response = await api.request({
-      url: `/products/${id}`,
+      url: `${url}/${id}`,
       method: "GET",
       // retrieving the signal value by using the property name
       signal: cancel ? cancelApiObject[this.get.name].handleRequestCancellation().signal : undefined,
@@ -16,7 +18,7 @@ export const ProductsAPI = {
 
   getAll: async function (cancel = false) {
     const response = await api.request({
-      url: "/products/",
+      url: url,
       method: "GET",
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
     })
@@ -24,19 +26,9 @@ export const ProductsAPI = {
     return response.data;
   },
 
-  getByBarcito: async function (cancel = false) {
-    const response = await api.request({
-      url: `/products/barcito/${localStorage.getItem('barcito')}`,
-      method: "GET",
-      signal: cancel ? cancelApiObject[this.getByBarcito.name].handleRequestCancellation().signal : undefined,
-    })
-
-    return response.data;
-  },
-
   update: async function (id, product, cancel = false) {
     const response = await api.request({
-      url: `/products/${id}`,
+      url: `${url}/${id}`,
       method: "PATCH",
       data: product,
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
@@ -47,7 +39,7 @@ export const ProductsAPI = {
 
   create: async function (product, cancel = false) {
     const response = await api.request({
-      url: `/products`,
+      url: url,
       method: "POST",
       data: {...product, barcitoId: localStorage.getItem('barcito')},
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
@@ -58,7 +50,7 @@ export const ProductsAPI = {
 
   delete: async function (id, cancel = false) {
     const response = await api.request({
-      url: `/products/${id}`,
+      url: `${url}/${id}`,
       method: "DELETE",
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
     })

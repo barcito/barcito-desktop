@@ -17,7 +17,7 @@ export default function BarcitoForm({ barcito, mutation }) {
     const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
     const initialValues = barcito.id ? {...barcito, academicUnit: barcito.academicUnit?.id} : {
         name: '',
-        academicUnit: [],
+        academicUnitId: "",
         openTime: '',
         closeTime: '',
         location: ''
@@ -33,6 +33,7 @@ export default function BarcitoForm({ barcito, mutation }) {
             initialValues={initialValues}
             validationSchema={Yup.object().shape({
                 name: Yup.string().max(255).required("Campo obligatorio"),
+                academicUnitId: Yup.number().required("Campo obligatorio"),
                 openTime: Yup.string().max(255).required("Campo obligatorio"),
                 closeTime: Yup.string().max(255).required("Campo obligatorio"),
                 location: Yup.string().max(255).required("Campo obligatorio"),
@@ -74,7 +75,7 @@ export default function BarcitoForm({ barcito, mutation }) {
                                 <InputLabel htmlFor="academicUnit-bar">Unidad academica</InputLabel>
                                 <Field
                                     id="academicUnit-bar"
-                                    name="academicUnit"
+                                    name="academicUnitId"
                                     options={academicUnits}
                                     component={MultiSelect}
                                     placeholder="Seleccione unidad academica"

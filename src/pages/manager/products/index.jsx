@@ -1,18 +1,17 @@
-import { useState } from "react";
 import { Container } from "@mui/material";
 import { ProductsAPI } from "@/services/productsAPI";
-import StockList from "@/components/stock-list-table/StockList";
+import { StockList } from "@/components/stock-list-table/StockList";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = [
   { id: "description", label: "Descripcion", alignCenter: false },
-  { id: "cost", label: "Costo", alignCenter: true },
-  { id: "stock", label: "Stock", alignCenter: true },
+  { id: "available", label: "Disponible", alignCenter: true },
   { id: "finalSellPrice", label: "Precio Final", alignCenter: true },
   { id: "associatedSellPrice", label: "Precio Socio", alignCenter: true },
-  { id: "productToSupplies", label: "Insumos", alignCenter: true },
+  { id: "productToStock", label: "Stock utilizado", alignCenter: true },
   { id: "categories", label: "Categorias", alignCenter: true },
+  { id: "updatedAt", label: "Últ. cambio", alignCenter: true}
 ];
 
 export default function ProductList() {
@@ -21,16 +20,14 @@ export default function ProductList() {
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(['products'], async () => ProductsAPI.getByBarcito());
-
-  /* const [productOnAction, setProductOnAction] = useState({}); */
+  const { data, isLoading } = useQuery(['products'], async () => ProductsAPI.getAll());
 
   const handleNew = () => {
-    navigate('/stock/productos/nuevo');
+    navigate('/productos/nuevo');
   }
 
   const handleEdit = (id) => {
-    navigate(`/stock/productos/editar/${id}`);
+    navigate(`/productos/editar/${id}`);
   }
 
   if(isLoading){

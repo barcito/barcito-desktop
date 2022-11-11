@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { OrdersAPI } from "@/services/ordersAPI";
 import { Container, Box, Tab } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { TabContext, TabList } from "@mui/lab";
 import OrderList from "@/components/order-list-table/OrderList";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,13 +13,6 @@ const TABLE_HEAD = [
     { id: "status", label: "Estado", alignCenter: false },
     { id: "amount", label: "Monto", alignCenter: true },
 ];
-
-function a11yProps(index) {
-    return {
-        id: `tab-${index}`,
-        'aria-controls': `tabpanel-${index}`,
-    };
-}
 
 export default function Orders() {
 

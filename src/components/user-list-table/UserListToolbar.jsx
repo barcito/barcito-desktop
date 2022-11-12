@@ -26,26 +26,26 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 }));
 
 UserListToolbar.propTypes = {
-  numSelected: PropTypes.number,
+  /* numSelected: PropTypes.number, */
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName, handleNew, handleDelete }) {
+export default function UserListToolbar({ /* numSelected, */ filterName, onFilterName, handleNew/* , handleDelete */ }) {
   return (
     <RootStyle
-      sx={{
+      /* sx={{
         ...(numSelected > 0 && {
           color: "primary.main",
           bgcolor: "primary.lighter",
         }),
-      }}
+      }} */
     >
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} seleccionado
         </Typography>
-      ) : (
+      ) : ( */}
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
@@ -56,21 +56,21 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
             </InputAdornment>
           }
         />
-      )}
+      {/* )} */}
 
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Tooltip title="Borrar Usuario(s)">
           <IconButton color="error" onClick={() => handleDelete()}>
             <DeleteIcon fontSize="large" />
           </IconButton>
         </Tooltip>
-      ) : (
-        <Tooltip title="Filtrar Listado">
+      ) : ( handleNew && */}
+        <Tooltip title="Nuevo Usuario">
           <IconButton color="primary" onClick={() => handleNew()}>
             <PersonAdd fontSize="large"/>
           </IconButton>
         </Tooltip>
-      )}
+        {/* )} */}
     </RootStyle>
   );
 }

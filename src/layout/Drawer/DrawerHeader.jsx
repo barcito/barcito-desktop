@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import useTheme from "@mui/material/styles/useTheme";
 import Stack from "@mui/material/Stack";
 import { DrawerHeaderStyled } from "./DrawerHeaderStyled";
-import Logo from "../../components/Logo";
+import Logo from "@/components/Logo";
 
 function DrawerHeader({ open }) {
   const theme = useTheme();

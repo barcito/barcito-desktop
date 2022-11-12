@@ -8,9 +8,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-import useStore from "../../services/store";
+import useStore from "@/services/store";
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
-function NavItem({ item, level }) {
+function NavItem({ item, level, collapse, open }) {
   const theme = useTheme();
   const { openSidebar, selectedSidebarItem, selectSidebarItem } = useStore();
 
@@ -27,7 +29,11 @@ function NavItem({ item, level }) {
   }
 
   const itemHandler = (id) => {
-    selectSidebarItem(id);
+    if(collapse){
+      collapse();
+    }else{
+      selectSidebarItem(id);
+    }
   };
 
   const Icon = item.icon;
@@ -125,6 +131,7 @@ function NavItem({ item, level }) {
         />
       )}
       {(openSidebar || (!openSidebar && level !== 1)) && item.chip && <Chip color={item.chip.color} variant={item.chip.variant} size={item.chip.size} label={item.chip.label} avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>} />}
+      {collapse && (open ? <ExpandLess /> : <ExpandMore />)}
     </ListItemButton>
   );
 }

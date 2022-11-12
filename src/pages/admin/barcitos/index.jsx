@@ -1,58 +1,81 @@
 import { useState } from 'react';
-import { Container, ImageList, ImageListItem, Stack, Typography, Box, Grid, ImageListItemBar, Button, Tab, Tabs } from "@mui/material";
+import { Container, ImageList, ImageListItem, Stack, Box, Grid, ImageListItemBar, Button, Tab, Tabs } from "@mui/material";
 import { AddBusinessOutlined } from '@mui/icons-material';
-import MainCard from '../../../components/MainCard';
+import MainCard from '@/components/MainCard';
 import BarcitoForm from './BarcitoForm';
-import { useEffect } from 'react';
-import { BarcitoAPI } from '../../../services/barcitoAPI';
+import { BarcitoAPI } from '@/services/barcitoAPI';
 import ManagersTable from './ManagersTable';
 import TabPanel from './TabPanel';
-import BarcitoImage from './BarcitoImage';
+import FileUploader from "@/components/FileUploader";
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 export default function Barcitos() {
 
-    const [barcitos, setBarcitos] = useState([]);
+    const client = useQueryClient();
+
+    const { data: barcitos, isLoading } = useQuery(['barcitos'], () => BarcitoAPI.getAll());
+
     const [barFocus, setBarFocus] = useState({});
     const [managers, setManagers] = useState([]);
     const [value, setValue] = useState(0);
+    const [selectedFile, setSelectedFile] = useState(null);
 
-    useEffect(() => {
-        const getBarcitos = async () => {
-            const response = await BarcitoAPI.getAll(); // ordenar por id la respuesta en el back
-            setBarcitos(response);
+    const mutation = useMutation(
+        ({id, data, image}) => {
+            if(id){
+                return image ? BarcitoAPI.updateImage(id, image) : BarcitoAPI.update(id, data);
+            }
+            return BarcitoAPI.create(data);
+        },
+        {
+            onSuccess: (data) => {
+                client.invalidateQueries(['barcitos']);
+                alert('Success!');
+                setBarFocus(data);
+            }
         }
-        getBarcitos();
-    }, [barFocus]);
+    )
+
+    const submitImage = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("barcito_img", selectedFile);
+        mutation.mutate({id: barFocus.id, image: formData});
+    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    if(isLoading){
+        return <p>Loading...</p>;
+    }
+
     return (
         <Container>
             <Grid container spacing={1.5}>
                 <Grid item xs={2}>
-                    <Button onClick={() => { setBarFocus({}); setManagers([]); setValue(0) }}>
+                    <Button onClick={() => { setBarFocus({}); setManagers([]); setValue(0); console.log(barFocus) }}>
                         <AddBusinessOutlined sx={{ width: "100%", height: "200px", mt: 1.75 }} />
                     </Button>
                 </Grid>
                 <Grid item xs={10}>
                     <ImageList sx={{
                         gridAutoFlow: "column",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr)) !important",
-                        gridAutoColumns: "minmax(320px, 1fr)"
+                        gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr)) !important",
+                        gridAutoColumns: "minmax(200px, 1fr)"
                     }}>
                         {barcitos.map((bar, i) => (
-                            <ImageListItem key={i} sx={ barFocus.id === bar.id ? { width: '320px', border: 2, borderColor: 'red' } : { width: '320px' } }>
+                            <ImageListItem key={i} sx={ barFocus.id === bar.id ? { width: '200px', border: 2, borderColor: 'red' } : { width: '200px' } }>
                                 <img
-                                    src={bar.imagePath}
+                                    src={bar.imagePath || 'src/assets/images/barcito-placeholder.png'}
                                     alt={bar.name}
                                     loading='lazy'
                                 />
                                 <Button onClick={() => { setBarFocus(bar); setManagers(bar.managers); }}>
                                     <ImageListItemBar
                                         title={bar.name}
-                                        subtitle={bar.academicUnit}
+                                        subtitle={bar.academicUnit?.shortName}
                                     ></ImageListItemBar>
                                 </Button>
                             </ImageListItem>
@@ -71,9 +94,26 @@ export default function Barcitos() {
                     <MainCard>
                         <TabPanel value={value} index={0}>
                             <Stack spacing={1} direction="row">
-                                <BarcitoForm barcito={barFocus} setBarFocus={setBarFocus} />
-                                {barFocus.id &&
-                                    <BarcitoImage image={barFocus.imagePath} alt={barFocus.name} />
+                                <BarcitoForm barcito={barFocus} setBarFocus={setBarFocus} mutation={mutation} />
+                                {/* <BarcitoImage barId={barFocus.id} image={barFocus.imagePath} alt={barFocus.name} /> */}
+                                {barFocus.id && 
+                                    <Stack spacing={1}>
+                                        <img
+                                            src={barFocus.imagePath || 'src/assets/images/barcito-placeholder.png'}
+                                            alt={barFocus.name}
+                                            loading='lazy'
+                                            width="200px"
+                                        />
+                                        <form>
+                                            <FileUploader
+                                                onFileSelectSuccess={(file) => setSelectedFile(file)}
+                                                onFileSelectError={({ error }) => alert(error)}
+                                            />
+
+                                            <button onClick={submitImage}>Submit</button>
+
+                                        </form>
+                                    </Stack>
                                 }
                             </Stack>
                         </TabPanel>

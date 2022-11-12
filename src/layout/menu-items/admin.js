@@ -5,20 +5,20 @@ const icons = {
   UserOutlined,
 };
 
-export const menuBarcitos = {
-  id: "menu",
+export const menuAdmin = {
+  id: "Admin",
   title: "Menu Admin",
   type: "group",
   children: [
     {
-      id: "menu1",
+      id: "admin1",
       title: "Usuarios",
       type: "item",
       url: "/usuarios",
       icon: icons.UserOutlined,
     },
     {
-      id: "menu2",
+      id: "admin2",
       title: "Barcitos",
       type: "item",
       url: "/barcitos",

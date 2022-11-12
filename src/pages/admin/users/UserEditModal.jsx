@@ -9,29 +9,44 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
-import { Formik } from "formik";
-import AnimateButton from "../../../components/AnimateButton";
-import { UserAPI } from "../../../services/userAPI";
-import { MenuItem, Select, FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
+import { Formik, Field } from "formik";
+import MultiSelect from '@/components/MultiSelect';
+import AnimateButton from "@/components/AnimateButton";
+import { FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
+import compareObjects from '@/utils/compareObjects';
+import { useQuery } from "react-query";
+import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
 
-export default function UserEditModal({ user, modalOpen, closeModal, setEditUser }) {
-  const academicUnits = ["Sin definir", "Facultad de Informatica"];
+export default function UserEditModal({ user, modalOpen, closeModal, mutation }) {
+  
+  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
 
-  const availableRoles = ["admin", "manager", "submanager", "user"];
+  const availableRoles = ["Admin", "Gerente", "Vendedor", "Socio", "No socio"];
 
-  const initialValues = {
-    name: "" || user?.fullName.split(" ")[1],
-    surname: "" || user?.fullName.split(" ")[0],
-    email: "" || user?.email,
-    /* password: "", */
-    academicUnit: "Sin definir" || user?.academicUnit /* 
-        certificate: "" || user?.certificate, */,
-    phone: "" || user?.phone,
-    dni: "" || user?.dni,
-    roles: user?.roles || [],
-  };
+  const initialValues = user.id ? 
+    {
+      name: user.fullName.split(" ")[1],
+      surname: user.fullName.split(" ")[0],
+      email: user.email,
+      academicUnit: user.academicUnit?.id,
+      phone: user.phone,
+      dni: user.dni,
+      roles: user.roles
+    }
+    :
+    {
+      name: "",
+      surname: "",
+      email: "",
+      academicUnit: "",
+      phone: "",
+      dni: "",
+      roles: []
+    };
 
-  const asArray = Object.entries(initialValues);
+  if(isLoading){
+    <p>Loading...</p>
+  }
 
   return (
     <Dialog open={modalOpen} onClose={() => closeModal(false)}>
@@ -49,24 +64,18 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
             try {
-              let response = null;
               if (user?.id) {
-                const filtered = Object.entries(values).filter((field, i) => field[1] !== asArray[i][1]);
-                const dataToSend = Object.fromEntries(filtered);
-                response = await UserAPI.update(user.id, dataToSend, true);
+                const dataToSend = compareObjects(initialValues, values);
+                mutation.mutate({id: user.id, data: dataToSend});
               } else {
                 const data = {
                   ...values,
                   password: "123456",
                 };
-                response = await UserAPI.create(data, true);
+                mutation.mutate({ id: null, data: data});
               }
-              if (response) {
-                setStatus({ success: true });
-                setSubmitting(false);
-                setEditUser(user?.id);
-                closeModal(false);
-              }
+              setStatus({ success: true });
+              setSubmitting(false);
             } catch (err) {
               console.error(err);
               setStatus({ success: false });
@@ -81,7 +90,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
                 <Grid item xs={12} md={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="name-edit">Nombre</InputLabel>
-                    <OutlinedInput id="name-login" type="name" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
+                    <OutlinedInput id="name-login" value={values.name} name="name" onBlur={handleBlur} onChange={handleChange} placeholder="Cosme" fullWidth error={Boolean(touched.name && errors.name)} />
                     {touched.name && errors.name && (
                       <FormHelperText error id="helper-text-name-edit">
                         {errors.name}
@@ -92,7 +101,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
                 <Grid item xs={12} md={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="surname-edit">Apellido</InputLabel>
-                    <OutlinedInput fullWidth error={Boolean(touched.surname && errors.surname)} id="surname-edit" type="surname" value={values.surname} name="surname" onBlur={handleBlur} onChange={handleChange} placeholder="Fulanito" inputProps={{}} />
+                    <OutlinedInput fullWidth error={Boolean(touched.surname && errors.surname)} id="surname-edit" value={values.surname} name="surname" onBlur={handleBlur} onChange={handleChange} placeholder="Fulanito" inputProps={{}} />
                     {touched.surname && errors.surname && (
                       <FormHelperText error id="helper-text-surname-edit">
                         {errors.surname}
@@ -137,13 +146,18 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
                 <Grid item xs={12}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="academicUnit-edit">Unidad academica</InputLabel>
-                    <Select fullWidth id="academicUnit-edit" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
-                      {academicUnits.map((unit, index) => (
-                        <MenuItem key={index} value={unit}>
-                          {unit}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <Field
+                        id="academicUnit-edit"
+                        name="academicUnit"
+                        options={academicUnits}
+                        component={MultiSelect}
+                        placeholder="Seleccione unidad academica"
+                    />
+                    {touched.supplies && errors.supplies && (
+                        <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                            {errors.supplies}
+                        </FormHelperText>
+                    )}
                   </Stack>
                 </Grid>
 
@@ -153,9 +167,9 @@ export default function UserEditModal({ user, modalOpen, closeModal, setEditUser
                     <FormControl component="fieldset" variant="standard" error={Boolean(touched.roles && errors.roles)} onBlur={handleBlur} onChange={handleChange}>
                       <FormGroup>
                         <Grid container>
-                          {availableRoles.map((role) => (
+                          {availableRoles.map((role, i) => (
                             <Grid item xs={3} key={role}>
-                              <FormControlLabel control={<Checkbox checked={values.roles.includes(role)} id="roles-edit" name="roles" inputProps={{}} value={role} />} label={role} />
+                              <FormControlLabel control={<Checkbox checked={values.roles.includes(role)} id={`roles-edit-${i}`} name="roles" inputProps={{}} value={role} />} label={role} />
                             </Grid>
                           ))}
                         </Grid>

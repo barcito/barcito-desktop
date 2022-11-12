@@ -1,4 +1,5 @@
 import axios from "axios";
+import eventBus from "@/utils/eventBus";
 
 export const api = axios.create({
   withCredentials: true,
@@ -12,6 +13,8 @@ const errorHandler = (error) => {
   // logging only errors that are not 401
   if (statusCode && statusCode !== 401) {
     console.error(error);
+  } else if (statusCode && statusCode === 401){
+    eventBus.dispatch("logout");
   }
   return Promise.reject(message);
 }

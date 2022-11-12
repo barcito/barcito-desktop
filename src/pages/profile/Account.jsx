@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useState } from "react";
-import { UserAPI } from "../../services/userAPI";
+import { UserAPI } from "@/services/userAPI";
 import { Credential } from "./Credential";
 import { AccountProfileDetails } from "./AccountProfileDetails";
 import { useEffect } from "react";

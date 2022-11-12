@@ -6,7 +6,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { EditOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import { AuthAPI } from "../../services/authAPI";
+import { AuthAPI } from "@/services/authAPI";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function ProfileMenu({ handleLogout }) {
@@ -31,7 +31,10 @@ function ProfileMenu({ handleLogout }) {
     >
       <ListItemButton
         selected={selectedIndex === 0}
-        onClick={(event) => handleListItemClick(event, 0)}
+        onClick={(event) => {
+          handleListItemClick(event, 0);
+          navigate("/perfil");
+        }}
       >
         <ListItemIcon>
           <EditOutlined />
@@ -40,7 +43,10 @@ function ProfileMenu({ handleLogout }) {
       </ListItemButton>
       <ListItemButton
         selected={selectedIndex === 1}
-        onClick={(event) => handleListItemClick(event, 1)}
+        onClick={(event) => {
+          handleListItemClick(event, 1);
+          navigate("/perfil");
+        }}
       >
         <ListItemIcon>
           <UserOutlined />
@@ -49,7 +55,10 @@ function ProfileMenu({ handleLogout }) {
       </ListItemButton>
       <ListItemButton
         selected={selectedIndex === 2}
-        onClick={ () => {handleLogout(); navigate('/login');} }
+        onClick={() => {
+          handleLogout();
+          navigate("/login");
+        }}
       >
         <ListItemIcon>
           <LogoutOutlined />

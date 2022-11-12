@@ -17,10 +17,10 @@ import IncomeAreaChart from "./IncomeAreaChart";
 import MonthlyBarChart from "./MonthlyBarChart";
 import ReportAreaChart from "./ReportAreaChart";
 import SalesColumnChart from "./SalesColumnChart";
-import MainCard from "../../components/MainCard";
-import AnalyticEcommerce from "../../components/AnalyticEcommerce";
+import MainCard from "@/components/MainCard";
+import AnalyticEcommerce from "@/components/AnalyticEcommerce";
 import { GiftOutlined, MessageOutlined, SettingOutlined } from "@ant-design/icons";
-import UnderConstruction from "../../assets/images/underConstruction.png";
+import UnderConstruction from "@/assets/images/underConstruction.png";
 
 const avatarSX = {
   width: 36,

@@ -15,19 +15,23 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as Yup from "yup";
-import { Formik } from "formik";
-import AnimateButton from "../../components/AnimateButton";
-import { strengthColor, strengthIndicator } from "../../utils/password.util";
+import { Formik, Field } from "formik";
+import AnimateButton from "@/components/AnimateButton";
+import { strengthColor, strengthIndicator } from "@/utils/password.util";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { UserAPI } from "../../services/userAPI";
+import { UserAPI } from "@/services/userAPI";
 import { MenuItem, Select } from "@mui/material";
+import { useQuery } from "react-query";
+import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
+import MultiSelect from '@/components/MultiSelect';
 
 export function AccountProfileDetails({ user }) {
 
-  const academicUnits = [
-    "Sin definir",
-    "Facultad de Informatica"
-  ];
+  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
+
+  if(isLoading){
+    return <p>Loading...</p>
+  }
 
   return (
 
@@ -37,7 +41,7 @@ export function AccountProfileDetails({ user }) {
         surname: "" || user?.surname,
         email: "" || user?.email,
         /* password: "", */
-        academicUnit: "Sin definir" || user?.academicUnit,/* 
+        academicUnit: "" || user?.academicUnit?.id,/*
                         certificate: "" || user?.certificate, */
         phone: "" || user?.phone,
         dni: "" || user?.dni,/* 
@@ -127,11 +131,18 @@ export function AccountProfileDetails({ user }) {
             <Grid item xs={12}>
               <Stack spacing={1}>
                 <InputLabel htmlFor="academicUnit-edit">Unidad academica</InputLabel>
-                <Select fullWidth id="academicUnit-edit" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
-                  {academicUnits.map((unit, index) =>
-                    <MenuItem key={index} value={unit}>{unit}</MenuItem>
-                  )}
-                </ Select>
+                <Field
+                  id="academicUnit-edit"
+                  name="academicUnit"
+                  options={academicUnits}
+                  component={MultiSelect}
+                  placeholder="Seleccione unidad academica"
+                />
+                {touched.supplies && errors.supplies && (
+                  <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                    {errors.supplies}
+                  </FormHelperText>
+                )}
               </Stack>
             </Grid>
 

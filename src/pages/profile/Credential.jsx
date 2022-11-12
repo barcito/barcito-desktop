@@ -9,7 +9,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { UserAPI } from "../../services/userAPI";
+import { UserAPI } from "@/services/userAPI";
 
 //TODO: Los datos cargados tienen que ser acordes a la informacion que queremos dar la posibilidad de cambiar
 //TODO: Esta constante debería definirse con la informacion del usuario traida de la API

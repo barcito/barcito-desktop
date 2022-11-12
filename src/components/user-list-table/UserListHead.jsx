@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
+import RuleIcon from "@mui/icons-material/Rule";
 
 const visuallyHidden = {
   border: 0,
@@ -18,7 +19,7 @@ UserListHead.propTypes = {
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,
-  numSelected: PropTypes.number,
+  /* numSelected: PropTypes.number, */
   onRequestSort: PropTypes.func,
   onSelectAllClick: PropTypes.func,
 };
@@ -28,9 +29,9 @@ export default function UserListHead({
   orderBy,
   rowCount,
   headLabel,
-  numSelected,
+  /* numSelected, */
   onRequestSort,
-  onSelectAllClick,
+  /* onSelectAllClick, */
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -39,13 +40,15 @@ export default function UserListHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
-        </TableCell>
+        {/*  headLabel[headLabel.length - 1].id === "roles" &&
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+            />
+          </TableCell> */
+        }
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -65,6 +68,11 @@ export default function UserListHead({
             </TableSortLabel>
           </TableCell>
         ))}
+          <TableCell key={'action'} align='center'>
+            <TableSortLabel hideSortIcon active={false} sx={{cursor: 'default'}}>
+              <RuleIcon />
+            </TableSortLabel>
+          </TableCell>
       </TableRow>
     </TableHead>
   );

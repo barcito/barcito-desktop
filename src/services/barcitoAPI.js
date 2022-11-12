@@ -38,12 +38,18 @@ export const BarcitoAPI = {
   },
 
   create: async function (barcito, cancel = false) {
-    await api.request({
+    const response = await api.request({
       url: `/barcitos`,
       method: "POST",
       data: barcito,
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
+
+    if(response.status === 201){
+      return response.data
+    }
+
+    return false
   },
 
   delete: async function (id, cancel = false) {
@@ -52,6 +58,22 @@ export const BarcitoAPI = {
       method: "DELETE",
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
     })
+  },
+
+  updateImage: async function (id, barcitoImg, cancel = false) {
+    const response = await api.request({
+      url: `/barcitos/image-update/${id}`,
+      method: 'PATCH',
+      headers: {'Content-Type': 'multipart/form-data'},
+      data: barcitoImg,
+      signal: cancel ? cancelApiObject[this.updateImage.name].handleRequestCancellation().signal : undefined,
+    });
+
+    if(response.status === 200){
+      return response.data
+    }
+
+    return false
   }
 }
 

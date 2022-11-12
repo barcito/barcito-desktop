@@ -5,24 +5,26 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
-import { Formik } from "formik";
-import AnimateButton from "../../../components/AnimateButton";
-import { MenuItem, Select } from "@mui/material";
-import { BarcitoAPI } from '../../../services/barcitoAPI';
+import { Formik, Field } from "formik";
+import AnimateButton from "@/components/AnimateButton";
+import { useQuery } from "react-query";
+import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
+import MultiSelect from '@/components/MultiSelect';
+import compareObjects from '@/utils/compareObjects';
 
-export default function BarcitoForm({ barcito, setBarFocus }) {
+export default function BarcitoForm({ barcito, mutation }) {
 
-    const academicUnits = [
-        "Sin definir",
-        "Facultad de Informatica"
-    ];
-
-    const initialValues = barcito.id ? barcito : {
+    const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
+    const initialValues = barcito.id ? {...barcito, academicUnit: barcito.academicUnit?.id} : {
         name: '',
-        academicUnit: 'Sin definir',
+        academicUnitId: "",
         openTime: '',
         closeTime: '',
         location: ''
+    }
+
+    if(isLoading){
+        return <p>Loading...</p>
     }
 
     return (
@@ -31,28 +33,21 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
             initialValues={initialValues}
             validationSchema={Yup.object().shape({
                 name: Yup.string().max(255).required("Campo obligatorio"),
+                academicUnitId: Yup.number().required("Campo obligatorio"),
                 openTime: Yup.string().max(255).required("Campo obligatorio"),
                 closeTime: Yup.string().max(255).required("Campo obligatorio"),
                 location: Yup.string().max(255).required("Campo obligatorio"),
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
-                    let response = null;
-                    if(barcito){
-                        const asArray = Object.entries(barcito);
-                        const filtered = Object.entries(values).filter( (field, i) => 
-                            field[1] !== asArray[i][1]
-                        );
-                        const dataToSend = Object.fromEntries(filtered);
-                        response = await BarcitoAPI.update(barcito.id, dataToSend);
+                    if(barcito.id){
+                        const dataToSend = compareObjects(initialValues, values);
+                        mutation.mutate({id: barcito.id, data: dataToSend});
                     }else{
-                        response = await BarcitoAPI.create(values);
+                        mutation.mutate({id: null, data: values});
                     }
-                    if (response) {
-                        setStatus({ success: true });
-                        setSubmitting(false);
-                        setBarFocus(response);
-                    }
+                    setStatus({ success: true });
+                    setSubmitting(false);
                 } catch (err) {
                     console.error(err);
                     setStatus({ success: false });
@@ -78,11 +73,18 @@ export default function BarcitoForm({ barcito, setBarFocus }) {
                         <Grid item xs={12}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="academicUnit-bar">Unidad academica</InputLabel>
-                                <Select fullWidth id="academicUnit-bar" value={values.academicUnit} name="academicUnit" onBlur={handleBlur} onChange={handleChange} inputProps={{}}>
-                                    {academicUnits.map((unit, index) =>
-                                        <MenuItem key={index} value={unit}>{unit}</MenuItem>
-                                    )}
-                                </ Select>
+                                <Field
+                                    id="academicUnit-bar"
+                                    name="academicUnitId"
+                                    options={academicUnits}
+                                    component={MultiSelect}
+                                    placeholder="Seleccione unidad academica"
+                                />
+                                {touched.supplies && errors.supplies && (
+                                    <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                                        {errors.supplies}
+                                    </FormHelperText>
+                                )}
                             </Stack>
                         </Grid>
                         <Grid item xs={12}>

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import MainCard from "../../components/MainCard";
+import MainCard from "@/components/MainCard";
 
 function AuthCard({ children, ...other }) {
   return (

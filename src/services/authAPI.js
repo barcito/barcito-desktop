@@ -13,6 +13,7 @@ export const AuthAPI = {
         if(response.status === 201){
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("roles", response.data.roles);
+            localStorage.setItem("academic-unit", response.data.academicUnit);
         }
         return response.data;
     },
@@ -28,24 +29,22 @@ export const AuthAPI = {
         if(response.status === 201){
             localStorage.setItem("email", response.data.email);
             localStorage.setItem("roles", response.data.roles);
+            localStorage.setItem("academic-unit", response.data.academicUnit);
+            if(response.data.barcitoId){
+                localStorage.setItem("barcito", response.data.barcitoId);
+            }
         }
 
         return response.data;
     },
 
     signOut: async function (cancel = false) {
-        localStorage.removeItem("email");
-        localStorage.removeItem("roles");
+        localStorage.clear()
         const response = await api.request({
           url: "/auth/logout",
           method: "GET",
           signal: cancel ? cancelApiObject[this.signOut.name].handleRequestCancellation().signal : undefined,
         });
-
-        /* if(response.status === 200){
-            localStorage.removeItem("email");
-            localStorage.removeItem("roles");
-        } */
     },
 
     refresh: async function (cancel = false) {

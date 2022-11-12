@@ -11,7 +11,7 @@ const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ConfirmDialog({ dialogOpen, text, confirmDelete, closeDialog }) {
+export default function ConfirmDialog({ dialogOpen, text, confirmAction, closeDialog }) {
     return (
         <Dialog
             open={dialogOpen}
@@ -27,8 +27,8 @@ export default function ConfirmDialog({ dialogOpen, text, confirmDelete, closeDi
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={ () => closeDialog(false) }>Disagree</Button>
-                <Button onClick={ () => confirmDelete() }>Agree</Button>
+                <Button onClick={ () => closeDialog(false) }>Cancelar</Button>
+                <Button onClick={ () => confirmAction() }>Aceptar</Button>
             </DialogActions>
         </Dialog>
     );

@@ -15,10 +15,10 @@ import Link from "@mui/material/Link";
 import InputLabel from "@mui/material/InputLabel";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import AnimateButton from "../../components/AnimateButton";
+import AnimateButton from "@/components/AnimateButton";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import OtherLogin from "./OtherLogin";
-import { AuthAPI } from "../../services/authAPI";
+import { AuthAPI } from "@/services/authAPI";
 
 function AuthLogin() {
   const navigate = useNavigate();
@@ -37,8 +37,7 @@ function AuthLogin() {
       <Formik
         initialValues={{
           email: "",
-          password: "",
-          submit: null,
+          password: ""
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email("El email es inválido").max(255).required("El email es obligatorio"),
@@ -54,7 +53,7 @@ function AuthLogin() {
             setSubmitting(false);
           } catch (err) {
             setStatus({ success: false });
-            setErrors({ submit: err });
+            setErrors({ submit: err.message });
             setSubmitting(false);
           }
         }}

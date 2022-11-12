@@ -6,20 +6,17 @@ import { FormHelperText, Grid, InputLabel, Stack, OutlinedInput, Typography, Ico
 import { AddBox, IndeterminateCheckBox } from '@mui/icons-material';
 import MultiSelect from "@/components/MultiSelect";
 import AnimateButton from "@/components/AnimateButton";
+import { isArray } from 'lodash';
 
-export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps }){
-
-    const multiProducts = prods.map( (prod) => ({ id: prod.stock.id, description: prod.description }));
-    const multiSupplies = supps.map( (supp) => ({ id: supp.stock.id, description: supp.description }));
+export default function ReceiptForm({ receipt, mutation, handleNew, stockList }){
 
     const initialValues =
     {
         date: "",
         ticket: "",
         amount: "",
-        receiptPath: null,
-        products: [],
-        supplies: []
+        receipt_doc: null,
+        receiptToStock: [],
     }
 
     return(
@@ -28,30 +25,17 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                 initialValues={initialValues}
                 validationSchema={Yup.object().shape({
                     date: Yup.string().max(255).required("La fecha es obligatoria"),
-                    products: Yup.array().of(
+                    receiptToStock: Yup.array().of(
                         Yup.object().shape({
                             stockId: Yup.number().required('Debe seleccionar un producto'),
                             quantity: Yup.number().required('Debe cargar la cantidad'),
                             totalCost: Yup.number().required('Debe cargar el costo')
                         })
-                    ),
-                    supplies: Yup.array().of(
-                        Yup.object().shape({
-                            stockId: Yup.number().required('Debe seleccionar un insumo'),
-                            quantity: Yup.number().required('Debe cargar la cantidad'),
-                            totalCost: Yup.number().required('Debe cargar el costo')
-                        })
-                    )
+                    ).min(1, 'Debe cargar al menos un item de stock')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        const newReceipt = {
-                            ...values,
-                            receiptToStock: values.products.concat(values.supplies)
-                        };
-                        delete newReceipt.products;
-                        delete newReceipt.supplies;
-                        handleNew({ receipt: newReceipt });
+                        handleNew(values);
                         setStatus({ success: true });
                         setSubmitting(false);
                     } catch (err) {
@@ -102,9 +86,9 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
 
                             <Grid item xs={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="receiptPath">Documento</InputLabel>
-                                    <input id="receiptPath" name="receiptPath" type="file" onChange={(event) => {
-                                        setFieldValue("receiptPath", event.currentTarget.files[0]);
+                                    <InputLabel htmlFor="receipt_doc">Documento</InputLabel>
+                                    <input id="receipt_doc" name="receipt_doc" type="file" onChange={(event) => {
+                                        setFieldValue("receipt_doc", event.currentTarget.files[0]);
                                     }} />
                                     {/*touched.amount && errors.amount && (
                                         <FormHelperText error id="helper-text-amount-receipt">
@@ -119,36 +103,40 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                                     <Typography variant='h5'>Agregar productos</Typography>
                                     <IconButton color="primary" onClick={
                                         () => {
-                                            setFieldValue('products', [...values.products, {stockId: "", quantity: "", totalCost: ""}])
+                                            setFieldValue('receiptToStock', [...values.receiptToStock, {stockId: "", quantity: "", totalCost: ""}])
                                         }}>
                                         <AddBox fontSize="large"/>
                                     </IconButton>
                                     <IconButton color="primary" onClick={
                                         () => {
-                                            values.products.pop();
-                                            setFieldValue('products', values.products);
+                                            values.receiptToStock.pop();
+                                            setFieldValue('receiptToStock', values.receiptToStock);
                                         }}>
                                         <IndeterminateCheckBox fontSize="large"/>
                                     </IconButton>
                                 </Stack>
-                                
+                                {touched.receiptToStock && errors.receiptToStock && !isArray(errors.receiptToStock) && (
+                                    <FormHelperText error id="standard-weight-helper-text-stock-array-item">
+                                        {errors.receiptToStock}
+                                    </FormHelperText>
+                                )}
                                 <Grid container spacing={2}>
-                                    <FieldArray name="products">
-                                    {() => (values.products.map((prod, i) => {
+                                    <FieldArray name="receiptToStock">
+                                    {() => (values.receiptToStock.map((prod, i) => {
                                         return (
                                             <React.Fragment key={i}>
                                                 <Grid item xs={5}>
                                                     <Stack spacing={1}>
                                                         <Field
-                                                            id={`products-item-${prod.id}`}
-                                                            name={`products.${i}.stockId`}
-                                                            options={multiProducts}
+                                                            id={`receiptToStock-item-${prod.id}`}
+                                                            name={`receiptToStock.${i}.stockId`}
+                                                            options={stockList}
                                                             component={MultiSelect}
                                                             placeholder="Seleccione producto"
                                                         />
-                                                        {touched.products && errors.products && errors.products[i]?.stockId && (
+                                                        {touched.receiptToStock && errors.receiptToStock && errors.receiptToStock[i]?.stockId && (
                                                         <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.products[i]?.stockId}
+                                                            {errors.receiptToStock[i]?.stockId}
                                                         </FormHelperText>
                                                         )}
                                                     </Stack>
@@ -157,21 +145,21 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                                                     <Stack spacing={1}>
                                                         <OutlinedInput
                                                             id={`product-${prod.id}-quantity`}
-                                                            value={values.products[i].quantity}
+                                                            value={values.receiptToStock[i].quantity}
                                                             type='number'
-                                                            name={`products.${i}.quantity`}
+                                                            name={`receiptToStock.${i}.quantity`}
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
                                                             placeholder="Cantidad"
                                                             fullWidth
                                                             error={
-                                                                Boolean(errors.products && touched.products && errors.products[i]?.quantity)
+                                                                Boolean(errors.receiptToStock && touched.receiptToStock && errors.receiptToStock[i]?.quantity)
                                                             }
                                                             startAdornment={<InputAdornment position="end">x</InputAdornment>}
                                                         />
-                                                        {touched.products && errors.products && errors.products[i]?.quantity && (
+                                                        {touched.receiptToStock && errors.receiptToStock && errors.receiptToStock[i]?.quantity && (
                                                         <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.products[i]?.quantity}
+                                                            {errors.receiptToStock[i]?.quantity}
                                                         </FormHelperText>
                                                         )}
                                                     </Stack>
@@ -180,116 +168,22 @@ export default function ReceiptForm({ receipt, mutation, handleNew, prods, supps
                                                     <Stack spacing={1}>
                                                         <OutlinedInput
                                                             id={`product-${prod.id}-totalCost`}
-                                                            value={values.products[i].totalCost}
+                                                            value={values.receiptToStock[i].totalCost}
                                                             type='number'
-                                                            name={`products.${i}.totalCost`}
+                                                            name={`receiptToStock.${i}.totalCost`}
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
                                                             placeholder="Monto total"
                                                             fullWidth
                                                             error={
-                                                                Boolean(errors.products && touched.products && errors.products[i]?.totalCost)
+                                                                Boolean(errors.receiptToStock && touched.receiptToStock && errors.receiptToStock[i]?.totalCost)
                                                             }
                                                             startAdornment={<InputAdornment position="end">$</InputAdornment>}
                                                         />
-                                                        {touched.products && errors.products && errors.products[i]?.totalCost && (
+                                                        {touched.receiptToStock && errors.receiptToStock && errors.receiptToStock[i]?.totalCost && (
                                                             <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                                {errors.products[i]?.totalCost}
+                                                                {errors.receiptToStock[i]?.totalCost}
                                                             </FormHelperText>
-                                                        )}
-                                                    </Stack>
-                                                </Grid>
-                                            </React.Fragment>
-                                            )
-                                        }
-                                    ))}
-                                    </FieldArray>
-                                </Grid>
-
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Stack direction="row" alignItems="center" spacing={1}>
-                                    <Typography variant='h5'>Agregar insumos</Typography>
-                                    <IconButton color="primary" onClick={
-                                        () => {
-                                            setFieldValue('supplies', [...values.supplies, {stockId: "", quantity: "", totalCost: ""}])
-                                        }}>
-                                        <AddBox fontSize="large"/>
-                                    </IconButton>
-                                    <IconButton color="primary" onClick={
-                                        () => {
-                                            values.supplies.pop();
-                                            setFieldValue('supplies', values.supplies);
-                                        }}>
-                                        <IndeterminateCheckBox fontSize="large"/>
-                                    </IconButton>
-                                </Stack>
-                                
-                                <Grid container spacing={2}>
-                                    <FieldArray name="supplies">
-                                    {() => (values.supplies.map((supp, i) => {
-                                        return (
-                                            <React.Fragment key={i}>
-                                                <Grid item xs={5}>
-                                                    <Stack spacing={1}>
-                                                        <Field
-                                                            id={`supplies-item-${supp.id}`}
-                                                            name={`supplies.${i}.stockId`}
-                                                            options={multiSupplies}
-                                                            component={MultiSelect}
-                                                            placeholder="Seleccione insumo"
-                                                        />
-                                                        {touched.supplies && errors.supplies && errors.supplies[i]?.stockId && (
-                                                        <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.supplies[i]?.stockId}
-                                                        </FormHelperText>
-                                                        )}
-                                                    </Stack>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <Stack spacing={1}>
-                                                        <OutlinedInput
-                                                            id={`supply-${supp.id}-quantity`}
-                                                            value={values.supplies[i].quantity}
-                                                            type='number'
-                                                            name={`supplies.${i}.quantity`}
-                                                            onBlur={handleBlur}
-                                                            onChange={handleChange}
-                                                            placeholder="Cantidad"
-                                                            fullWidth
-                                                            error={
-                                                                Boolean(errors.supplies && touched.supplies && errors.supplies[i]?.quantity)
-                                                            }
-                                                            startAdornment={<InputAdornment position="end">x</InputAdornment>}
-                                                        />
-                                                        {touched.supplies && errors.supplies && errors.supplies[i]?.quantity && (
-                                                        <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.supplies[i]?.quantity}
-                                                        </FormHelperText>
-                                                        )}
-                                                    </Stack>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Stack spacing={1}>
-                                                        <OutlinedInput
-                                                            id={`supply-${supp.id}-totalCost`}
-                                                            value={values.supplies[i].totalCost}
-                                                            type='number'
-                                                            name={`supplies.${i}.totalCost`}
-                                                            onBlur={handleBlur}
-                                                            onChange={handleChange}
-                                                            placeholder="Monto total"
-                                                            fullWidth
-                                                            error={
-                                                                Boolean(errors.supplies && touched.supplies && errors.supplies[i]?.totalCost)
-                                                            }
-                                                            startAdornment={<InputAdornment position="end">$</InputAdornment>}
-                                                        />
-                                                        {touched.supplies && errors.supplies && errors.supplies[i]?.totalCost && (
-                                                        <FormHelperText error id="standard-weight-helper-text-discount-item">
-                                                            {errors.supplies[i]?.totalCost}
-                                                        </FormHelperText>
                                                         )}
                                                     </Stack>
                                                 </Grid>

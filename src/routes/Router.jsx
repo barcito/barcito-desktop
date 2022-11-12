@@ -17,15 +17,20 @@ const Barcito = Loadable(lazy(() => import("@/pages/manager/barcito")));
 const Users = Loadable(lazy(() => import("@/pages/admin/users")));
 const Account = Loadable(lazy(() => import("@/pages/profile/Account")));
 const Associates = Loadable(lazy(() => import("@/pages/manager/associates")));
-const ReceiptList = Loadable(lazy(() => import("@/pages/manager/stock/receipts")));
-const NewReceipt = Loadable(lazy(() => import("@/pages/manager/stock/receipts/NewReceipt")));
-const ProductList = Loadable(lazy(() => import("@/pages/manager/stock/products")));
-const NewProduct = Loadable(lazy(() => import("@/pages/manager/stock/products/NewProduct")));
-const EditProduct = Loadable(lazy(() => import("@/pages/manager/stock/products/EditProduct")));
-const Supplies = Loadable(lazy(() => import("@/pages/manager/stock/supplies")));
-const NewSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/NewSupply")));
-const EditSupply = Loadable(lazy(() => import("@/pages/manager/stock/supplies/EditSupply")));
-const CategoriesList = Loadable(lazy(() => import("@/pages/manager/stock/categories")));
+
+const ReceiptList = Loadable(lazy(() => import("@/pages/manager/receipts")));
+const NewReceipt = Loadable(lazy(() => import("@/pages/manager/receipts/NewReceipt")));
+
+const ProductList = Loadable(lazy(() => import("@/pages/manager/products")));
+const NewProduct = Loadable(lazy(() => import("@/pages/manager/products/NewProduct")));
+const EditProduct = Loadable(lazy(() => import("@/pages/manager/products/EditProduct")));
+
+const StockList = Loadable(lazy(() => import("@/pages/manager/stock")));
+const NewStock = Loadable(lazy(() => import("@/pages/manager/stock/NewStock")));
+const EditStock = Loadable(lazy(() => import("@/pages/manager/stock/EditStock")));
+
+const CategoriesList = Loadable(lazy(() => import("@/pages/manager/categories")));
+
 const Orders = Loadable(lazy(() => import("@/pages/manager/orders")));
 const OrderDetails = Loadable(lazy(() => import("@/pages/manager/orders/OrderDetails")));
 const NewOrder = Loadable(lazy(() => import("@/pages/manager/orders/NewOrder")));
@@ -73,44 +78,55 @@ const router = createBrowserRouter([
                 element: <Associates />,
               },
               {
-                path: "stock",
+                path: "productos",
                 children: [
                   {
-                    path: "productos",
+                    index: true,
                     element: <ProductList />
                   },
                   {
-                    path: "productos/nuevo",
+                    path: "nuevo",
                     element: <NewProduct />
                   },
                   {
-                    path: "productos/editar/:productId",
+                    path: "editar/:productId",
                     element: <EditProduct />
                   },
+                ]
+              },
+              {
+                path: "stock",
+                children: [
                   {
-                    path: "insumos",
-                    element: <Supplies />
+                    element: <StockList />,
+                    index: true
                   },
                   {
-                    path: "insumos/nuevo",
-                    element: <NewSupply />
+                    path: "nuevo",
+                    element: <NewStock />
                   },
                   {
-                    path: "insumos/editar/:supplyId",
-                    element: <EditSupply />
+                    path: "editar/:stockId",
+                    element: <EditStock />
+                  },
+
+                ]
+              },
+              {
+                path: "categorias",
+                element: <CategoriesList />
+              },
+              {
+                path: "recibos",
+                children: [
+                  {
+                    element: <ReceiptList />,
+                    index: true
                   },
                   {
-                    path: "categorias",
-                    element: <CategoriesList />
-                  },
-                  {
-                    path: "recibos",
-                    element: <ReceiptList />
-                  },
-                  {
-                    path: "recibos/nuevo",
+                    path: "nuevo",
                     element: <NewReceipt />
-                  }
+                  },
                 ]
               },
               {

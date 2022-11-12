@@ -15,7 +15,7 @@ export default function Receipts() {
 
     const navigate = useNavigate();
 
-    const {data: receipts, isLoading} = useQuery(['receipts'], () => ReceiptsAPI.getByBarcito());
+    const {data: receipts, isLoading} = useQuery(['receipts'], () => ReceiptsAPI.getAll());
 
     if(isLoading){
         return <p>Loading...</p>;
@@ -26,7 +26,7 @@ export default function Receipts() {
             <ReceiptList
                 receiptList={receipts}
                 tableHead={TABLE_HEAD}
-                handleNew={() => navigate('/stock/recibos/nuevo')}
+                handleNew={() => navigate('/recibos/nuevo')}
             />
         </Container>
     );

@@ -28,55 +28,34 @@ export const menuManager = {
     },
     {
       id: "manager2",
-      title: "Stock",
-      type: "collapse",
-      icon: icons.BugTwoTone,
-      children: [
-        {
-          id: "manager21",
-          title: "Listado de productos",
-          type: "item",
-          url: "/stock/productos",
-          icon: icons.BugFilled
-        },
-        {
-          id: "manager22",
-          title: "Combos",
-          type: "item",
-          url: "/stock/combos",
-          icon: icons.BugOutlined
-        },
-        {
-          id: "manager23",
-          title: "Insumos",
-          type: "item",
-          url: "/stock/insumos",
-          icon: icons.BugFilled
-        },
-        {
-          id: "manager24",
-          title: "Categorías",
-          type: "item",
-          url: "/stock/categorias",
-          icon: icons.BugFilled
-        },
-        {
-          id: "manager25",
-          title: "Producto",
-          type: "item",
-          url: "/stock/producto"
-        },
-        {
-          id: "manager26",
-          title: "Recibos",
-          type: "item",
-          url: "/stock/recibos",
-          icon: icons.BugFilled
-        }
-      ]
+      title: "Productos",
+      type: "item",
+      url: "/productos",
+      icon: icons.BugFilled
     },
     {
       id: "manager3",
+      title: "Stock",
+      type: "item",
+      url: "/stock",
+      icon: icons.BugFilled
+    },
+    {
+      id: "manager5",
+      title: "Categorías",
+      type: "item",
+      url: "/categorias",
+      icon: icons.BugFilled
+    },
+    {
+      id: "manager6",
+      title: "Recibos",
+      type: "item",
+      url: "/recibos",
+      icon: icons.BugFilled
+    },
+    {
+      id: "manager7",
       title: "Socios",
       type: "item",
       url: "/socios",

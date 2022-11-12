@@ -79,27 +79,38 @@ const router = createBrowserRouter([
               },
               {
                 path: "productos",
-                element: <ProductList />
-              },
-              {
-                path: "productos/nuevo",
-                element: <NewProduct />
-              },
-              {
-                path: "productos/editar/:productId",
-                element: <EditProduct />
+                children: [
+                  {
+                    index: true,
+                    element: <ProductList />
+                  },
+                  {
+                    path: "nuevo",
+                    element: <NewProduct />
+                  },
+                  {
+                    path: "editar/:productId",
+                    element: <EditProduct />
+                  },
+                ]
               },
               {
                 path: "stock",
-                element: <StockList />
-              },
-              {
-                path: "stock/nuevo",
-                element: <NewStock />
-              },
-              {
-                path: "stock/editar/:stockId",
-                element: <EditStock />
+                children: [
+                  {
+                    element: <StockList />,
+                    index: true
+                  },
+                  {
+                    path: "nuevo",
+                    element: <NewStock />
+                  },
+                  {
+                    path: "editar/:stockId",
+                    element: <EditStock />
+                  },
+
+                ]
               },
               {
                 path: "categorias",
@@ -107,11 +118,16 @@ const router = createBrowserRouter([
               },
               {
                 path: "recibos",
-                element: <ReceiptList />
-              },
-              {
-                path: "recibos/nuevo",
-                element: <NewReceipt />
+                children: [
+                  {
+                    element: <ReceiptList />,
+                    index: true
+                  },
+                  {
+                    path: "nuevo",
+                    element: <NewReceipt />
+                  },
+                ]
               },
               {
                 path: "pedidos",

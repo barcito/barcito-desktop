@@ -60,7 +60,7 @@ export const ProductsAPI = {
 
   updateImage: async function (id, productImg, cancel = false) {
     const response = await api.request({
-      url: `/products/image-update/${id}`,
+      url: `${url}/image-update/${id}`,
       method: 'PATCH',
       headers: {'Content-Type': 'multipart/form-data'},
       data: productImg,

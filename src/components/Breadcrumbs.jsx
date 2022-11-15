@@ -73,7 +73,7 @@ function Breadcrumbs({ navigation, title, ...others }) {
             <Grid item>
               <MuiBreadcrumbs aria-label="breadcrumb">
                 <Typography component={Link} to="/" color="textSecondary" variant="h6" sx={{ textDecoration: "none" }}>
-                  Home
+                  Inicio
                 </Typography>
                 {mainContent}
                 {itemContent}

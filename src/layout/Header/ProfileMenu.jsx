@@ -41,18 +41,7 @@ function ProfileMenu({ handleLogout }) {
         </ListItemIcon>
         <ListItemText primary="Editar Perfil" />
       </ListItemButton>
-      <ListItemButton
-        selected={selectedIndex === 1}
-        onClick={(event) => {
-          handleListItemClick(event, 1);
-          navigate("/perfil");
-        }}
-      >
-        <ListItemIcon>
-          <UserOutlined />
-        </ListItemIcon>
-        <ListItemText primary="Configuración" />
-      </ListItemButton>
+
       <ListItemButton
         selected={selectedIndex === 2}
         onClick={() => {

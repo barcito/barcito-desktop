@@ -111,11 +111,11 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
                       setFieldValue("receipt_doc", event.currentTarget.files[0]);
                     }}
                   />
-                  {/*touched.amount && errors.amount && (
-                                        <FormHelperText error id="helper-text-amount-receipt">
-                                            {errors.amount}
-                                        </FormHelperText>
-                                    )*/}
+                  {touched.receipt_doc && errors.receipt_doc && (
+                    <FormHelperText error id="helper-text-amount-receipt">
+                      {errors.receipt_doc}
+                    </FormHelperText>
+                  )}
                 </Stack>
               </Grid>
 
@@ -130,15 +130,17 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
                   >
                     <AddBox fontSize="large" />
                   </IconButton>
-                  <IconButton
-                    color="primary"
-                    onClick={() => {
-                      values.receiptToStock.pop();
-                      setFieldValue("receiptToStock", values.receiptToStock);
-                    }}
-                  >
-                    <IndeterminateCheckBox fontSize="large" />
-                  </IconButton>
+                  {values.receiptToStock.length > 0 && (
+                    <IconButton
+                      color="primary"
+                      onClick={() => {
+                        values.receiptToStock.pop();
+                        setFieldValue("receiptToStock", values.receiptToStock);
+                      }}
+                    >
+                      <IndeterminateCheckBox fontSize="large" />
+                    </IconButton>
+                  )}
                 </Stack>
                 {touched.receiptToStock && errors.receiptToStock && !isArray(errors.receiptToStock) && (
                   <FormHelperText error id="standard-weight-helper-text-stock-array-item">

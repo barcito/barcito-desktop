@@ -17,12 +17,14 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
     receiptToStock: [],
   };
 
+  let todaysDate = new Date();
+
   return (
     <MainCard>
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object().shape({
-          date: Yup.string().max(255).required("La fecha es obligatoria"),
+          date: Yup.date().min(todaysDate, "La fecha no puede ser diferente al día de hoy").max(todaysDate, "La fecha no puede ser diferente al día de hoy").required("La fecha es obligatoria"),
           ticket: Yup.string().matches(/^\d+$/, "Este campo solo acepta números").min(8, "Número de recibo invalido").max(11, "Número de recibo invalido").required("El número de recibo es obligatorio"),
           amount: Yup.string().matches(/^\d+$/, "Este campo solo acepta números").min(1, "Monto invalido").required("El monto es obligatorio"),
           receiptToStock: Yup.array()

@@ -45,13 +45,6 @@ export default function ProductForm({ product, mutation, handleNew }) {
           description: Yup.string().max(255).required("La descripción es obligatoria"),
           finalSellPrice: Yup.number().min(1).required("El precio de venta final es obligatorio"),
           associatedSellPrice: Yup.number().min(1).required("El precio de venta al socio es obligatorio"),
-          // categories: Yup.array()
-          //   .of(
-          //     Yup.object().shape({
-          //       category: Yup.mixed().required("Debe seleccionar una categoría"),
-          //     })
-          //   )
-          //   .min(1, "Debe seleccionar al menos una categoría"),
           categories: Yup.array().of(Yup.number()).min(1, "Debe seleccionar al menos una categoría"),
           productToStock: Yup.array()
             .of(

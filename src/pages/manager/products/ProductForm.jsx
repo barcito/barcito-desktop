@@ -39,9 +39,20 @@ export default function ProductForm({ product, mutation, handleNew }) {
   return (
     <MainCard>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={Yup.object().shape({
           description: Yup.string().max(255).required("La descripción es obligatoria"),
+          finalSellPrice: Yup.number().min(1).required("El precio de venta final es obligatorio"),
+          associatedSellPrice: Yup.number().min(1).required("El precio de venta al socio es obligatorio"),
+          // categories: Yup.array()
+          //   .of(
+          //     Yup.object().shape({
+          //       category: Yup.mixed().required("Debe seleccionar una categoría"),
+          //     })
+          //   )
+          //   .min(1, "Debe seleccionar al menos una categoría"),
+          categories: Yup.array().of(Yup.number()).min(1, "Debe seleccionar al menos una categoría"),
           productToStock: Yup.array()
             .of(
               Yup.object().shape({
@@ -50,6 +61,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
               })
             )
             .min(1, "Debe seleccionar al menos un articulo del stock"),
+          product_img: Yup.mixed().required("Se tiene que seleccionar una imagen"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -103,7 +115,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                   </Stack>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="finalSellPrice-item">Precio final</InputLabel>
                     <OutlinedInput
@@ -126,7 +138,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                   </Stack>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="associatedSellPrice-item">Precio socio</InputLabel>
                     <OutlinedInput
@@ -151,11 +163,11 @@ export default function ProductForm({ product, mutation, handleNew }) {
 
                 <Grid item xs={6}>
                   <Stack spacing={1}>
-                    <InputLabel htmlFor="category-item">Categorias</InputLabel>
-                    <Field id="category-item" name="categories" options={categories} component={MultiSelect} placeholder="Seleccione categoria" isMulti={true} />
-                    {touched.category && errors.category && (
-                      <FormHelperText error id="standard-weight-helper-text-category-item">
-                        {errors.category}
+                    <InputLabel htmlFor="categories">Categorias</InputLabel>
+                    <Field id="categories" name="categories" options={categories} component={MultiSelect} placeholder="Seleccione categoría" isMulti={true} />
+                    {touched.categories && errors.categories && (
+                      <FormHelperText error id="standard-weight-helper-text-categories">
+                        {errors.categories}
                       </FormHelperText>
                     )}
                   </Stack>
@@ -258,6 +270,11 @@ export default function ProductForm({ product, mutation, handleNew }) {
                     setFieldValue("product_img", event.currentTarget.files[0]);
                   }}
                 />
+                {touched.product_img && errors.product_img && (
+                  <FormHelperText error id="standard-weight-helper-text-product_img-item">
+                    {errors.product_img}
+                  </FormHelperText>
+                )}
               </Box>
             </Stack>
           </form>

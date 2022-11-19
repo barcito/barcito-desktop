@@ -19,7 +19,7 @@ const barChartOptions = {
     enabled: false,
   },
   xaxis: {
-    categories: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    categories: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
     axisBorder: {
       show: false,
     },

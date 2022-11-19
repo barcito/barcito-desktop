@@ -62,32 +62,31 @@ const headCells = [
     id: "trackingNo",
     align: "left",
     disablePadding: false,
-    label: "Tracking No.",
+    label: "Nro. Recibo",
   },
   {
     id: "name",
     align: "left",
     disablePadding: true,
-    label: "Product Name",
+    label: "Nombre Producto",
   },
   {
     id: "fat",
     align: "right",
     disablePadding: false,
-    label: "Total Order",
+    label: "Cantidad",
   },
   {
     id: "carbs",
     align: "left",
     disablePadding: false,
-
-    label: "Status",
+    label: "Estado",
   },
   {
     id: "protein",
     align: "right",
     disablePadding: false,
-    label: "Total Amount",
+    label: "Total",
   },
 ];
 
@@ -119,19 +118,19 @@ const OrderStatus = ({ status }) => {
   switch (status) {
     case 0:
       color = "warning";
-      title = "Pending";
+      title = "Pendiente";
       break;
     case 1:
       color = "success";
-      title = "Approved";
+      title = "Aprobado";
       break;
     case 2:
       color = "error";
-      title = "Rejected";
+      title = "Rechazado";
       break;
     default:
       color = "primary";
-      title = "None";
+      title = "???";
   }
 
   return (

@@ -2,7 +2,7 @@ import { UserOutlined, BugOutlined, BugFilled, BugTwoTone } from "@ant-design/ic
 import { FaBoxes, FaReceipt, FaStore, FaUserAlt } from "react-icons/fa";
 import { TbPaperBag } from "react-icons/tb";
 import { SiBuymeacoffee } from "react-icons/si";
-import { MdLabel } from "react-icons/md";
+import { MdDashboard, MdLabel } from "react-icons/md";
 
 const icons = {
   FaUserAlt,
@@ -15,6 +15,7 @@ const icons = {
   FaBoxes,
   FaReceipt,
   MdLabel,
+  MdDashboard,
 };
 
 export const menuManager = {
@@ -24,27 +25,34 @@ export const menuManager = {
   children: [
     {
       id: "manager0",
+      title: "Dashboard",
+      type: "item",
+      url: "/",
+      icon: icons.MdDashboard,
+    },
+    {
+      id: "manager1",
       title: "Barcito",
       type: "item",
       url: "/barcito",
       icon: icons.FaStore,
     },
     {
-      id: "manager1",
+      id: "manager2",
       title: "Pedidos",
       type: "item",
       url: "/pedidos",
       icon: icons.TbPaperBag,
     },
     {
-      id: "manager2",
+      id: "manager3",
       title: "Productos",
       type: "item",
       url: "/productos",
       icon: icons.SiBuymeacoffee,
     },
     {
-      id: "manager3",
+      id: "manager4",
       title: "Stock",
       type: "item",
       url: "/stock",

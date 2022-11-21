@@ -8,20 +8,18 @@ import { useEffect } from "react";
 export default function Account() {
   const [userData, setUserData] = useState();
 
-  useEffect ( () => {
+  useEffect(() => {
     const getUser = async () => {
       const user = await UserAPI.getByEmail(localStorage.getItem("email"));
       setUserData(user);
-    }
-    getUser()
-  }, [])
+    };
+    getUser();
+  }, []);
 
-  if(!userData){
-    return(
-      <div>Loading...</div>
-    );
-  }else{
-  return (
+  if (!userData) {
+    return <div>Loading...</div>;
+  } else {
+    return (
       <>
         <Box
           component="main"
@@ -36,7 +34,7 @@ export default function Account() {
             </Typography>
             <Grid container spacing={3}>
               <Grid item lg={8} md={6} xs={12}>
-                <AccountProfileDetails user={userData} setUserData={setUserData}/>
+                <AccountProfileDetails user={userData} setUserData={setUserData} />
               </Grid>
               <Grid item lg={4} md={6} xs={12}>
                 {/* <Credential userData={userData} setUserData={setUserData} /> */}

@@ -18,10 +18,9 @@ const TABLE_HEAD = [
 ];
 
 export default function Users() {
-
   const client = useQueryClient();
 
-  const { data, isLoading } = useQuery(['users'], () => UserAPI.getAll());
+  const { data, isLoading } = useQuery(["users"], () => UserAPI.getAll());
 
   const [userOnAction, setUserOnAction] = useState({});
 
@@ -30,17 +29,17 @@ export default function Users() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const mutation = useMutation(
-    ({id, data}) => {
-      if(id){
+    ({ id, data }) => {
+      if (id) {
         return data ? UserAPI.update(id, data) : UserAPI.delete(id);
       }
       return UserAPI.create(data);
     },
     {
       onSuccess: () => {
-        client.invalidateQueries(['users']);
+        client.invalidateQueries(["users"]);
         setModalOpen(false);
-      }
+      },
     }
   );
 
@@ -55,17 +54,17 @@ export default function Users() {
   };
 
   const confirmDelete = () => {
-    mutation.mutate({id: userOnAction.id, data: null});
+    mutation.mutate({ id: userOnAction.id, data: null });
     setDialogOpen(false);
   };
 
-  if(isLoading){
+  if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
     <Container sx={{ pt: 4 }}>
-      <UserList 
+      <UserList
         userList={data.map((user) => {
           return {
             id: user.id,
@@ -76,7 +75,8 @@ export default function Users() {
             validated: user.applicationDone?.status || null,
             phone: user.phone,
             dni: user.dni,
-            roles: Object.values(user.roles),};
+            roles: Object.values(user.roles),
+          };
         })}
         tableHead={TABLE_HEAD}
         handleNew={handleAction}

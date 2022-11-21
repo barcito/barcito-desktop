@@ -17,8 +17,7 @@ const TABLE_HEAD = [
 ];
 
 export default function Associates() {
-
-  const { data, isLoading } = useQuery(['applications'], () => ApplicationsAPI.getAll());
+  const { data, isLoading } = useQuery(["applications"], () => ApplicationsAPI.getAll());
 
   const [applications, setApplications] = useState([]);
 
@@ -28,21 +27,21 @@ export default function Associates() {
 
   useEffect(() => {
     setApplications(data);
-  }, [data])
+  }, [data]);
 
   const handleValidate = (user) => {
-    setUserAction({ status: 'Aceptado', user: user.id, action: 'Validar' });
+    setUserAction({ status: "Aceptado", user: user.id, action: "Validar" });
     setDialogOpen(true);
   };
 
   const handleReject = (user) => {
-    setUserAction({ status: 'Rechazado', user: user.id, action: 'Rechazar' });
+    setUserAction({ status: "Rechazado", user: user.id, action: "Rechazar" });
     setDialogOpen(true);
   };
 
   const confirmAction = async () => {
     setDialogOpen(false);
-    const application = applications.find(app => app.applicantUser.id === userAction.user );
+    const application = applications.find((app) => app.applicantUser.id === userAction.user);
     try {
       const dataToSend = { status: userAction.status };
       const response = await ApplicationsAPI.update(application.id, dataToSend);
@@ -53,12 +52,12 @@ export default function Associates() {
     setUserAction({});
   };
 
-  if(isLoading){
-    return <p>Loading...</p>
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
-  if(!data){
-    return <p>No data!</p>
+  if (!data) {
+    return <p>No data!</p>;
   }
 
   return (
@@ -73,13 +72,14 @@ export default function Associates() {
             certificate: app.certificatePath,
             validated: app.status,
             phone: app.applicantUser.phone,
-            dni: app.applicantUser.dni
+            dni: app.applicantUser.dni,
           };
         })}
         tableHead={TABLE_HEAD}
         associateToolbar={true}
         actionOne={handleValidate}
-        actionTwo={handleReject} />
+        actionTwo={handleReject}
+      />
       <ConfirmDialog dialogOpen={dialogOpen} text={`¿${userAction.action} como socio?`} confirmAction={confirmAction} closeDialog={setDialogOpen} />
     </Container>
   );

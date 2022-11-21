@@ -10,42 +10,40 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import * as Yup from "yup";
 import { Formik, Field } from "formik";
-import MultiSelect from '@/components/MultiSelect';
+import MultiSelect from "@/components/MultiSelect";
 import AnimateButton from "@/components/AnimateButton";
 import { FormGroup, Checkbox, FormControlLabel, FormControl } from "@mui/material";
-import compareObjects from '@/utils/compareObjects';
+import compareObjects from "@/utils/compareObjects";
 import { useQuery } from "react-query";
 import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
 
 export default function UserEditModal({ user, modalOpen, closeModal, mutation }) {
-  
-  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
+  const { data: academicUnits, isLoading } = useQuery(["academic-units"], () => AcademicUnitsAPI.getAll());
 
   const availableRoles = ["Admin", "Gerente", "Vendedor", "Socio", "No socio"];
 
-  const initialValues = user.id ? 
-    {
-      name: user.fullName.split(" ")[1],
-      surname: user.fullName.split(" ")[0],
-      email: user.email,
-      academicUnit: user.academicUnit?.id,
-      phone: user.phone,
-      dni: user.dni,
-      roles: user.roles
-    }
-    :
-    {
-      name: "",
-      surname: "",
-      email: "",
-      academicUnit: "",
-      phone: "",
-      dni: "",
-      roles: []
-    };
+  const initialValues = user.id
+    ? {
+        name: user.fullName.split(" ")[1],
+        surname: user.fullName.split(" ")[0],
+        email: user.email,
+        academicUnit: user.academicUnit?.id,
+        phone: user.phone,
+        dni: user.dni,
+        roles: user.roles,
+      }
+    : {
+        name: "",
+        surname: "",
+        email: "",
+        academicUnit: "",
+        phone: "",
+        dni: "",
+        roles: [],
+      };
 
-  if(isLoading){
-    <p>Loading...</p>
+  if (isLoading) {
+    <p>Loading...</p>;
   }
 
   return (
@@ -66,13 +64,13 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
             try {
               if (user?.id) {
                 const dataToSend = compareObjects(initialValues, values);
-                mutation.mutate({id: user.id, data: dataToSend});
+                mutation.mutate({ id: user.id, data: dataToSend });
               } else {
                 const data = {
                   ...values,
                   password: "123456",
                 };
-                mutation.mutate({ id: null, data: data});
+                mutation.mutate({ id: null, data: data });
               }
               setStatus({ success: true });
               setSubmitting(false);
@@ -146,17 +144,11 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
                 <Grid item xs={12}>
                   <Stack spacing={1}>
                     <InputLabel htmlFor="academicUnit-edit">Unidad academica</InputLabel>
-                    <Field
-                        id="academicUnit-edit"
-                        name="academicUnit"
-                        options={academicUnits}
-                        component={MultiSelect}
-                        placeholder="Seleccione unidad academica"
-                    />
+                    <Field id="academicUnit-edit" name="academicUnit" options={academicUnits} component={MultiSelect} placeholder="Seleccione unidad academica" />
                     {touched.supplies && errors.supplies && (
-                        <FormHelperText error id="standard-weight-helper-text-supplies-item">
-                            {errors.supplies}
-                        </FormHelperText>
+                      <FormHelperText error id="standard-weight-helper-text-supplies-item">
+                        {errors.supplies}
+                      </FormHelperText>
                     )}
                   </Stack>
                 </Grid>

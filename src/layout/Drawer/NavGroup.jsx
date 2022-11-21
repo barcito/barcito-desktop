@@ -13,7 +13,7 @@ function NavGroup({ item, level }) {
 
   const handleClick = () => {
     setOpen(!open);
-  }
+  };
 
   const navCollapse = item.children?.map((menuItem) => {
     switch (menuItem.type) {
@@ -22,20 +22,18 @@ function NavGroup({ item, level }) {
           <React.Fragment key={menuItem.id}>
             <NavItem item={menuItem} level={1} collapse={handleClick} open={open} />
             <Collapse in={open} timeout="auto" unmountOnExit>
-              {
-                menuItem.children.map((item) => {
-                  switch (item.type) {
-                    case "item":
-                      return item.icon ? <NavItem key={item.id} item={item} level={2} /> : null;
-                    default:
-                      return (
-                        <Typography key={item.id} variant="h6" color="error" align="center">
-                          Fix - Group Collapse or Items
-                        </Typography>
-                      );
-                  }
-                })
-              }
+              {menuItem.children.map((item) => {
+                switch (item.type) {
+                  case "item":
+                    return item.icon ? <NavItem key={item.id} item={item} level={2} /> : null;
+                  default:
+                    return (
+                      <Typography key={item.id} variant="h6" color="error" align="center">
+                        Fix - Group Collapse or Items
+                      </Typography>
+                    );
+                }
+              })}
             </Collapse>
           </React.Fragment>
         );

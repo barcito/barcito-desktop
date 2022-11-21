@@ -31,10 +31,10 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func,
 };
 
-export default function UserListToolbar({ /* numSelected, */ filterName, onFilterName, handleNew/* , handleDelete */ }) {
+export default function UserListToolbar({ /* numSelected, */ filterName, onFilterName, handleNew /* , handleDelete */ }) {
   return (
     <RootStyle
-      /* sx={{
+    /* sx={{
         ...(numSelected > 0 && {
           color: "primary.main",
           bgcolor: "primary.lighter",
@@ -46,16 +46,16 @@ export default function UserListToolbar({ /* numSelected, */ filterName, onFilte
           {numSelected} seleccionado
         </Typography>
       ) : ( */}
-        <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Buscar usuario..."
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon sx={{ color: "text.disabled", width: 20, height: 20 }} />
-            </InputAdornment>
-          }
-        />
+      <SearchStyle
+        value={filterName}
+        onChange={onFilterName}
+        placeholder="Buscar usuario..."
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon sx={{ color: "text.disabled", width: 20, height: 20 }} />
+          </InputAdornment>
+        }
+      />
       {/* )} */}
 
       {/* {numSelected > 0 ? (
@@ -65,12 +65,12 @@ export default function UserListToolbar({ /* numSelected, */ filterName, onFilte
           </IconButton>
         </Tooltip>
       ) : ( handleNew && */}
-        <Tooltip title="Nuevo Usuario">
-          <IconButton color="primary" onClick={() => handleNew()}>
-            <PersonAdd fontSize="large"/>
-          </IconButton>
-        </Tooltip>
-        {/* )} */}
+      <Tooltip title="Nuevo Usuario">
+        <IconButton color="primary" onClick={() => handleNew()}>
+          <PersonAdd fontSize="large" />
+        </IconButton>
+      </Tooltip>
+      {/* )} */}
     </RootStyle>
   );
 }

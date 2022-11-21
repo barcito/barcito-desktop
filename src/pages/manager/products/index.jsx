@@ -11,32 +11,31 @@ const TABLE_HEAD = [
   { id: "associatedSellPrice", label: "Precio Socio", alignCenter: true },
   { id: "productToStock", label: "Stock utilizado", alignCenter: true },
   { id: "categories", label: "Categorias", alignCenter: true },
-  { id: "updatedAt", label: "Últ. cambio", alignCenter: true}
+  { id: "updatedAt", label: "Últ. cambio", alignCenter: true },
 ];
 
 export default function ProductList() {
-
   const client = useQueryClient();
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(['products'], async () => ProductsAPI.getAll());
+  const { data, isLoading } = useQuery(["products"], async () => ProductsAPI.getAll());
 
   const handleNew = () => {
-    navigate('/productos/nuevo');
-  }
+    navigate("/productos/nuevo");
+  };
 
   const handleEdit = (id) => {
     navigate(`/productos/editar/${id}`);
-  }
+  };
 
-  if(isLoading){
+  if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
     <Container sx={{ pt: 4 }}>
-      <StockList 
+      <StockList
         stockList={data}
         tableHead={TABLE_HEAD}
         handleNew={handleNew}

@@ -67,10 +67,10 @@ export default function StockListToolbar({ numSelected, filterName, onFilterName
       ) : (
         <Tooltip title="Nuevo Item">
           <IconButton color="primary" onClick={() => handleNew()}>
-            <AddBox fontSize="large"/>
+            <AddBox fontSize="large" />
           </IconButton>
         </Tooltip>
-        )}
+      )}
     </RootStyle>
   );
 }

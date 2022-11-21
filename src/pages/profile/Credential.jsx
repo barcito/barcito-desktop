@@ -1,22 +1,12 @@
 import { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Typography } from "@mui/material";
 import { UserAPI } from "@/services/userAPI";
 
 //TODO: Los datos cargados tienen que ser acordes a la informacion que queremos dar la posibilidad de cambiar
 //TODO: Esta constante debería definirse con la informacion del usuario traida de la API
 //!Esto no esta correcto asi, solo lo dejo como un ejemplo de lo que deberia hacer, probablement
 
-export function Credential({user}) {
-
+export function Credential({ user }) {
   //TODO: Setear el objeto con
   // setUserData(getUserData(id));
 

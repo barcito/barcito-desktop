@@ -72,7 +72,7 @@ function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
       </Stack>
       <Box sx={{ pt: 2.25 }}>
         <Typography variant="caption" color="textSecondary">
-          La última semana se entregaron{" "}
+          En la última semana se entregaron{" "}
           <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
             {calculateLastWeekDeliveredOrders(deliveredUsersOrders)}
           </Typography>{" "}

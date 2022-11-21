@@ -70,7 +70,7 @@ function AssociatedUsersAnalytics({ color, usersData }) {
       </Stack>
       <Box sx={{ pt: 2.25 }}>
         <Typography variant="caption" color="textSecondary">
-          La última semana se sumaron{" "}
+          En la última semana se sumaron{" "}
           <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
             {calculateLastWeekUsers(usersData)}
           </Typography>{" "}

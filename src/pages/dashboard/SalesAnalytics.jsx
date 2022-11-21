@@ -99,7 +99,7 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
       {extra > 0 ? (
         <Box sx={{ pt: 2.25 }}>
           <Typography variant="caption" color="textSecondary">
-            La última semana se ganaron{" $"}
+            En la última semana se ganaron{" $"}
             <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
               {extra}
             </Typography>{" "}

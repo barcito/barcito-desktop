@@ -22,7 +22,7 @@ const areaChartOptions = {
   },
 };
 
-function IncomeAreaChart({ slot }) {
+function IncomeAreaChart({ slot, usersOrdersData }) {
   const theme = useTheme();
 
   const { primary, secondary } = theme.palette.text;
@@ -35,7 +35,7 @@ function IncomeAreaChart({ slot }) {
       ...prevState,
       colors: [theme.palette.primary.main, theme.palette.primary[700]],
       xaxis: {
-        categories: slot === "month" ? ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"] : ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"],
+        categories: slot === "month" ? ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"] : ["Lun", "Mar", "Mie", "Jue", "Vie"],
         labels: {
           style: {
             colors: [secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary, secondary],
@@ -78,11 +78,11 @@ function IncomeAreaChart({ slot }) {
     setSeries([
       {
         name: "Socios",
-        data: slot === "month" ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] : [31, 40, 28, 51, 42, 109, 100],
+        data: slot === "month" ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] : [31, 40, 28, 51, 42],
       },
       {
         name: "No Socios",
-        data: slot === "month" ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41] : [11, 32, 45, 32, 34, 52, 41],
+        data: slot === "month" ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41] : [11, 32, 45, 32, 34],
       },
     ]);
   }, [slot]);

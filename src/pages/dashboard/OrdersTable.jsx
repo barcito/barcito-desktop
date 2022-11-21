@@ -146,7 +146,7 @@ export default function OrderTable({ usersOrdersData }) {
   const isSelected = (code) => selected.indexOf(code) !== -1;
 
   const usersOrderedProducts = useQueries(
-    usersOrdersData.map((userOrderData) => {
+    usersOrdersData?.map((userOrderData) => {
       return {
         queryKey: ["code", userOrderData.code],
         queryFn: () => OrdersAPI.getByCode(userOrderData.code),
@@ -183,7 +183,7 @@ export default function OrderTable({ usersOrdersData }) {
               const isItemSelected = isSelected(row.data?.code);
               const labelId = `enhanced-table-checkbox-${index}`;
               return (
-                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={row?.data?.id} selected={isItemSelected}>
+                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={row.data?.id} selected={isItemSelected}>
                   <TableCell component="th" id={labelId} scope="row" align="left">
                     <Link color="secondary" component={RouterLink} to="">
                       {row.data?.code}

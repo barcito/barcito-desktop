@@ -23,8 +23,6 @@ function calculateLastWeekAssociatedUsersPercentage(usersData) {
     return user.applicationDone === true;
   });
 
-  console.log(associatedUsers);
-
   const lastWeekUsersSum = calculateLastWeekUsers(usersData);
   // console.log(lastWeekUsersSum);
   const lastWeekUsersPercentage = (lastWeekUsersSum / usersData.length) * 100;

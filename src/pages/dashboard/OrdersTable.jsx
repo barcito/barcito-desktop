@@ -102,14 +102,22 @@ const OrderStatus = ({ status }) => {
 
   switch (status) {
     case "Pendiente":
-      color = "warning";
+      color = "primary";
       title = "Pendiente";
       break;
-    case "1":
-      color = "success";
-      title = "Aprobado";
+    case "Preparado":
+      color = "warning";
+      title = "Preparado";
       break;
-    case "2":
+    case "Entregado":
+      color = "success";
+      title = "Entregado";
+      break;
+    case "Rechazado":
+      color = "error";
+      title = "Rechazado";
+      break;
+    case "Rechazado":
       color = "error";
       title = "Rechazado";
       break;

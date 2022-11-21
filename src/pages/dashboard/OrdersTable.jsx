@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -14,22 +14,8 @@ import TableRow from "@mui/material/TableRow";
 import NumberFormat from "react-number-format";
 import Dot from "../../components/Dot";
 
-function createData(trackingNo, name, fat, carbs, protein) {
-  return { trackingNo, name, fat, carbs, protein };
-}
-
-const rows = [
-  createData(84564564, "Camera Lens", 40, 2, 40570),
-  createData(98764564, "Laptop", 300, 0, 180139),
-  createData(98756325, "Mobile", 355, 1, 90989),
-  createData(98652366, "Handset", 50, 1, 10239),
-  createData(13286564, "Computer Accessories", 100, 1, 83348),
-  createData(86739658, "TV", 99, 0, 410780),
-  createData(13256498, "Keyboard", 125, 2, 70999),
-  createData(98753263, "Mouse", 89, 2, 10570),
-  createData(98753275, "Desktop", 185, 1, 98063),
-  createData(98753291, "Chair", 100, 0, 14001),
-];
+import { useQueries } from "react-query";
+import { OrdersAPI } from "@/services/ordersAPI";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -59,10 +45,10 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "trackingNo",
+    id: "code",
     align: "left",
     disablePadding: false,
-    label: "Nro. Recibo",
+    label: "Código de Retiro",
   },
   {
     id: "name",
@@ -71,31 +57,31 @@ const headCells = [
     label: "Nombre Producto",
   },
   {
-    id: "fat",
+    id: "quantity",
     align: "right",
     disablePadding: false,
     label: "Cantidad",
   },
   {
-    id: "carbs",
+    id: "stutus",
     align: "left",
     disablePadding: false,
     label: "Estado",
   },
   {
-    id: "protein",
+    id: "amount",
     align: "right",
     disablePadding: false,
     label: "Total",
   },
 ];
 
-function OrderTableHead({ order, orderBy }) {
+function OrderTableHead({ productsOrdered, orderBy }) {
   return (
     <TableHead>
       <TableRow>
         {headCells.map((headCell) => (
-          <TableCell key={headCell.id} align={headCell.align} padding={headCell.disablePadding ? "none" : "normal"} sortDirection={orderBy === headCell.id ? order : false}>
+          <TableCell key={headCell.id} align={headCell.align} padding={headCell.disablePadding ? "none" : "normal"} sortDirection={orderBy === headCell.id ? productsOrdered : false}>
             {headCell.label}
           </TableCell>
         ))}
@@ -110,21 +96,20 @@ OrderTableHead.propTypes = {
 };
 
 // ==============================|| ORDER TABLE - STATUS ||============================== //
-
 const OrderStatus = ({ status }) => {
   let color;
   let title;
 
   switch (status) {
-    case 0:
+    case "Pendiente":
       color = "warning";
       title = "Pendiente";
       break;
-    case 1:
+    case "1":
       color = "success";
       title = "Aprobado";
       break;
-    case 2:
+    case "2":
       color = "error";
       title = "Rechazado";
       break;
@@ -142,15 +127,24 @@ const OrderStatus = ({ status }) => {
 };
 
 OrderStatus.propTypes = {
-  status: PropTypes.number,
+  status: PropTypes.string,
 };
 
-export default function OrderTable() {
+export default function OrderTable({ usersOrdersData }) {
   const [order] = useState("asc");
-  const [orderBy] = useState("trackingNo");
+  const [orderBy] = useState("code");
   const [selected] = useState([]);
 
-  const isSelected = (trackingNo) => selected.indexOf(trackingNo) !== -1;
+  const isSelected = (code) => selected.indexOf(code) !== -1;
+
+  const usersOrderedProducts = useQueries(
+    usersOrdersData.map((userOrderData) => {
+      return {
+        queryKey: ["code", userOrderData.code],
+        queryFn: () => OrdersAPI.getByCode(userOrderData.code),
+      };
+    })
+  );
 
   return (
     <Box>
@@ -175,26 +169,25 @@ export default function OrderTable() {
             },
           }}
         >
-          <OrderTableHead order={order} orderBy={orderBy} />
+          <OrderTableHead usersOrderedProducts={usersOrderedProducts} orderBy={orderBy} />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy)).map((row, index) => {
-              const isItemSelected = isSelected(row.trackingNo);
+            {stableSort(usersOrderedProducts, getComparator(order, orderBy)).map((row, index) => {
+              const isItemSelected = isSelected(row.data?.code);
               const labelId = `enhanced-table-checkbox-${index}`;
-
               return (
-                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={row.trackingNo} selected={isItemSelected}>
+                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={row?.data?.id} selected={isItemSelected}>
                   <TableCell component="th" id={labelId} scope="row" align="left">
                     <Link color="secondary" component={RouterLink} to="">
-                      {row.trackingNo}
+                      {row.data?.code}
                     </Link>
                   </TableCell>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell align="left">{row.data?.products[0].product.description}</TableCell>
+                  <TableCell align="right">{row.data?.products[0].quantity}</TableCell>
                   <TableCell align="left">
-                    <OrderStatus status={row.carbs} />
+                    <OrderStatus status={row.data?.status} />
                   </TableCell>
                   <TableCell align="right">
-                    <NumberFormat value={row.protein} displayType="text" thousandSeparator prefix="$" />
+                    <NumberFormat value={row.data?.amount} displayType="text" thousandSeparator prefix="$" />
                   </TableCell>
                 </TableRow>
               );

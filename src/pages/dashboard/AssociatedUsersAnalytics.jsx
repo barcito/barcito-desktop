@@ -23,7 +23,7 @@ function calculateLastWeekAssociatedUsersPercentage(usersData) {
     return user.applicationDone === true;
   });
 
-  const lastWeekUsersSum = calculateLastWeekUsers(usersData);
+  const lastWeekUsersSum = calculateLastWeekUsers(associatedUsers);
   // console.log(lastWeekUsersSum);
   const lastWeekUsersPercentage = (lastWeekUsersSum / usersData.length) * 100;
   return Math.round(lastWeekUsersPercentage);
@@ -31,7 +31,7 @@ function calculateLastWeekAssociatedUsersPercentage(usersData) {
 
 function AssociatedUsersAnalytics({ color, usersData }) {
   let percentage = calculateLastWeekAssociatedUsersPercentage(usersData);
-  const isLoss = false;
+  let isLoss = false;
 
   if (percentage <= 0) {
     isLoss = true;

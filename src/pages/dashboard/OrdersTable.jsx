@@ -117,10 +117,6 @@ const OrderStatus = ({ status }) => {
       color = "error";
       title = "Rechazado";
       break;
-    case "Rechazado":
-      color = "error";
-      title = "Rechazado";
-      break;
     default:
       color = "primary";
       title = "???";

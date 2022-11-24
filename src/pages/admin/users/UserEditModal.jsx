@@ -27,7 +27,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
         name: user.fullName.split(" ")[1],
         surname: user.fullName.split(" ")[0],
         email: user.email,
-        academicUnit: user.academicUnit?.id,
+        academicUnitId: user.academicUnitId,
         phone: user.phone,
         dni: user.dni,
         roles: user.roles,
@@ -36,7 +36,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
         name: "",
         surname: "",
         email: "",
-        academicUnit: "",
+        academicUnitId: "",
         phone: "",
         dni: "",
         roles: [],
@@ -58,6 +58,7 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
             email: Yup.string().email("El email es inválido").max(255).required("Campo obligatorio"),
             phone: Yup.string().matches(/^\d+$/, "Este campo acepta solo números").min(9, "Telefono invalido").max(11, "Telefono invalido").required("Campo obligatorio"),
             dni: Yup.string().matches(/^\d+$/, "Este campo acepta solo números").min(7, "DNI invalido").max(9, "DNI invalido").required("Campo obligatorio"),
+            academicUnitId: Yup.number().required("Debe seleccionar una unidad academica"),
             roles: Yup.array().min(1, "Seleccionar al menos un rol"),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
@@ -143,11 +144,11 @@ export default function UserEditModal({ user, modalOpen, closeModal, mutation })
 
                 <Grid item xs={12}>
                   <Stack spacing={1}>
-                    <InputLabel htmlFor="academicUnit-edit">Unidad academica</InputLabel>
-                    <Field id="academicUnit-edit" name="academicUnit" options={academicUnits} component={MultiSelect} placeholder="Seleccione unidad academica" />
-                    {touched.supplies && errors.supplies && (
-                      <FormHelperText error id="standard-weight-helper-text-supplies-item">
-                        {errors.supplies}
+                    <InputLabel htmlFor="academicUnitId-edit">Unidad academica</InputLabel>
+                    <Field id="academicUnitId-edit" name="academicUnitId" options={academicUnits} component={MultiSelect} placeholder="Seleccione unidad academica" />
+                    {touched.academicUnitId && errors.academicUnitId && (
+                      <FormHelperText error id="standard-weight-helper-text-academicUnitId-item">
+                        {errors.academicUnitId}
                       </FormHelperText>
                     )}
                   </Stack>

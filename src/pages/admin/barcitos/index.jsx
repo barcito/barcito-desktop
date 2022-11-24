@@ -59,7 +59,6 @@ export default function Barcitos() {
               setBarFocus({});
               setManagers([]);
               setValue(0);
-              console.log(barFocus);
             }}
           >
             <AddBusinessOutlined sx={{ width: "100%", height: "200px", mt: 1.75 }} />

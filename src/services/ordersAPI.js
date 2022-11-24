@@ -51,7 +51,7 @@ export const OrdersAPI = {
     const response = await api.request({
       url: url,
       method: "POST",
-      data: {...order, barcitoId: localStorage.getItem('barcito')},
+      data: order,
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
     })
 

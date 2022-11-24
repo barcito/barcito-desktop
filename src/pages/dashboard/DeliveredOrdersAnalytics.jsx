@@ -33,7 +33,8 @@ function calculateLastWeekDeliveredOrdersPercentage(deliveredUsersOrders) {
 function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
   let deliveredUsersOrders = filterDeliveredOrders(usersOrdersData);
   let percentage = calculateLastWeekDeliveredOrdersPercentage(deliveredUsersOrders);
-  const isLoss = false;
+  // let percentage = -15;
+  let isLoss = false;
 
   if (percentage <= 0) {
     isLoss = true;
@@ -51,7 +52,7 @@ function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
               {deliveredUsersOrders.length}
             </Typography>
           </Grid>
-          {percentage && (
+          {percentage !== 0 && (
             <Grid item>
               <Chip
                 variant="combined"
@@ -66,6 +67,12 @@ function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
                 sx={{ ml: 1.25, pl: 1 }}
                 size="small"
               />
+            </Grid>
+          )}
+
+          {percentage === 0 && (
+            <Grid item>
+              <Chip variant="combined" color={"error"} icon={<>{isLoss && <FallOutlined style={{ fontSize: "0.75rem", color: "inherit" }} />}</>} label={`${percentage}%`} sx={{ ml: 1.25, pl: 1 }} size="small" />
             </Grid>
           )}
         </Grid>

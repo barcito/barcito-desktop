@@ -17,20 +17,27 @@ function calculateLastWeekUsers(usersData) {
   return lastWeekUsers.length;
 }
 
-function calculateLastWeekAssociatedUsersPercentage(usersData) {
-  // filter associated users
-  const associatedUsers = usersData.filter((user) => {
-    return user.applicationDone === true;
+function calculateLastWeekAssociatedUsers(usersData) {
+  const lastWeekUsers = usersData.filter((user) => {
+    const userDate = new Date(user.createdAt);
+    const lastWeekDate = new Date();
+    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+    return userDate >= lastWeekDate;
   });
+  return lastWeekUsers.length;
+}
 
-  const lastWeekUsersSum = calculateLastWeekUsers(associatedUsers);
-  // console.log(lastWeekUsersSum);
-  const lastWeekUsersPercentage = (lastWeekUsersSum / usersData.length) * 100;
+function calculateLastWeekUsersPercentage(usersData) {
+  let lastWeekUsersSum = calculateLastWeekUsers(usersData);
+
+  let lastWeekUsersPercentage = (lastWeekUsersSum / usersData.length) * 100;
+
   return Math.round(lastWeekUsersPercentage);
 }
 
 function AssociatedUsersAnalytics({ color, usersData }) {
-  let percentage = calculateLastWeekAssociatedUsersPercentage(usersData);
+  let percentage = calculateLastWeekUsersPercentage(usersData);
+  // let percentage = 0;
   let isLoss = false;
 
   if (percentage <= 0) {
@@ -49,7 +56,7 @@ function AssociatedUsersAnalytics({ color, usersData }) {
               {usersData.length}
             </Typography>
           </Grid>
-          {percentage && (
+          {percentage !== 0 && (
             <Grid item>
               <Chip
                 variant="combined"
@@ -66,13 +73,19 @@ function AssociatedUsersAnalytics({ color, usersData }) {
               />
             </Grid>
           )}
+
+          {percentage === 0 && (
+            <Grid item>
+              <Chip variant="combined" color={"error"} icon={<>{isLoss && <FallOutlined style={{ fontSize: "0.75rem", color: "inherit" }} />}</>} label={`${percentage}%`} sx={{ ml: 1.25, pl: 1 }} size="small" />
+            </Grid>
+          )}
         </Grid>
       </Stack>
       <Box sx={{ pt: 2.25 }}>
         <Typography variant="caption" color="textSecondary">
-          En la última semana se sumaron{" "}
+          En la última semana se asociaron{" "}
           <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
-            {calculateLastWeekUsers(usersData)}
+            {calculateLastWeekAssociatedUsers(usersData)}
           </Typography>{" "}
           usuarios
         </Typography>

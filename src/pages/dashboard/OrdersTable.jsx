@@ -179,7 +179,7 @@ export default function OrderTable({ usersOrdersData }) {
               const isItemSelected = isSelected(row.data?.code);
               const labelId = `enhanced-table-checkbox-${index}`;
               return (
-                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={row.data?.id} selected={isItemSelected}>
+                <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} aria-checked={isItemSelected} tabIndex={-1} key={index} selected={isItemSelected}>
                   <TableCell component="th" id={labelId} scope="row" align="left">
                     <Link color="secondary" component={RouterLink} to="">
                       {row.data?.code}

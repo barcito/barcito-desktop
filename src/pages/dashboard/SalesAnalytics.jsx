@@ -77,7 +77,7 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
               ${parseFloat(totalSum)}
             </Typography>
           </Grid>
-          {percentage && (
+          {percentage !== 0 && (
             <Grid item>
               <Chip
                 variant="combined"
@@ -92,6 +92,12 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
                 sx={{ ml: 1.25, pl: 1 }}
                 size="small"
               />
+            </Grid>
+          )}
+
+          {percentage === 0 && (
+            <Grid item>
+              <Chip variant="combined" color={"error"} icon={<>{isLoss && <FallOutlined style={{ fontSize: "0.75rem", color: "inherit" }} />}</>} label={`${percentage}%`} sx={{ ml: 1.25, pl: 1 }} size="small" />
             </Grid>
           )}
         </Grid>

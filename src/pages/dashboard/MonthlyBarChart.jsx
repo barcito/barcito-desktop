@@ -10,6 +10,7 @@ function getMondayUsersOrders(usersOrdersData) {
       return day === 1;
     }
   });
+  // console.log("mondayUsersOrders", mondayUsersOrders.length.toString());
   return mondayUsersOrders.length;
 }
 
@@ -21,6 +22,7 @@ function getTuesdayUsersOrders(usersOrdersData) {
       return day === 2;
     }
   });
+  // console.log("tuesdayUserOrders", tuesdayUserOrders);
   return tuesdayUserOrders.length;
 }
 
@@ -32,6 +34,7 @@ function getWednesdayUsersOrders(usersOrdersData) {
       return day === 3;
     }
   });
+  // console.log("wednesdayUserOrders", wednesdayUserOrders);
   return wednesdayUserOrders.length;
 }
 
@@ -43,6 +46,7 @@ function getThusdayUsersOrders(usersOrdersData) {
       return day === 4;
     }
   });
+  // console.log("thursdayUserOrders", thursdayUserOrders);
   return thursdayUserOrders.length;
 }
 
@@ -54,6 +58,7 @@ function getFridayUsersOrders(usersOrdersData) {
       return day === 5;
     }
   });
+  // console.log("fridayUserOrders", fridayUserOrders);
   return fridayUserOrders.length;
 }
 
@@ -75,7 +80,7 @@ function MonthlyBarChart({ usersOrdersData }) {
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     xaxis: {
       categories: ["Lu", "Ma", "Mi", "Ju", "Vi"],
@@ -94,28 +99,24 @@ function MonthlyBarChart({ usersOrdersData }) {
     },
   };
 
-  let mondaySales = 0;
-  let tuesdaySales = 0;
-  let wednesdaySales = 0;
-  let thursdaySales = 0;
-  let fridaySales = 0;
+  let mondaySales = getMondayUsersOrders(usersOrdersData);
+  let tuesdaySales = getTuesdayUsersOrders(usersOrdersData);
+  let wednesdaySales = getWednesdayUsersOrders(usersOrdersData);
+  let thursdaySales = getThusdayUsersOrders(usersOrdersData);
+  let fridaySales = getFridayUsersOrders(usersOrdersData);
 
-  if (usersOrdersData !== []) {
-    mondaySales = getMondayUsersOrders(usersOrdersData);
-    tuesdaySales = getTuesdayUsersOrders(usersOrdersData);
-    wednesdaySales = getWednesdayUsersOrders(usersOrdersData);
-    thursdaySales = getThusdayUsersOrders(usersOrdersData);
-    fridaySales = getFridayUsersOrders(usersOrdersData);
-  }
+  let dailySales = [mondaySales, tuesdaySales, wednesdaySales, thursdaySales, fridaySales];
 
-  console.log(mondaySales, tuesdaySales, wednesdaySales, thursdaySales, fridaySales);
+  // console.log(dailySales);
 
   const { primary, secondary } = theme.palette.text;
   const info = theme.palette.info.light;
 
   const [series] = useState([
     {
-      data: [mondaySales, tuesdaySales, wednesdaySales, thursdaySales, fridaySales],
+      name: "Total de ventas del día",
+      data: [42, 72, 73, 83, 76],
+      // data: [dailySales[0], dailySales[1], dailySales[2], dailySales[3], dailySales[4]],
     },
   ]);
 

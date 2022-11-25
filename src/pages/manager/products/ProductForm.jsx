@@ -32,6 +32,9 @@ export default function ProductForm({ product, mutation, handleNew }) {
         product_img: "",
       };
 
+  const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png", "image/jfif"];
+  const FILE_SIZE = 10000000;
+
   if (isLoadingStock || isLoadingCategories) {
     return <p>Loading...</p>;
   }
@@ -54,7 +57,10 @@ export default function ProductForm({ product, mutation, handleNew }) {
               })
             )
             .min(1, "Debe seleccionar al menos un articulo del stock"),
-          product_img: Yup.mixed().required("Se tiene que seleccionar una imagen"),
+          product_img: Yup.mixed()
+            .required("Se tiene que seleccionar una imagen")
+            .test("fileSize", "Archivo muy pesado", (value) => value && value.size <= FILE_SIZE)
+            .test("fileFormat", "Formato no soportado", (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {

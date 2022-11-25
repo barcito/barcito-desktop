@@ -61,6 +61,10 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
   let extra = totalSum - stockTotalSum;
   let isLoss = false;
 
+  if (isNaN(percentage)) {
+    percentage = 0;
+  }
+
   if (percentage <= 0) {
     isLoss = true;
   }

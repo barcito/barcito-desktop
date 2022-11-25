@@ -36,9 +36,15 @@ function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
   // let percentage = -15;
   let isLoss = false;
 
+  if (isNaN(percentage)) {
+    percentage = 0;
+  }
+
   if (percentage <= 0) {
     isLoss = true;
   }
+
+  // console.log(percentage);
 
   return (
     <MainCard contentSX={{ p: 2.25 }}>

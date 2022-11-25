@@ -19,11 +19,10 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { AuthAPI } from "@/services/authAPI";
 import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
 import { useQuery } from "react-query";
-import MultiSelect from '@/components/MultiSelect';
+import MultiSelect from "@/components/MultiSelect";
 
 function AuthRegister() {
-
-  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
+  const { data: academicUnits, isLoading } = useQuery(["academic-units"], () => AcademicUnitsAPI.getAll());
 
   const navigate = useNavigate();
 
@@ -46,8 +45,8 @@ function AuthRegister() {
     changePassword("");
   }, []);
 
-  if(isLoading){
-    return <p>Loading...</p>
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -60,8 +59,7 @@ function AuthRegister() {
           surname: "",
           dni: "",
           phone: "",
-          academicUnit: "",
-          submit: null,
+          academicUnitId: "",
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email("El email es inválido").max(255).required("Campo obligatorio"),
@@ -70,12 +68,13 @@ function AuthRegister() {
           surname: Yup.string().max(255).required("Campo obligatorio"),
           dni: Yup.number().required("Campo obligatorio"),
           phone: Yup.number().required("Campo obligatorio"),
+          academicUnitId: Yup.number().required("Debe seleccionar una unidad academica")
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const response = await AuthAPI.signUp(values, true);
-            if(response){
-              navigate('/');
+            if (response) {
+              navigate("/");
             }
             setStatus({ success: true });
             setSubmitting(false);
@@ -137,19 +136,13 @@ function AuthRegister() {
 
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="academicUnit-signup">Unidad academica</InputLabel>
-                  <Field
-                        id="academicUnit-signup"
-                        name="academicUnit"
-                        options={academicUnits}
-                        component={MultiSelect}
-                        placeholder="Seleccione unidad academica"
-                    />
-                    {touched.supplies && errors.supplies && (
-                        <FormHelperText error id="standard-weight-helper-text-supplies-item">
-                            {errors.supplies}
-                        </FormHelperText>
-                    )}
+                  <InputLabel htmlFor="academicUnitId-signup">Unidad academica</InputLabel>
+                  <Field id="academicUnitId-signup" name="academicUnitId" options={academicUnits} component={MultiSelect} placeholder="Seleccione unidad academica" />
+                  {touched.academicUnitId && errors.academicUnitId && (
+                    <FormHelperText error id="standard-weight-helper-text-academicUnitId-item">
+                      {errors.academicUnitId}
+                    </FormHelperText>
+                  )}
                 </Stack>
               </Grid>
 

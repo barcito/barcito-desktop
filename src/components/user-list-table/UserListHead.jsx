@@ -1,21 +1,21 @@
-import PropTypes from 'prop-types';
-import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@mui/material';
+import PropTypes from "prop-types";
+import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from "@mui/material";
 import RuleIcon from "@mui/icons-material/Rule";
 
 const visuallyHidden = {
   border: 0,
   margin: -1,
   padding: 0,
-  width: '1px',
-  height: '1px',
-  overflow: 'hidden',
-  position: 'absolute',
-  whiteSpace: 'nowrap',
-  clip: 'rect(0 0 0 0)',
+  width: "1px",
+  height: "1px",
+  overflow: "hidden",
+  position: "absolute",
+  whiteSpace: "nowrap",
+  clip: "rect(0 0 0 0)",
 };
 
 UserListHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']),
+  order: PropTypes.oneOf(["asc", "desc"]),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,
@@ -47,32 +47,20 @@ export default function UserListHead({
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={onSelectAllClick}
             />
-          </TableCell> */
-        }
+          </TableCell> */}
         {headLabel.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align='left'
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              hideSortIcon
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
+          <TableCell key={headCell.id} align="left" sortDirection={orderBy === headCell.id ? order : false}>
+            <TableSortLabel hideSortIcon active={orderBy === headCell.id} direction={orderBy === headCell.id ? order : "asc"} onClick={createSortHandler(headCell.id)}>
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box sx={{ ...visuallyHidden }}>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box>
-              ) : null}
+              {orderBy === headCell.id ? <Box sx={{ ...visuallyHidden }}>{order === "desc" ? "sorted descending" : "sorted ascending"}</Box> : null}
             </TableSortLabel>
           </TableCell>
         ))}
-          <TableCell key={'action'} align='center'>
-            <TableSortLabel hideSortIcon active={false} sx={{cursor: 'default'}}>
-              <RuleIcon />
-            </TableSortLabel>
-          </TableCell>
+        <TableCell key={"action"} align="center">
+          <TableSortLabel hideSortIcon active={false} sx={{ cursor: "default" }}>
+            <RuleIcon />
+          </TableSortLabel>
+        </TableCell>
       </TableRow>
     </TableHead>
   );

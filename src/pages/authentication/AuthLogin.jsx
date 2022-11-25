@@ -37,7 +37,7 @@ function AuthLogin() {
       <Formik
         initialValues={{
           email: "",
-          password: ""
+          password: "",
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email("El email es inválido").max(255).required("El email es obligatorio"),
@@ -46,7 +46,7 @@ function AuthLogin() {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const response = await AuthAPI.signIn(values, true);
-            if(response){
+            if (response) {
               navigate("/");
             }
             setStatus({ success: false });

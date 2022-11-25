@@ -1,7 +1,7 @@
 import { api } from "./configs/axiosConfigs";
 import { defineCancelApiObject } from "./configs/axiosUtils";
 
-const url = `/categories/${localStorage.getItem('barcito')}`;
+const url = `/categories/${localStorage.getItem("barcito")}`;
 
 export const CategoriesAPI = {
   get: async function (id, cancel = false) {
@@ -9,7 +9,7 @@ export const CategoriesAPI = {
       url: `${url}/${id}`,
       method: "GET",
       signal: cancel ? cancelApiObject[this.get.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -19,7 +19,7 @@ export const CategoriesAPI = {
       url: url,
       method: "GET",
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -29,7 +29,7 @@ export const CategoriesAPI = {
       url: `${url}/consumables`,
       method: "GET",
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -39,7 +39,7 @@ export const CategoriesAPI = {
       url: `${url}/supplies`,
       method: "GET",
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -49,7 +49,7 @@ export const CategoriesAPI = {
       url: `${url}/products`,
       method: "GET",
       signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -60,7 +60,7 @@ export const CategoriesAPI = {
       method: "PATCH",
       data: category,
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -69,9 +69,9 @@ export const CategoriesAPI = {
     const response = await api.request({
       url: url,
       method: "POST",
-      data: {...category, barcitoId: localStorage.getItem('barcito')},
+      data: { ...category },
       signal: cancel ? cancelApiObject[this.create.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
   },
@@ -81,10 +81,10 @@ export const CategoriesAPI = {
       url: `${url}/${id}`,
       method: "DELETE",
       signal: cancel ? cancelApiObject[this.delete.name].handleRequestCancellation().signal : undefined,
-    })
+    });
 
     return response.data;
-  }
-}
+  },
+};
 
-const cancelApiObject = defineCancelApiObject(CategoriesAPI)
+const cancelApiObject = defineCancelApiObject(CategoriesAPI);

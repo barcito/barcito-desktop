@@ -9,8 +9,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import useStore from "@/services/store";
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 function NavItem({ item, level, collapse, open }) {
   const theme = useTheme();
@@ -29,9 +29,9 @@ function NavItem({ item, level, collapse, open }) {
   }
 
   const itemHandler = (id) => {
-    if(collapse){
+    if (collapse) {
       collapse();
-    }else{
+    } else {
       selectSidebarItem(id);
     }
   };

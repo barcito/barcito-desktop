@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -23,29 +23,27 @@ import { UserAPI } from "@/services/userAPI";
 import { MenuItem, Select } from "@mui/material";
 import { useQuery } from "react-query";
 import { AcademicUnitsAPI } from "@/services/academicUnitsAPI";
-import MultiSelect from '@/components/MultiSelect';
+import MultiSelect from "@/components/MultiSelect";
 
 export function AccountProfileDetails({ user }) {
+  const { data: academicUnits, isLoading } = useQuery(["academic-units"], () => AcademicUnitsAPI.getAll());
 
-  const { data: academicUnits, isLoading } = useQuery(['academic-units'], () => AcademicUnitsAPI.getAll());
-
-  if(isLoading){
-    return <p>Loading...</p>
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
   return (
-
     <Formik
       initialValues={{
         name: user?.name,
         surname: "" || user?.surname,
         email: "" || user?.email,
         /* password: "", */
-        academicUnit: "" || user?.academicUnit?.id,/*
-                        certificate: "" || user?.certificate, */
+        academicUnit: "" || user?.academicUnit?.id /*
+                        certificate: "" || user?.certificate, */,
         phone: "" || user?.phone,
-        dni: "" || user?.dni,/* 
-                        roles: [] || user?.roles, */
+        dni: "" || user?.dni /* 
+                        roles: [] || user?.roles, */,
       }}
       validationSchema={Yup.object().shape({
         name: Yup.string().max(255).required("Campo obligatorio"),
@@ -94,7 +92,8 @@ export function AccountProfileDetails({ user }) {
                   </FormHelperText>
                 )}
               </Stack>
-            </Grid><Grid item xs={12}>
+            </Grid>
+            <Grid item xs={12}>
               <Stack spacing={1}>
                 <InputLabel htmlFor="email-edit">Email</InputLabel>
                 <OutlinedInput fullWidth error={Boolean(touched.email && errors.email)} id="email-login" type="email" value={values.email} name="email" onBlur={handleBlur} onChange={handleChange} placeholder="demo@dni.com" inputProps={{ autoComplete: "username" }} />
@@ -131,13 +130,7 @@ export function AccountProfileDetails({ user }) {
             <Grid item xs={12}>
               <Stack spacing={1}>
                 <InputLabel htmlFor="academicUnit-edit">Unidad academica</InputLabel>
-                <Field
-                  id="academicUnit-edit"
-                  name="academicUnit"
-                  options={academicUnits}
-                  component={MultiSelect}
-                  placeholder="Seleccione unidad academica"
-                />
+                <Field id="academicUnit-edit" name="academicUnit" options={academicUnits} component={MultiSelect} placeholder="Seleccione unidad academica" />
                 {touched.supplies && errors.supplies && (
                   <FormHelperText error id="standard-weight-helper-text-supplies-item">
                     {errors.supplies}
@@ -145,7 +138,6 @@ export function AccountProfileDetails({ user }) {
                 )}
               </Stack>
             </Grid>
-
 
             {errors.submit && (
               <Grid item xs={12}>

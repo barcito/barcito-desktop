@@ -29,9 +29,7 @@ export default function UserMoreMenu({ disabled, user, actionOne, actionTwo }) {
             setIsOpen(false);
           }}
         >
-          <ListItemIcon>
-            {actionOne.icon}
-          </ListItemIcon>
+          <ListItemIcon>{actionOne.icon}</ListItemIcon>
           <ListItemText primary={actionOne.label} primaryTypographyProps={{ variant: "body2" }} />
         </MenuItem>
 
@@ -42,9 +40,7 @@ export default function UserMoreMenu({ disabled, user, actionOne, actionTwo }) {
             setIsOpen(false);
           }}
         >
-          <ListItemIcon>
-            {actionTwo.icon}
-          </ListItemIcon>
+          <ListItemIcon>{actionTwo.icon}</ListItemIcon>
           <ListItemText primary={actionTwo.label} primaryTypographyProps={{ variant: "body2" }} />
         </MenuItem>
       </Menu>

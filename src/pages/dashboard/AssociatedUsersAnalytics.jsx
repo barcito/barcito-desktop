@@ -8,9 +8,9 @@ import MainCard from "../../components/MainCard";
 import { RiseOutlined, FallOutlined } from "@ant-design/icons";
 
 function calculateLastWeekUsers(usersData) {
-  const lastWeekUsers = usersData.filter((user) => {
-    const userDate = new Date(user.createdAt);
-    const lastWeekDate = new Date();
+  let lastWeekUsers = usersData.filter((user) => {
+    let userDate = new Date(user.createdAt);
+    let lastWeekDate = new Date();
     lastWeekDate.setDate(lastWeekDate.getDate() - 7);
     return userDate >= lastWeekDate;
   });
@@ -18,9 +18,9 @@ function calculateLastWeekUsers(usersData) {
 }
 
 function calculateLastWeekAssociatedUsers(usersData) {
-  const lastWeekUsers = usersData.filter((user) => {
-    const userDate = new Date(user.createdAt);
-    const lastWeekDate = new Date();
+  let lastWeekUsers = usersData.filter((user) => {
+    let userDate = new Date(user.createdAt);
+    let lastWeekDate = new Date();
     lastWeekDate.setDate(lastWeekDate.getDate() - 7);
     return userDate >= lastWeekDate;
   });
@@ -40,9 +40,15 @@ function AssociatedUsersAnalytics({ color, usersData }) {
   // let percentage = 0;
   let isLoss = false;
 
+  if (isNaN(percentage)) {
+    percentage = 0;
+  }
+
   if (percentage <= 0) {
     isLoss = true;
   }
+
+  // console.log(percentage);
 
   return (
     <MainCard contentSX={{ p: 2.25 }}>

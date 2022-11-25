@@ -8,16 +8,16 @@ import MainCard from "../../components/MainCard";
 import { RiseOutlined, FallOutlined } from "@ant-design/icons";
 
 function filterDeliveredOrders(usersOrdersData) {
-  const deliveredOrders = usersOrdersData.filter((order) => {
+  let deliveredOrders = usersOrdersData.filter((order) => {
     return order.status === "Entregado";
   });
   return deliveredOrders;
 }
 
 function calculateLastWeekDeliveredOrders(deliveredUsersOrders) {
-  const lastWeekDeliveredOrders = deliveredUsersOrders.filter((order) => {
-    const orderDate = new Date(order.createdAt);
-    const lastWeekDate = new Date();
+  let lastWeekDeliveredOrders = deliveredUsersOrders.filter((order) => {
+    let orderDate = new Date(order.createdAt);
+    let lastWeekDate = new Date();
     lastWeekDate.setDate(lastWeekDate.getDate() - 7);
     return orderDate >= lastWeekDate;
   });
@@ -25,9 +25,9 @@ function calculateLastWeekDeliveredOrders(deliveredUsersOrders) {
 }
 
 function calculateLastWeekTotalSum(deliveredUsersOrders) {
-  const lastWeekDeliveredOrders = deliveredUsersOrders.filter((order) => {
-    const orderDate = new Date(order.createdAt);
-    const lastWeekDate = new Date();
+  let lastWeekDeliveredOrders = deliveredUsersOrders.filter((order) => {
+    let orderDate = new Date(order.createdAt);
+    let lastWeekDate = new Date();
     lastWeekDate.setDate(lastWeekDate.getDate() - 7);
     return orderDate >= lastWeekDate;
   });
@@ -59,7 +59,7 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
 
   let percentage = calculateLastWeekDeliveredOrdersGainPercentage(totalSum, stockTotalSum);
   let extra = totalSum - stockTotalSum;
-  const isLoss = false;
+  let isLoss = false;
 
   if (percentage <= 0) {
     isLoss = true;

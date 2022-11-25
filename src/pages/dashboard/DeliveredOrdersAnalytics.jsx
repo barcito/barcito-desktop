@@ -8,16 +8,16 @@ import MainCard from "../../components/MainCard";
 import { RiseOutlined, FallOutlined } from "@ant-design/icons";
 
 function filterDeliveredOrders(usersOrdersData) {
-  const deliveredOrders = usersOrdersData.filter((order) => {
+  let deliveredOrders = usersOrdersData.filter((order) => {
     return order.status === "Entregado";
   });
   return deliveredOrders;
 }
 
 function calculateLastWeekDeliveredOrders(deliveredUsersOrders) {
-  const lastWeekDeliveredOrders = deliveredUsersOrders.filter((order) => {
-    const orderDate = new Date(order.createdAt);
-    const lastWeekDate = new Date();
+  let lastWeekDeliveredOrders = deliveredUsersOrders.filter((order) => {
+    let orderDate = new Date(order.createdAt);
+    let lastWeekDate = new Date();
     lastWeekDate.setDate(lastWeekDate.getDate() - 7);
     return orderDate >= lastWeekDate;
   });
@@ -25,8 +25,8 @@ function calculateLastWeekDeliveredOrders(deliveredUsersOrders) {
 }
 
 function calculateLastWeekDeliveredOrdersPercentage(deliveredUsersOrders) {
-  const lastWeekDeliveredOrders = calculateLastWeekDeliveredOrders(deliveredUsersOrders);
-  const lastWeekDeliveredOrdersPercentage = (lastWeekDeliveredOrders / deliveredUsersOrders.length) * 100;
+  let lastWeekDeliveredOrders = calculateLastWeekDeliveredOrders(deliveredUsersOrders);
+  let lastWeekDeliveredOrdersPercentage = (lastWeekDeliveredOrders / deliveredUsersOrders.length) * 100;
   return Math.round(lastWeekDeliveredOrdersPercentage);
 }
 

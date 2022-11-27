@@ -8,15 +8,19 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CategoryDialog({ category, dialogOpen, mutation, setDialogOpen }) {
-  const initialValues = {
-    type: "",
-    description: "",
-  };
-
+export default function CategoryDialog({ editData, dialogOpen, mutation, setDialogOpen }) {
+  const initialValues = editData.id
+    ? {
+        type: editData.type,
+        description: editData.description,
+      }
+    : {
+        type: "",
+        description: "",
+      };
   return (
     <Dialog open={dialogOpen} TransitionComponent={Transition} keepMounted onClose={() => setDialogOpen(false)} aria-describedby="alert-dialog-slide-description">
-      <DialogTitle>{category.id ? "Modificar categoría" : "Crear categoría"}</DialogTitle>
+      <DialogTitle>{editData.id ? "Modificar categoría" : "Crear categoría"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">Seleccione el tipo de categor&iacute;a</DialogContentText>
 
@@ -32,8 +36,8 @@ export default function CategoryDialog({ category, dialogOpen, mutation, setDial
             let description = values.description;
 
             try {
-              if (category.id) {
-                mutation.mutate({ id: category.id, type, description });
+              if (editData.id) {
+                mutation.mutate({ id: editData.id, type, description });
               } else {
                 mutation.mutate({ type, description });
               }

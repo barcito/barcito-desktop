@@ -27,7 +27,6 @@ function calculateLastWeekUsersPercentage(usersData) {
 
 function calculateLastWeekAssociatedUsers(usersData) {
   let lastWeekUsers = usersData.filter((user) => {
-    console.log(user);
     if (user.applicationDone) {
       let userDate = new Date(user.createdAt);
       let lastWeekDate = new Date();

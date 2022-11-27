@@ -17,22 +17,25 @@ function calculateLastWeekUsers(usersData) {
   return lastWeekUsers.length;
 }
 
-function calculateLastWeekAssociatedUsers(usersData) {
-  let lastWeekUsers = usersData.filter((user) => {
-    let userDate = new Date(user.createdAt);
-    let lastWeekDate = new Date();
-    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
-    return userDate >= lastWeekDate;
-  });
-  return lastWeekUsers.length;
-}
-
 function calculateLastWeekUsersPercentage(usersData) {
   let lastWeekUsersSum = calculateLastWeekUsers(usersData);
 
   let lastWeekUsersPercentage = (lastWeekUsersSum / usersData.length) * 100;
 
   return Math.round(lastWeekUsersPercentage);
+}
+
+function calculateLastWeekAssociatedUsers(usersData) {
+  let lastWeekUsers = usersData.filter((user) => {
+    console.log(user);
+    if (user.applicationDone) {
+      let userDate = new Date(user.createdAt);
+      let lastWeekDate = new Date();
+      lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+      return userDate >= lastWeekDate;
+    }
+  });
+  return lastWeekUsers.length;
 }
 
 function AssociatedUsersAnalytics({ color, usersData }) {

@@ -5,6 +5,7 @@ import { OrdersAPI } from "@/services/ordersAPI";
 import MainCard from "@/components/MainCard";
 import OrderStatus from "@/components/order-list-table/OrderStatus";
 import { useState } from "react";
+import { SseAPI } from "@/services/sseAPI";
 
 export default function OrderDetails() {
   const client = useQueryClient();
@@ -20,6 +21,8 @@ export default function OrderDetails() {
     {
       onSuccess: () => {
         client.invalidateQueries(["order"]);
+        const sse = SseAPI.newOrderStatus(order.user.id, order.status);
+        console.log(sse);
       },
     }
   );

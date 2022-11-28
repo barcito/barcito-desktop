@@ -115,7 +115,7 @@ function MonthlyBarChart({ usersOrdersData }) {
   const [series] = useState([
     {
       name: "Total de ventas del día",
-      data: [42, 72, 73, 83, 76, 8],
+      data: [42, 72, 73, 83, 76],
       // data: [dailySales[0], dailySales[1], dailySales[2], dailySales[3], dailySales[4]],
     },
   ]);

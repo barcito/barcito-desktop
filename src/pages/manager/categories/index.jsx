@@ -16,6 +16,7 @@ export default function CategoriesList() {
 
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [editData, setEditData] = useState({});
   const [category, setCategory] = useState({ description: "", type: "" });
   const [value, setValue] = useState("All");
 
@@ -91,6 +92,7 @@ export default function CategoriesList() {
                           fn: () => {
                             setCategory(row);
                             setCategoryDialogOpen(true);
+                            setEditData({ ...row });
                           },
                         }}
                         actionTwo={{
@@ -112,6 +114,7 @@ export default function CategoriesList() {
                         color="primary"
                         onClick={() => {
                           setCategoryDialogOpen(true);
+                          setEditData({});
                         }}
                       >
                         <LibraryAdd fontSize="large" />
@@ -125,7 +128,7 @@ export default function CategoriesList() {
         </TabContext>
       </Container>
 
-      <CategoryDialog category={category} dialogOpen={categoryDialogOpen} mutation={mutation} setDialogOpen={setCategoryDialogOpen} />
+      <CategoryDialog editData={editData} dialogOpen={categoryDialogOpen} mutation={mutation} setDialogOpen={setCategoryDialogOpen} />
       <ConfirmDialog dialogOpen={confirmDialogOpen} text={"¿Eliminar categoría?"} confirmAction={() => deleteMutation.mutate(category.id)} closeDialog={setConfirmDialogOpen} />
     </>
   );

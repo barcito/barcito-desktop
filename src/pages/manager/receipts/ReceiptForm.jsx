@@ -19,6 +19,8 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
 
   let todaysDate = new Date();
 
+  const SUPPORTED_FORMATS = ["application/pdf"];
+
   return (
     <MainCard>
       <Formik
@@ -36,7 +38,9 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
               })
             )
             .min(1, "Debe cargar al menos un item de stock"),
-          receipt_doc: Yup.mixed().required("Se tiene que seleccionar un documento"),
+          receipt_doc: Yup.mixed()
+            .required("Se tiene que seleccionar un documento")
+            .test("fileFormat", "Formato no soportado", (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -153,7 +157,7 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
                       values.receiptToStock.map((prod, i) => {
                         return (
                           <React.Fragment key={i}>
-                            <Grid item xs={5}>
+                            <Grid item xs={12}>
                               <Stack spacing={1}>
                                 <Field id={`receiptToStock-item-${prod.id}`} name={`receiptToStock.${i}.stockId`} options={stockList} component={MultiSelect} placeholder="Seleccione producto" />
                                 {touched.receiptToStock && errors.receiptToStock && errors.receiptToStock[i]?.stockId && (

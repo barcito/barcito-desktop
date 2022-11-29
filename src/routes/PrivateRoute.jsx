@@ -9,7 +9,7 @@ const PrivateRoute = ({ children, role }) => {
   useEffect(() => {
     eventBus.on("logout", async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/auth/refresh", { withCredentials: true });
+        const response = await axios.get("http://192.168.0.6:3000/api/auth/refresh", { withCredentials: true });
         console.log(response);
       } catch (error) {
         console.log(error);

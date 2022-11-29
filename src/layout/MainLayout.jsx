@@ -9,11 +9,14 @@ import Header from "./Header";
 import { menuItems } from "./menu-items";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import useStore from "@/services/store";
+import eventBus from "@/utils/eventBus";
+import { useSnackbar } from "notistack";
 
 function MainLayout() {
   const theme = useTheme();
   const matchDownLG = useMediaQuery(theme.breakpoints.down("xl"));
   const { openSidebar, toggleOpenSidebar } = useStore();
+  const { enqueueSnackbar } = useSnackbar();
 
   // drawer toggler
   const [open, setOpen] = useState(openSidebar);
@@ -21,6 +24,12 @@ function MainLayout() {
     setOpen(!open);
     toggleOpenSidebar(!open);
   };
+
+  useEffect(()=> {
+    eventBus.on("notification", (detail) =>{
+      enqueueSnackbar(detail.message, { variant: 'success', anchorOrigin: { horizontal: 'right', vertical: 'bottom' }});
+    })
+  }, []);
 
   // set media wise responsive drawer
   useEffect(() => {

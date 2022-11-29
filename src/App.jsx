@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import router from './routes/Router';
 import ThemeCustomization from "./themes";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { SnackbarProvider } from "notistack";
 
 function App() {
 
@@ -10,9 +11,11 @@ function App() {
 
   return (
     <ThemeCustomization>
-      <QueryClientProvider client={queryClient}>
+      <SnackbarProvider>
+        <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
-      </QueryClientProvider>
+        </QueryClientProvider>
+      </SnackbarProvider>
     </ThemeCustomization>
   );
 }

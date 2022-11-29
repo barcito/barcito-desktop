@@ -21,8 +21,11 @@ export default function OrderDetails() {
     {
       onSuccess: () => {
         client.invalidateQueries(["order"]);
-        const sse = SseAPI.newOrderStatus(order.user.id, {message: status, type: 'message'});
-        console.log(sse);
+        SseAPI.newOrderStatus(order.user.id, {
+          title: `Pedido ${order.code}`,
+          message: `Su pedido ha cambiado el estado a ${status}`,
+          type: 'message'
+        });
       },
     }
   );

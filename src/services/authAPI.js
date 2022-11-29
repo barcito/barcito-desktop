@@ -1,6 +1,7 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { api } from "./configs/axiosConfigs";
 import { defineCancelApiObject } from "./configs/axiosUtils";
+import { SseAPI } from "./sseAPI";
 
 export const AuthAPI = {
     signUp: async function(userData, cancel = false){
@@ -32,6 +33,7 @@ export const AuthAPI = {
             localStorage.setItem("academic-unit", response.data.academicUnit);
             if(response.data.barcitoId){
                 localStorage.setItem("barcito", response.data.barcitoId);
+                SseAPI.subscribe(response.data.barcitoId);
             }
         }
 

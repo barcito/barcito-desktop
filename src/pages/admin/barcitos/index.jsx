@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Container, ImageList, ImageListItem, Stack, Box, Grid, ImageListItemBar, Button, Tab, Tabs } from "@mui/material";
+import { Container, IconButton, ImageList, ImageListItem, Stack, Box, Grid, ImageListItemBar, Button, Tab, Tabs } from "@mui/material";
 import { AddBusinessOutlined } from "@mui/icons-material";
+import InfoIcon from "@mui/icons-material/Info";
 import MainCard from "@/components/MainCard";
 import BarcitoForm from "./BarcitoForm";
 import { BarcitoAPI } from "@/services/barcitoAPI";
@@ -18,6 +19,7 @@ export default function Barcitos() {
   const [managers, setManagers] = useState([]);
   const [value, setValue] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState();
 
   const mutation = useMutation(
     ({ id, data, image }) => {
@@ -52,20 +54,8 @@ export default function Barcitos() {
 
   return (
     <Container>
-      <Grid container spacing={1.5}>
-        <Grid item xs={2}>
-          <Button
-            onClick={() => {
-              setBarFocus({});
-              setManagers([]);
-              setValue(0);
-            }}
-          >
-            <AddBusinessOutlined sx={{ width: "100%", height: "200px", mt: 1.75 }} />
-          </Button>
-        </Grid>
-        <Grid item xs={10}>
-          <ImageList
+      <Grid container spacing={0.5}>
+        {/* <ImageList
             sx={{
               gridAutoFlow: "column",
               gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr)) !important",
@@ -74,7 +64,7 @@ export default function Barcitos() {
           >
             {barcitos.map((bar, i) => (
               <ImageListItem key={i} sx={barFocus.id === bar.id ? { width: "200px", border: 2, borderColor: "red" } : { width: "200px" }}>
-                <img src={bar.imagePath || "src/assets/images/barcito-placeholder.png"} alt={bar.name} loading="lazy" />
+                <img src={bar.imagePath ? bar.imagePath : "src/assets/images/barcito-placeholder.png"} alt={bar.name} loading="lazy" sx={{ maxHeight: "250px", overflow: "hidden" }} />
                 <Button
                   onClick={() => {
                     setBarFocus(bar);
@@ -85,8 +75,54 @@ export default function Barcitos() {
                 </Button>
               </ImageListItem>
             ))}
-          </ImageList>
-        </Grid>
+          </ImageList> */}
+
+        <ImageList
+          sx={{
+            gridAutoFlow: "column",
+            gridTemplateColumns: "repeat(auto-fill,minmax(250px,1fr)) !important",
+            gridAutoColumns: "minmax(250px, 1fr)",
+          }}
+          rowHeight={150}
+        >
+          {barcitos.map((bar, i) => (
+            <Button
+              key={i}
+              onClick={() => {
+                setBarFocus(bar);
+                setManagers(bar.managers);
+              }}
+            >
+              <ImageListItem sx={{ display: "flex", flexDirection: "row" }}>
+                <img src={`${bar.imagePath}?w=248&fit=crop&auto=format`} srcSet={`${bar.imagePath}?w=248&fit=crop&auto=format&dpr=2 2x`} alt={bar.name} loading="lazy" style={{ paddingRight: "1em" }} />
+                <ImageListItemBar
+                  title={bar.name}
+                  subtitle={bar.academicUnit?.shortName}
+                  actionIcon={
+                    <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }} aria-label={`info about ${bar.name}`}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </ImageListItem>
+            </Button>
+          ))}
+        </ImageList>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setBarFocus({});
+            setManagers([]);
+            setValue(0);
+          }}
+          endIcon={<AddBusinessOutlined />}
+        >
+          Nuevo Barcito
+        </Button>
+
         <Grid item xs={12}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={value} onChange={handleChange} aria-label="barcito tabs">
@@ -102,11 +138,18 @@ export default function Barcitos() {
                 {/* <BarcitoImage barId={barFocus.id} image={barFocus.imagePath} alt={barFocus.name} /> */}
                 {barFocus.id && (
                   <Stack spacing={1}>
-                    <img src={barFocus.imagePath || "src/assets/images/barcito-placeholder.png"} alt={barFocus.name} loading="lazy" width="200px" />
-                    <form>
-                      <FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)} />
+                    <img src={imagePreview ? imagePreview : barFocus.imagePath} alt={"Imagen barcito de vista previa antes de cargar"} width="200px" />
 
-                      <button onClick={submitImage}>Submit</button>
+                    <form>
+                      <Box textAlign="center">
+                        <FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)} setImagePreview={setImagePreview} />
+                      </Box>
+
+                      <Box mt={2} textAlign="center">
+                        <Button onClick={submitImage} variant="contained" color="primary" component="span">
+                          Guardar Imagen
+                        </Button>
+                      </Box>
                     </form>
                   </Stack>
                 )}

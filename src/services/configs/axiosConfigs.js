@@ -3,7 +3,7 @@ import eventBus from "@/utils/eventBus";
 
 export const api = axios.create({
   withCredentials: true,
-  baseURL: "http://192.168.0.6:3000/api/",
+  baseURL: "http://localhost:3000/api/",
 });
 
 // defining a custom error handler for all APIs
@@ -13,11 +13,11 @@ const errorHandler = (error) => {
   // logging only errors that are not 401
   if (statusCode && statusCode !== 401) {
     console.error(error);
-  } else if (statusCode && statusCode === 401){
+  } else if (statusCode && statusCode === 401) {
     eventBus.dispatch("logout");
   }
   return Promise.reject(message);
-}
+};
 
 // registering the custom error handler to the
 // "api" axios instance

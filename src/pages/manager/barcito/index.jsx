@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Stack, Box, Grid, Tab, Tabs } from "@mui/material";
+import { Container, Stack, Box, Grid, Tab, Tabs, Button } from "@mui/material";
 import MainCard from "@/components/MainCard";
 import BarcitoForm from "../../admin/barcitos/BarcitoForm";
 import { BarcitoAPI } from "@/services/barcitoAPI";
@@ -12,6 +12,7 @@ export default function Barcito() {
   const client = useQueryClient();
   const { data: barcito, isLoading } = useQuery(["barcito"], () => BarcitoAPI.get(localStorage.getItem("barcito")));
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState();
   const [value, setValue] = useState(0);
 
   const mutation = useMutation(
@@ -57,10 +58,17 @@ export default function Barcito() {
               <Stack spacing={1} direction="row">
                 <BarcitoForm barcito={barcito} mutation={mutation} />
                 <Stack spacing={1}>
-                  <img src={barcito.imagePath || "src/assets/images/barcito-placeholder.png"} alt={barcito.name} loading="lazy" width="200px" />
+                  <img src={imagePreview ? imagePreview : barcito.imagePath} alt={"Imagen barcito de vista previa antes de cargar"} width="200px" />
                   <form>
-                    <FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)} />
-                    <button onClick={submitImage}>Submit</button>
+                    <Box textAlign="center">
+                      <FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)} setImagePreview={setImagePreview} />
+                    </Box>
+
+                    <Box mt={2} textAlign="center">
+                      <Button onClick={submitImage} variant="contained" color="primary" component="span">
+                        Guardar Imagen
+                      </Button>
+                    </Box>
                   </form>
                 </Stack>
               </Stack>

@@ -55,28 +55,6 @@ export default function Barcitos() {
   return (
     <Container>
       <Grid container spacing={0.5}>
-        {/* <ImageList
-            sx={{
-              gridAutoFlow: "column",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr)) !important",
-              gridAutoColumns: "minmax(200px, 1fr)",
-            }}
-          >
-            {barcitos.map((bar, i) => (
-              <ImageListItem key={i} sx={barFocus.id === bar.id ? { width: "200px", border: 2, borderColor: "red" } : { width: "200px" }}>
-                <img src={bar.imagePath ? bar.imagePath : "src/assets/images/barcito-placeholder.png"} alt={bar.name} loading="lazy" sx={{ maxHeight: "250px", overflow: "hidden" }} />
-                <Button
-                  onClick={() => {
-                    setBarFocus(bar);
-                    setManagers(bar.managers);
-                  }}
-                >
-                  <ImageListItemBar title={bar.name} subtitle={bar.academicUnit?.shortName}></ImageListItemBar>
-                </Button>
-              </ImageListItem>
-            ))}
-          </ImageList> */}
-
         <ImageList
           sx={{
             gridAutoFlow: "column",

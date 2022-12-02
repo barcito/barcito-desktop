@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import MainCard from "@/components/MainCard";
-import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText, Typography, IconButton } from "@mui/material";
+import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText, Typography, IconButton, Select, MenuItem } from "@mui/material";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import AnimateButton from "@/components/AnimateButton";
 import { Formik, useFormikContext, useField, Field, FieldArray } from "formik";
@@ -35,6 +35,17 @@ export default function ProductForm({ product, mutation, handleNew }) {
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png", "image/jfif"];
   const FILE_SIZE = 10000000;
 
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
   if (isLoadingStock || isLoadingCategories) {
     return <p>Loading...</p>;
   }
@@ -48,7 +59,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
           description: Yup.string().max(255).required("La descripción es obligatoria"),
           finalSellPrice: Yup.number().min(1).required("El precio de venta final es obligatorio"),
           associatedSellPrice: Yup.number().min(1).required("El precio de venta al socio es obligatorio"),
-          categories: Yup.array().of(Yup.number()).min(1, "Debe seleccionar al menos una categoría"),
+          categories: Yup.array().of(Yup.number()).min(1, "Debe seleccionar al menos una categoría").required("Las categorías son obligatorias"),
           productToStock: Yup.array()
             .of(
               Yup.object().shape({
@@ -105,12 +116,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                 <Grid item xs={4}>
                   <Stack spacing={1} alignItems="center">
                     <InputLabel htmlFor="available-item">Disponible</InputLabel>
-                    <Switch id="available-item" checked={values.available} value={values.available} name="available" onBlur={handleBlur} onChange={handleChange} /* error={Boolean(touched.available && errors.available)} */ />
-                    {/* {touched.available && errors.available && (
-                                                <FormHelperText error id="standard-weight-helper-text-available-item">
-                                                    {errors.available}
-                                                </FormHelperText>
-                                            )} */}
+                    <Switch id="available-item" checked={values.available} value={values.available} name="available" onBlur={handleBlur} onChange={handleChange} />
                   </Stack>
                 </Grid>
 
@@ -162,8 +168,16 @@ export default function ProductForm({ product, mutation, handleNew }) {
 
                 <Grid item xs={6}>
                   <Stack spacing={1}>
-                    <InputLabel htmlFor="categories">Categorias</InputLabel>
-                    <Field id="categories" name="categories" options={categories} component={MultiSelect} placeholder="Seleccione categoría" isMulti={true} />
+                    <InputLabel htmlFor="categories" id="categories">
+                      Categorias
+                    </InputLabel>
+                    <Select id={"categories"} name={"categories"} multiple value={values.categories} onBlur={handleBlur} onChange={handleChange} MenuProps={MenuProps}>
+                      {categories.map((category, index) => (
+                        <MenuItem key={index} value={category.id}>
+                          {category.description}
+                        </MenuItem>
+                      ))}
+                    </Select>
                     {touched.categories && errors.categories && (
                       <FormHelperText error id="standard-weight-helper-text-categories">
                         {errors.categories}
@@ -204,11 +218,25 @@ export default function ProductForm({ product, mutation, handleNew }) {
                     <FieldArray name="productToStock">
                       {() =>
                         values.productToStock.map((stock, i) => {
+                          console.log(stock);
                           return (
                             <React.Fragment key={i}>
-                              <Grid item xs={6}>
+                              <Grid item xs={8}>
                                 <Stack spacing={1}>
-                                  <Field id={`stock-item-${stock.id}`} name={`productToStock.${i}.stockId`} options={stockList} component={MultiSelect} placeholder="Seleccione stock" />
+                                  {/* <Field id={`stock-item-${stock.id}`} name={`productToStock.${i}.stockId`} options={stockList} component={MultiSelect} placeholder="Seleccione stock" />
+                                  {touched.productToStock && errors.productToStock && errors.productToStock[i]?.stockId && (
+                                    <FormHelperText error id="standard-weight-helper-text-id-item">
+                                      {errors.productToStock[i]?.stockId}
+                                    </FormHelperText>
+                                  )} */}
+
+                                  <Field component={Select} id={`stock-item-${stock.id}`} name={`stock-item-${stock.id}`} value={values.productToStock} placeholder="Seleccione stock" onBlur={handleBlur} onChange={handleChange} defaultValue="">
+                                    {stockList.map((stock, index) => (
+                                      <MenuItem key={index} value={stock.id}>
+                                        {stock.description}
+                                      </MenuItem>
+                                    ))}
+                                  </Field>
                                   {touched.productToStock && errors.productToStock && errors.productToStock[i]?.stockId && (
                                     <FormHelperText error id="standard-weight-helper-text-id-item">
                                       {errors.productToStock[i]?.stockId}
@@ -216,7 +244,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                   )}
                                 </Stack>
                               </Grid>
-                              <Grid item xs={3}>
+                              <Grid item xs={4}>
                                 <Stack spacing={1}>
                                   <OutlinedInput
                                     id={`stock-item-${stock.id}-quantity`}

@@ -72,7 +72,7 @@ export default function Barcitos() {
               }}
             >
               <ImageListItem sx={{ display: "flex", flexDirection: "row" }}>
-                <img src={`${bar.imagePath}?w=248&fit=crop&auto=format`} srcSet={`${bar.imagePath}?w=248&fit=crop&auto=format&dpr=2 2x`} alt={bar.name} loading="lazy" style={{ paddingRight: "1em" }} />
+                <img src={`${bar.imagePath}?w=248&fit=crop&auto=format`} srcSet={`${bar.imagePath}?w=248&fit=crop&auto=format&dpr=2 2x`} alt={bar.name} loading="lazy" />
                 <ImageListItemBar
                   title={bar.name}
                   subtitle={bar.academicUnit?.shortName}

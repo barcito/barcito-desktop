@@ -326,15 +326,6 @@ export default function ProductForm({ product, mutation, handleNew }) {
                     </Button>
                   </label>
                 </Box>
-
-                {/* <input
-                  id="product_img"
-                  name="product_img"
-                  type="file"
-                  onChange={(event) => {
-                    setFieldValue("product_img", event.currentTarget.files[0]);
-                  }}
-                /> */}
                 {touched.product_img && errors.product_img && (
                   <FormHelperText error id="standard-weight-helper-text-product_img-item">
                     {errors.product_img}

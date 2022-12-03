@@ -122,10 +122,10 @@ export default function OrderForm({ handleNew, prods, users }) {
                                 </InputLabel>
 
                                 <OutlinedInput
-                                  id={`product[${i}].quantity`}
+                                  id={`products[${i}].quantity`}
+                                  name={`products[${i}].quantity`}
                                   value={values.products.quantity}
                                   type="number"
-                                  name={`product[${i}].quantity`}
                                   onBlur={handleBlur}
                                   onChange={handleChange}
                                   placeholder="0"

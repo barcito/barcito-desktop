@@ -2,7 +2,7 @@ import React from "react";
 import MainCard from "@/components/MainCard";
 import { Formik, Field, FieldArray } from "formik";
 import * as Yup from "yup";
-import { FormHelperText, Grid, InputLabel, Stack, OutlinedInput, Typography, IconButton, InputAdornment, Button } from "@mui/material";
+import { FormHelperText, Grid, InputLabel, Stack, OutlinedInput, Typography, IconButton, InputAdornment, Button, Select, MenuItem } from "@mui/material";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import MultiSelect from "@/components/MultiSelect";
 import AnimateButton from "@/components/AnimateButton";
@@ -13,11 +13,11 @@ export default function OrderForm({ handleNew, prods, users }) {
 
   const initialValues = {
     user: "",
-    products: [],
+    products: [{ id: "", quantity: "" }],
   };
 
   return (
-    <MainCard>
+    <MainCard sx={{ width: "75%" }}>
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object().shape({
@@ -44,10 +44,18 @@ export default function OrderForm({ handleNew, prods, users }) {
         {({ errors, setFieldValue, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="user-order">Cliente</InputLabel>
-                  <Field id="user-order" name="user" options={multiUsers} component={MultiSelect} placeholder="Seleccione usuario" />
+                  <InputLabel htmlFor="user">Cliente</InputLabel>
+                  {/* <Field id="user-order" name="user-order" options={multiUsers} component={MultiSelect} placeholder="Seleccione usuario" /> */}
+
+                  <Select id={"user"} name={"user"} value={values.user} onBlur={handleBlur} onChange={handleChange}>
+                    {multiUsers.map((user, index) => (
+                      <MenuItem key={index} value={user.id}>
+                        {user.description}
+                      </MenuItem>
+                    ))}
+                  </Select>
                   {touched.user && errors.user && (
                     <FormHelperText error id="helper-text-user-order">
                       {errors.user}
@@ -86,9 +94,20 @@ export default function OrderForm({ handleNew, prods, users }) {
                       values.products.map((prod, i) => {
                         return (
                           <React.Fragment key={i}>
-                            <Grid item xs={5}>
+                            <Grid item xs={10}>
                               <Stack spacing={1}>
-                                <Field id={`product-${prod.id}`} name={`products.${i}.id`} options={multiProducts} component={MultiSelect} placeholder="Seleccione producto" />
+                                <InputLabel htmlFor={`products[${i}].id`} id={`products[${i}].id`}>
+                                  Stock
+                                </InputLabel>
+
+                                <Select id={`products[${i}].id`} name={`products[${i}].id`} value={values.products.id} onBlur={handleBlur} onChange={handleChange} defaultValue="">
+                                  {multiProducts.map((product, index) => (
+                                    <MenuItem key={index} value={product.id}>
+                                      {product.description}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+
                                 {touched.products && errors.products && errors.products[i]?.id && (
                                   <FormHelperText error id="standard-weight-helper-text-discount-item">
                                     {errors.products[i]?.id}
@@ -98,14 +117,18 @@ export default function OrderForm({ handleNew, prods, users }) {
                             </Grid>
                             <Grid item xs={2}>
                               <Stack spacing={1}>
+                                <InputLabel htmlFor={`product[${i}].quantity`} id={`product[${i}].quantity`}>
+                                  Cantidad
+                                </InputLabel>
+
                                 <OutlinedInput
-                                  id={`product-${prod.id}-quantity`}
-                                  value={values.products[i].quantity}
+                                  id={`product[${i}].quantity`}
+                                  value={values.products.quantity}
                                   type="number"
-                                  name={`products.${i}.quantity`}
+                                  name={`product[${i}].quantity`}
                                   onBlur={handleBlur}
                                   onChange={handleChange}
-                                  placeholder="Cantidad"
+                                  placeholder="0"
                                   fullWidth
                                   error={Boolean(errors.products && touched.products && errors.products[i]?.quantity)}
                                   startAdornment={<InputAdornment position="end">x</InputAdornment>}

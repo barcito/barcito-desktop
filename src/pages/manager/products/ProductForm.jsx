@@ -28,7 +28,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
         finalSellPrice: "",
         associatedSellPrice: "",
         categories: [],
-        productToStock: [],
+        productToStock: [{ stockId: "", quantity: "" }],
         product_img: "",
       };
 
@@ -218,25 +218,22 @@ export default function ProductForm({ product, mutation, handleNew }) {
                     <FieldArray name="productToStock">
                       {() =>
                         values.productToStock.map((stock, i) => {
-                          console.log(stock);
                           return (
                             <React.Fragment key={i}>
                               <Grid item xs={8}>
                                 <Stack spacing={1}>
-                                  {/* <Field id={`stock-item-${stock.id}`} name={`productToStock.${i}.stockId`} options={stockList} component={MultiSelect} placeholder="Seleccione stock" />
-                                  {touched.productToStock && errors.productToStock && errors.productToStock[i]?.stockId && (
-                                    <FormHelperText error id="standard-weight-helper-text-id-item">
-                                      {errors.productToStock[i]?.stockId}
-                                    </FormHelperText>
-                                  )} */}
+                                  <InputLabel htmlFor={`productToStock[${i}].stockId`} id={`productToStock[${i}].stockId`}>
+                                    Stock
+                                  </InputLabel>
 
-                                  <Field component={Select} id={`stock-item-${stock.id}`} name={`stock-item-${stock.id}`} value={values.productToStock} placeholder="Seleccione stock" onBlur={handleBlur} onChange={handleChange} defaultValue="">
+                                  <Select id={`productToStock[${i}].stockId`} name={`productToStock[${i}].stockId`} value={values.productToStock.stockId} placeholder="Seleccione stock" onBlur={handleBlur} onChange={handleChange} defaultValue="">
+                                    <MenuItem value="">Seleccione Stock</MenuItem>
                                     {stockList.map((stock, index) => (
                                       <MenuItem key={index} value={stock.id}>
                                         {stock.description}
                                       </MenuItem>
                                     ))}
-                                  </Field>
+                                  </Select>
                                   {touched.productToStock && errors.productToStock && errors.productToStock[i]?.stockId && (
                                     <FormHelperText error id="standard-weight-helper-text-id-item">
                                       {errors.productToStock[i]?.stockId}
@@ -246,6 +243,10 @@ export default function ProductForm({ product, mutation, handleNew }) {
                               </Grid>
                               <Grid item xs={4}>
                                 <Stack spacing={1}>
+                                  <InputLabel htmlFor={`stock-item-${stock.id}-quantity`} id={`stock-item-${stock.id}-quantity`}>
+                                    Cantidad
+                                  </InputLabel>
+
                                   <OutlinedInput
                                     id={`stock-item-${stock.id}-quantity`}
                                     value={values.productToStock[i].quantity}

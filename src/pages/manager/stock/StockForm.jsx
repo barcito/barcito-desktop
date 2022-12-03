@@ -25,12 +25,23 @@ export default function StockForm({ stock, mutation, handleNew }) {
         categories: [],
       };
 
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <MainCard sx={{ width: "65%" }}>
+    <MainCard sx={{ width: "75%" }}>
       <Formik
         initialValues={initialValues}
         validationSchema={Yup.object().shape({
@@ -129,10 +140,20 @@ export default function StockForm({ stock, mutation, handleNew }) {
 
               <Grid item xs={6}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="categories-item">Categorias</InputLabel>
-                  <Field id="categories-item" name="categories" options={categories.filter((cat) => cat.type === values.type)} component={MultiSelect} placeholder="Seleccione categorias" isMulti={true} />
+                  <InputLabel htmlFor="categories" id="categories">
+                    Categorias
+                  </InputLabel>
+                  <Select id={"categories"} name={"categories"} multiple value={values.categories} onBlur={handleBlur} onChange={handleChange} MenuProps={MenuProps}>
+                    {categories
+                      .filter((cat) => cat.type === values.type)
+                      .map((category, index) => (
+                        <MenuItem key={index} value={category.id}>
+                          {category.description}
+                        </MenuItem>
+                      ))}
+                  </Select>
                   {touched.categories && errors.categories && (
-                    <FormHelperText error id="helper-text-categories-item">
+                    <FormHelperText error id="standard-weight-helper-text-categories">
                       {errors.categories}
                     </FormHelperText>
                   )}

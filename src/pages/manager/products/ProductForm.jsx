@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useRef, useState } from "react";
 import MainCard from "@/components/MainCard";
-import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText, Typography, IconButton } from "@mui/material";
+import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText, Typography, IconButton, Select, MenuItem } from "@mui/material";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import AnimateButton from "@/components/AnimateButton";
 import { Formik, useFormikContext, useField, Field, FieldArray } from "formik";
@@ -11,10 +11,20 @@ import { StockAPI } from "@/services/stockAPI";
 import { CategoriesAPI } from "@/services/categoriesAPI";
 import compareObjects from "@/utils/compareObjects";
 import { isArray } from "lodash";
+import FileUploader from "@/components/FileUploader";
 
 export default function ProductForm({ product, mutation, handleNew }) {
   const { data: stockList, isLoading: isLoadingStock } = useQuery(["stock"], () => StockAPI.getAll());
   const { data: categories, isLoading: isLoadingCategories } = useQuery(["categories"], () => CategoriesAPI.getAllProducts());
+
+  const fileInput = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState();
+
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    setImagePreview(URL.createObjectURL(file));
+  };
 
   const initialValues = product
     ? {
@@ -28,12 +38,23 @@ export default function ProductForm({ product, mutation, handleNew }) {
         finalSellPrice: "",
         associatedSellPrice: "",
         categories: [],
-        productToStock: [],
+        productToStock: [{ stockId: "", quantity: "" }],
         product_img: "",
       };
 
   const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png", "image/jfif"];
   const FILE_SIZE = 10000000;
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   if (isLoadingStock || isLoadingCategories) {
     return <p>Loading...</p>;
@@ -48,7 +69,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
           description: Yup.string().max(255).required("La descripción es obligatoria"),
           finalSellPrice: Yup.number().min(1).required("El precio de venta final es obligatorio"),
           associatedSellPrice: Yup.number().min(1).required("El precio de venta al socio es obligatorio"),
-          categories: Yup.array().of(Yup.number()).min(1, "Debe seleccionar al menos una categoría"),
+          categories: Yup.array().of(Yup.number()).min(1, "Debe seleccionar al menos una categoría").required("Las categorías son obligatorias"),
           productToStock: Yup.array()
             .of(
               Yup.object().shape({
@@ -105,12 +126,7 @@ export default function ProductForm({ product, mutation, handleNew }) {
                 <Grid item xs={4}>
                   <Stack spacing={1} alignItems="center">
                     <InputLabel htmlFor="available-item">Disponible</InputLabel>
-                    <Switch id="available-item" checked={values.available} value={values.available} name="available" onBlur={handleBlur} onChange={handleChange} /* error={Boolean(touched.available && errors.available)} */ />
-                    {/* {touched.available && errors.available && (
-                                                <FormHelperText error id="standard-weight-helper-text-available-item">
-                                                    {errors.available}
-                                                </FormHelperText>
-                                            )} */}
+                    <Switch id="available-item" checked={values.available} value={values.available} name="available" onBlur={handleBlur} onChange={handleChange} />
                   </Stack>
                 </Grid>
 
@@ -162,8 +178,16 @@ export default function ProductForm({ product, mutation, handleNew }) {
 
                 <Grid item xs={6}>
                   <Stack spacing={1}>
-                    <InputLabel htmlFor="categories">Categorias</InputLabel>
-                    <Field id="categories" name="categories" options={categories} component={MultiSelect} placeholder="Seleccione categoría" isMulti={true} />
+                    <InputLabel htmlFor="categories" id="categories">
+                      Categorias
+                    </InputLabel>
+                    <Select id={"categories"} name={"categories"} multiple value={values.categories} onBlur={handleBlur} onChange={handleChange} MenuProps={MenuProps}>
+                      {categories.map((category, index) => (
+                        <MenuItem key={index} value={category.id}>
+                          {category.description}
+                        </MenuItem>
+                      ))}
+                    </Select>
                     {touched.categories && errors.categories && (
                       <FormHelperText error id="standard-weight-helper-text-categories">
                         {errors.categories}
@@ -206,9 +230,20 @@ export default function ProductForm({ product, mutation, handleNew }) {
                         values.productToStock.map((stock, i) => {
                           return (
                             <React.Fragment key={i}>
-                              <Grid item xs={6}>
+                              <Grid item xs={8}>
                                 <Stack spacing={1}>
-                                  <Field id={`stock-item-${stock.id}`} name={`productToStock.${i}.stockId`} options={stockList} component={MultiSelect} placeholder="Seleccione stock" />
+                                  <InputLabel htmlFor={`productToStock[${i}].stockId`} id={`productToStock[${i}].stockId`}>
+                                    Stock
+                                  </InputLabel>
+
+                                  <Select id={`productToStock[${i}].stockId`} name={`productToStock[${i}].stockId`} value={values.productToStock.stockId} placeholder="Seleccione stock" onBlur={handleBlur} onChange={handleChange} defaultValue="">
+                                    <MenuItem value="">Seleccione Stock</MenuItem>
+                                    {stockList.map((stock, index) => (
+                                      <MenuItem key={index} value={stock.id}>
+                                        {stock.description}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
                                   {touched.productToStock && errors.productToStock && errors.productToStock[i]?.stockId && (
                                     <FormHelperText error id="standard-weight-helper-text-id-item">
                                       {errors.productToStock[i]?.stockId}
@@ -216,8 +251,12 @@ export default function ProductForm({ product, mutation, handleNew }) {
                                   )}
                                 </Stack>
                               </Grid>
-                              <Grid item xs={3}>
+                              <Grid item xs={4}>
                                 <Stack spacing={1}>
+                                  <InputLabel htmlFor={`stock-item-${stock.id}-quantity`} id={`stock-item-${stock.id}-quantity`}>
+                                    Cantidad
+                                  </InputLabel>
+
                                   <OutlinedInput
                                     id={`stock-item-${stock.id}-quantity`}
                                     value={values.productToStock[i].quantity}
@@ -260,15 +299,42 @@ export default function ProductForm({ product, mutation, handleNew }) {
               </Grid>
 
               <Box sx={{ width: "50%" }}>
-                <img src={values.imagePath || "../../../src/assets/images/product-placeholder.png"} width="350px" />
-                <input
+                {!product && <img src={imagePreview ? imagePreview : "../../../src/assets/images/product-placeholder.png"} alt={"Imagen barcito de vista previa antes de cargar"} width="350px" />}
+
+                {product && <img src={imagePreview ? imagePreview : product.imagePath} alt={"Imagen barcito de vista previa antes de cargar"} width="350px" />}
+
+                <Box textAlign="center">
+                  <input
+                    id="product_img"
+                    name="product_img"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      handleFileInput(e), handleChange(e), setFieldValue("product_img", e.currentTarget.files[0]);
+                    }}
+                    type="file"
+                  />
+                  <label htmlFor="product_img">
+                    <Button
+                      onClick={(e) => {
+                        fileInput.current && fileInput.current.click();
+                      }}
+                      variant="contained"
+                      color="primary"
+                      component="span"
+                    >
+                      Seleccione una imagen
+                    </Button>
+                  </label>
+                </Box>
+
+                {/* <input
                   id="product_img"
                   name="product_img"
                   type="file"
                   onChange={(event) => {
                     setFieldValue("product_img", event.currentTarget.files[0]);
                   }}
-                />
+                /> */}
                 {touched.product_img && errors.product_img && (
                   <FormHelperText error id="standard-weight-helper-text-product_img-item">
                     {errors.product_img}

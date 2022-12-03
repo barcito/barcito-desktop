@@ -24,7 +24,7 @@ export default function OrderDetails() {
         SseAPI.newOrderStatus(order.user.id, {
           title: `Pedido ${order.code}`,
           message: `Su pedido ha cambiado el estado a ${status}`,
-          type: 'message'
+          type: "message",
         });
       },
     }
@@ -78,7 +78,7 @@ export default function OrderDetails() {
           {order.products.map((prod) => (
             <Grid item xs={12} key={prod.id}>
               <Card variant="outlined" sx={{ display: "flex" }}>
-                <CardMedia component="img" sx={{ width: 151 }} image={prod.product.imagePath} alt={prod.product.description} />
+                <CardMedia component="img" sx={{ width: 125, height: 125 }} image={prod.product.imagePath} alt={prod.product.description} />
                 <CardContent sx={{ width: "100%" }}>
                   <Stack direction="row" spacing={3} justifyContent="space-around" alignItems="center">
                     <Typography component="div" variant="h5">
@@ -88,7 +88,7 @@ export default function OrderDetails() {
                       <Typography component="div" variant="subtitle1">
                         Precio unitario:
                       </Typography>
-                      <Typography component="div" variant="h4">
+                      <Typography component="div" variant="h6">
                         ${prod.lockedPrice}
                       </Typography>
                     </Stack>
@@ -96,7 +96,7 @@ export default function OrderDetails() {
                       <Typography component="div" variant="subtitle1">
                         Precio total:
                       </Typography>
-                      <Typography component="div" variant="h4">
+                      <Typography component="div" variant="h6">
                         ${prod.lockedPrice * prod.quantity}
                       </Typography>
                     </Stack>

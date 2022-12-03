@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useRef, useState } from "react";
 import MainCard from "@/components/MainCard";
 import { Grid, Stack, InputLabel, OutlinedInput, Button, Box, Divider, Switch, InputAdornment, FormHelperText, Typography, IconButton, Select, MenuItem } from "@mui/material";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
@@ -11,10 +11,20 @@ import { StockAPI } from "@/services/stockAPI";
 import { CategoriesAPI } from "@/services/categoriesAPI";
 import compareObjects from "@/utils/compareObjects";
 import { isArray } from "lodash";
+import FileUploader from "@/components/FileUploader";
 
 export default function ProductForm({ product, mutation, handleNew }) {
   const { data: stockList, isLoading: isLoadingStock } = useQuery(["stock"], () => StockAPI.getAll());
   const { data: categories, isLoading: isLoadingCategories } = useQuery(["categories"], () => CategoriesAPI.getAllProducts());
+
+  const fileInput = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState();
+
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    setImagePreview(URL.createObjectURL(file));
+  };
 
   const initialValues = product
     ? {
@@ -289,15 +299,42 @@ export default function ProductForm({ product, mutation, handleNew }) {
               </Grid>
 
               <Box sx={{ width: "50%" }}>
-                <img src={values.imagePath || "../../../src/assets/images/product-placeholder.png"} width="350px" />
-                <input
+                {!product && <img src={imagePreview ? imagePreview : "../../../src/assets/images/product-placeholder.png"} alt={"Imagen barcito de vista previa antes de cargar"} width="350px" />}
+
+                {product && <img src={imagePreview ? imagePreview : product.imagePath} alt={"Imagen barcito de vista previa antes de cargar"} width="350px" />}
+
+                <Box textAlign="center">
+                  <input
+                    id="product_img"
+                    name="product_img"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      handleFileInput(e), handleChange(e), setFieldValue("product_img", e.currentTarget.files[0]);
+                    }}
+                    type="file"
+                  />
+                  <label htmlFor="product_img">
+                    <Button
+                      onClick={(e) => {
+                        fileInput.current && fileInput.current.click();
+                      }}
+                      variant="contained"
+                      color="primary"
+                      component="span"
+                    >
+                      Seleccione una imagen
+                    </Button>
+                  </label>
+                </Box>
+
+                {/* <input
                   id="product_img"
                   name="product_img"
                   type="file"
                   onChange={(event) => {
                     setFieldValue("product_img", event.currentTarget.files[0]);
                   }}
-                />
+                /> */}
                 {touched.product_img && errors.product_img && (
                   <FormHelperText error id="standard-weight-helper-text-product_img-item">
                     {errors.product_img}

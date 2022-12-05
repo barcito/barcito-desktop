@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import MainCard from "@/components/MainCard";
 import { Formik, Field, FieldArray } from "formik";
 import * as Yup from "yup";
-import { FormHelperText, Grid, InputLabel, Stack, OutlinedInput, Typography, IconButton, InputAdornment, Button } from "@mui/material";
+import { FormHelperText, Grid, InputLabel, Stack, OutlinedInput, Typography, IconButton, InputAdornment, Button, Select, MenuItem, Box, TextField } from "@mui/material";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import MultiSelect from "@/components/MultiSelect";
 import AnimateButton from "@/components/AnimateButton";
 import { isArray } from "lodash";
 
 export default function ReceiptForm({ receipt, mutation, handleNew, stockList }) {
+  const fileInput = useRef(null);
+  const [filePreview, setFilePreview] = useState();
+
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    setFilePreview(file.name);
+  };
+
   const initialValues = {
     date: "",
     ticket: "",
     amount: "",
     receipt_doc: null,
-    receiptToStock: [],
+    receiptToStock: [{ stockId: "", quantity: "", totalCost: "" }],
   };
 
   let todaysDate = new Date();
@@ -32,7 +40,7 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
           receiptToStock: Yup.array()
             .of(
               Yup.object().shape({
-                stockId: Yup.number().required("Debe seleccionar un producto"),
+                stockId: Yup.number().required("Debe seleccionar stock"),
                 quantity: Yup.number().required("Debe cargar la cantidad"),
                 totalCost: Yup.number().required("Debe cargar el costo"),
               })
@@ -107,14 +115,31 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
               <Grid item xs={6}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="receipt_doc">Documento</InputLabel>
-                  <input
-                    id="receipt_doc"
-                    name="receipt_doc"
-                    type="file"
-                    onChange={(event) => {
-                      setFieldValue("receipt_doc", event.currentTarget.files[0]);
-                    }}
-                  />
+                  <TextField disabled id="receipt_doc" label={filePreview ? filePreview : ""} variant="standard" />
+                  <Box textAlign="center">
+                    <input
+                      id="receipt_doc"
+                      name="receipt_doc"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        handleFileInput(e), handleChange(e), setFieldValue("receipt_doc", e.currentTarget.files[0]);
+                      }}
+                      type="file"
+                      accept="application/pdf"
+                    />
+                    <label htmlFor="receipt_doc">
+                      <Button
+                        onClick={(e) => {
+                          fileInput.current && fileInput.current.click();
+                        }}
+                        variant="contained"
+                        color="primary"
+                        component="span"
+                      >
+                        Seleccione un recibo
+                      </Button>
+                    </label>
+                  </Box>
                   {touched.receipt_doc && errors.receipt_doc && (
                     <FormHelperText error id="helper-text-amount-receipt">
                       {errors.receipt_doc}
@@ -125,7 +150,7 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
 
               <Grid item xs={6}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="h5">Agregar productos</Typography>
+                  <Typography variant="h5">Agregar stock</Typography>
                   <IconButton
                     color="primary"
                     onClick={() => {
@@ -159,15 +184,22 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
                           <React.Fragment key={i}>
                             <Grid item xs={12}>
                               <Stack spacing={1}>
-                                <Field id={`receiptToStock-item-${prod.id}`} name={`receiptToStock.${i}.stockId`} options={stockList} component={MultiSelect} placeholder="Seleccione producto" />
+                                <Select id={`receiptToStock[${i}].stockId`} name={`receiptToStock[${i}].stockId`} value={values.receiptToStock.stockId} placeholder="Seleccione stock" onBlur={handleBlur} onChange={handleChange} defaultValue="">
+                                  <MenuItem value="">Seleccione Stock</MenuItem>
+                                  {stockList.map((stock, index) => (
+                                    <MenuItem key={index} value={stock.id}>
+                                      {stock.description}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
                                 {touched.receiptToStock && errors.receiptToStock && errors.receiptToStock[i]?.stockId && (
-                                  <FormHelperText error id="standard-weight-helper-text-discount-item">
+                                  <FormHelperText error id="standard-weight-helper-text-id-item">
                                     {errors.receiptToStock[i]?.stockId}
                                   </FormHelperText>
                                 )}
                               </Stack>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={6}>
                               <Stack spacing={1}>
                                 <OutlinedInput
                                   id={`product-${prod.id}-quantity`}
@@ -188,7 +220,7 @@ export default function ReceiptForm({ receipt, mutation, handleNew, stockList })
                                 )}
                               </Stack>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={6}>
                               <Stack spacing={1}>
                                 <OutlinedInput
                                   id={`product-${prod.id}-totalCost`}

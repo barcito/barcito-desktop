@@ -13,7 +13,7 @@ export default function NewReceipt() {
     const formData = new FormData();
     formData.append("receipt_doc", receipt.receipt_doc);
     delete receipt.receipt_doc;
-    console.log(receipt);
+    // console.log(receipt);
     const res = await ReceiptsAPI.create(receipt);
     if (res.id) {
       await ReceiptsAPI.updateDoc(res.id, formData);

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { Container } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { ApplicationsAPI } from "@/services/applicationsAPI";
+import { UserAPI } from "@/services/userAPI";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import UserList from "@/components/user-list-table/UserList";
 
@@ -17,7 +17,13 @@ const TABLE_HEAD = [
 ];
 
 export default function Associates() {
+  let [usersData, setUsersData] = useState([]);
+
   const { data, isLoading } = useQuery(["applications"], () => ApplicationsAPI.getAll());
+
+  let usersFetch = useQuery(["user"], async () => UserAPI.getAll(), { onSuccess: setUsersData });
+
+  console.log(usersData);
 
   const [applications, setApplications] = useState([]);
 
@@ -56,25 +62,27 @@ export default function Associates() {
     return <p>Loading...</p>;
   }
 
-  if (!data) {
+  if (!usersData) {
     return <p>No data!</p>;
   }
 
   return (
     <Container sx={{ pt: 4 }}>
       <UserList
-        userList={data.map((app) => {
-          return {
-            id: app.applicantUser.id,
-            fullName: `${app.applicantUser.surname} ${app.applicantUser.name}`,
-            email: app.applicantUser.email,
-            academicUnit: app.applicantUser.academicUnit,
-            certificate: app.certificatePath,
-            validated: app.status,
-            phone: app.applicantUser.phone,
-            dni: app.applicantUser.dni,
-          };
-        })}
+        userList={usersData
+          .filter((user) => `${user.academicUnitId}` === window.localStorage.getItem("academic-unit") && user.roles[0] === "Socio")
+          .map((app) => {
+            return {
+              id: app.id,
+              fullName: `${app.surname} ${app.name}`,
+              email: app.email,
+              academicUnit: app.academicUnit,
+              certificate: app.certificatePath,
+              validated: app.applicationDone?.status,
+              phone: app.phone,
+              dni: app.dni,
+            };
+          })}
         tableHead={TABLE_HEAD}
         associateToolbar={true}
         actionOne={handleValidate}

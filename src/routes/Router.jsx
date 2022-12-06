@@ -30,6 +30,8 @@ const NewStock = Loadable(lazy(() => import("@/pages/manager/stock/NewStock")));
 const EditStock = Loadable(lazy(() => import("@/pages/manager/stock/EditStock")));
 
 const CategoriesList = Loadable(lazy(() => import("@/pages/manager/categories")));
+const NewCategory = Loadable(lazy(() => import("@/pages/manager/NewCategory")));
+const EditCategory = Loadable(lazy(() => import("@/pages/manager/EditCategory")));
 
 const Orders = Loadable(lazy(() => import("@/pages/manager/orders")));
 const OrderDetails = Loadable(lazy(() => import("@/pages/manager/orders/OrderDetails")));
@@ -47,7 +49,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <DashboardDefault />
+            element: <DashboardDefault />,
           },
           {
             path: "perfil",
@@ -63,15 +65,15 @@ const router = createBrowserRouter([
               {
                 path: "barcitos",
                 element: <Barcitos />,
-              }
-            ]
+              },
+            ],
           },
           {
             element: <PrivateRoute role="Gerente" />,
             children: [
               {
                 path: "barcito",
-                element: <Barcito />
+                element: <Barcito />,
               },
               {
                 path: "socios",
@@ -82,73 +84,85 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <ProductList />
+                    element: <ProductList />,
                   },
                   {
                     path: "nuevo",
-                    element: <NewProduct />
+                    element: <NewProduct />,
                   },
                   {
                     path: "editar/:productId",
-                    element: <EditProduct />
+                    element: <EditProduct />,
                   },
-                ]
+                ],
               },
               {
                 path: "stock",
                 children: [
                   {
                     element: <StockList />,
-                    index: true
+                    index: true,
                   },
                   {
                     path: "nuevo",
-                    element: <NewStock />
+                    element: <NewStock />,
                   },
                   {
                     path: "editar/:stockId",
-                    element: <EditStock />
+                    element: <EditStock />,
                   },
-
-                ]
+                ],
               },
               {
                 path: "categorias",
-                element: <CategoriesList />
+                children: [
+                  {
+                    element: <CategoriesList />,
+                    index: true,
+                  },
+                  {
+                    path: "nueva",
+                    element: <NewCategory />,
+                  },
+                  {
+                    path: "editar/:categoryId",
+                    element: <EditCategory />,
+                  },
+                ],
               },
               {
                 path: "recibos",
                 children: [
                   {
                     element: <ReceiptList />,
-                    index: true
+                    index: true,
                   },
                   {
                     path: "nuevo",
-                    element: <NewReceipt />
+                    element: <NewReceipt />,
                   },
-                ]
+                ],
               },
               {
                 path: "pedidos",
                 children: [
                   {
                     index: true,
-                    element: <Orders />
+                    element: <Orders />,
                   },
                   {
                     path: "detalle/:orderCode",
-                    element: <OrderDetails />
+                    element: <OrderDetails />,
                   },
                   {
                     path: "nuevo",
-                    element: <NewOrder />
-                  }
-                ]
+                    element: <NewOrder />,
+                  },
+                ],
               },
             ],
           },
-        ]
+        ],
       },
     ],
   },
@@ -176,8 +190,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/unauthorized",
-    element: <Unauthorized />
-  }
+    element: <Unauthorized />,
+  },
 ]);
 
 export default router;

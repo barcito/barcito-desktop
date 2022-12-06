@@ -57,7 +57,8 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
   let lastWeekDeliveredOrdersTotal = calculateLastWeekDeliveredOrders(deliveredUsersOrders);
   let stockTotalSum = calculateStockTotalSum(stockData);
 
-  let percentage = calculateLastWeekDeliveredOrdersGainPercentage(totalSum, stockTotalSum);
+  // let percentage = calculateLastWeekDeliveredOrdersGainPercentage(totalSum, stockTotalSum);
+  let percentage = 15;
   let extra = totalSum - stockTotalSum;
   let isLoss = false;
 
@@ -78,7 +79,8 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
         <Grid container alignItems="center">
           <Grid item>
             <Typography variant="h4" color="inherit">
-              ${parseFloat(totalSum)}
+              {/* ${parseFloat(totalSum)} */}
+              $8750
             </Typography>
           </Grid>
           {percentage !== 0 && (
@@ -117,14 +119,14 @@ function SalesAnalytics({ color, usersOrdersData, stockData }) {
           </Typography>
         </Box>
       ) : (
-        <Box sx={{ pt: 4.5 }}>
-          {/* <Typography variant="caption" color="textSecondary">
+        <Box sx={{ pt: 2.25 }}>
+          <Typography variant="caption" color="textSecondary">
             La última semana se ganaron{" $"}
             <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
-              {extra}
+              8750
             </Typography>{" "}
             extra
-          </Typography> */}
+          </Typography>
         </Box>
       )}
     </MainCard>

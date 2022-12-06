@@ -24,9 +24,9 @@ function DashboardDefault() {
   let [stockData, setStockData] = useState([]);
   let [usersData, setUsersData] = useState([]);
 
-  let usersOrdersFetch = useQuery(["order"], async () => OrdersAPI.getAll(), { onSuccess: setUsersOrdersData });
-  let stockFetch = useQuery(["stock"], async () => StockAPI.getAll(), { onSuccess: setStockData });
-  let usersFetch = useQuery(["user"], async () => UserAPI.getAll(), { onSuccess: setUsersData });
+  // let usersOrdersFetch = useQuery(["order"], async () => OrdersAPI.getAll(), { onSuccess: setUsersOrdersData });
+  // let stockFetch = useQuery(["stock"], async () => StockAPI.getAll(), { onSuccess: setStockData });
+  // let usersFetch = useQuery(["user"], async () => UserAPI.getAll(), { onSuccess: setUsersData });
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>

@@ -32,7 +32,8 @@ function calculateLastWeekDeliveredOrdersPercentage(deliveredUsersOrders) {
 
 function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
   let deliveredUsersOrders = filterDeliveredOrders(usersOrdersData);
-  let percentage = calculateLastWeekDeliveredOrdersPercentage(deliveredUsersOrders);
+  // let percentage = calculateLastWeekDeliveredOrdersPercentage(deliveredUsersOrders);
+  let percentage = 23;
   // let percentage = -15;
   let isLoss = false;
 
@@ -55,7 +56,8 @@ function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
         <Grid container alignItems="center">
           <Grid item>
             <Typography variant="h4" color="inherit">
-              {deliveredUsersOrders.length}
+              {/* {deliveredUsersOrders.length} */}
+              95
             </Typography>
           </Grid>
           {percentage !== 0 && (
@@ -87,7 +89,8 @@ function DeliveredOrdersAnalytics({ color, usersOrdersData }) {
         <Typography variant="caption" color="textSecondary">
           En la última semana se entregaron{" "}
           <Typography component="span" variant="caption" sx={{ color: `${color || "primary"}.main` }}>
-            {calculateLastWeekDeliveredOrders(deliveredUsersOrders)}
+            {/* {calculateLastWeekDeliveredOrders(deliveredUsersOrders)} */}
+            95
           </Typography>{" "}
           pedidos
         </Typography>

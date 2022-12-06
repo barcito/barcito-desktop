@@ -13,7 +13,7 @@ export const SseAPI = {
   },
 
   subscribe: function (barcitoId) {
-    const subscription = new EventSource(`http://localhost:3000/api/sse/newOrder/${barcitoId}`, { withCredentials: true });
+    const subscription = new EventSource(`http://192.168.231.142:3000/api/sse/newOrder/${barcitoId}`, { withCredentials: true });
 
     subscription.addEventListener("open", (event) => {
       console.log("SSE connection opened");

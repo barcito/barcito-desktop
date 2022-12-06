@@ -3,7 +3,7 @@ import eventBus from "@/utils/eventBus";
 
 export const api = axios.create({
   withCredentials: true,
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "http://192.168.231.142:3000/api/",
 });
 
 // defining a custom error handler for all APIs

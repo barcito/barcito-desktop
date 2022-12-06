@@ -27,7 +27,8 @@ function MainLayout() {
 
   useEffect(()=> {
     eventBus.on("notification", (detail) =>{
-      enqueueSnackbar(detail.message, { variant: 'success', anchorOrigin: { horizontal: 'right', vertical: 'bottom' }});
+      console.log(detail);
+      enqueueSnackbar(`${detail.message} ${detail.title}`, { variant: 'success', anchorOrigin: { horizontal: 'right', vertical: 'bottom' }});
     })
   }, []);
 

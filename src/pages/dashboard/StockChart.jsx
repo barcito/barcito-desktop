@@ -50,6 +50,7 @@ function formatStockDate(date) {
 function StockChart({ stockData }) {
   const [order] = useState("desc");
   const [orderBy] = useState("updatedAt");
+
   const avatarSX = {
     width: 36,
     height: 36,
@@ -81,45 +82,149 @@ function StockChart({ stockData }) {
         },
       }}
     >
-      {stableSort(stockData.slice(0, 5), getComparator(order, orderBy)).map((stock) => (
-        <ListItemButton key={stock.id} divider>
-          <ListItemAvatar>
-            {stock.quantity <= stock.warning ? (
-              <Avatar
-                sx={{
-                  color: "error.main",
-                  bgcolor: "error.lighter",
-                }}
-              >
-                {/* <GiftOutlined /> */}
-                <IoWarningOutline />
-              </Avatar>
-            ) : (
-              <Avatar
-                sx={{
-                  color: "success.main",
-                  bgcolor: "success.lighter",
-                }}
-              >
-                {/* <GiftOutlined /> */}
-                {stock.type === "Consumible" && <IoFastFoodOutline />}
-                {stock.type === "Insumo" && <BsBoxSeam />}
-              </Avatar>
-            )}
-          </ListItemAvatar>
-          <ListItemText primary={<Typography variant="subtitle1">{stock.description}</Typography>} secondary={formatStockDate(stock.createdAt)} />
-          <ListItemSecondaryAction>
-            <Stack alignItems="flex-end">
-              <Typography variant="subtitle1" noWrap>
-                + ${stock.cost * stock.quantity}
-              </Typography>
-              <Typography variant="h6" color="secondary" noWrap>
-                x {stock.quantity}
-              </Typography>
-            </Stack>
-          </ListItemSecondaryAction>
-        </ListItemButton>
-      ))}
+      <ListItemButton divider>
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "success.main",
+              bgcolor: "success.lighter",
+            }}
+          >
+            <BsBoxSeam />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={<Typography variant="subtitle1">{"Item 1"}</Typography>} secondary={"06/12/2022 16:30"} />
+        <ListItemSecondaryAction>
+          <Stack alignItems="flex-end">
+            <Typography variant="subtitle1" noWrap>
+              + $8000
+            </Typography>
+            <Typography variant="h6" color="secondary" noWrap>
+              x 200
+            </Typography>
+          </Stack>
+        </ListItemSecondaryAction>
+      </ListItemButton>
+
+      <ListItemButton divider>
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "success.main",
+              bgcolor: "success.lighter",
+            }}
+          >
+            <BsBoxSeam />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={<Typography variant="subtitle1">{"Item 2"}</Typography>} secondary={"06/12/2022 16:30"} />
+        <ListItemSecondaryAction>
+          <Stack alignItems="flex-end">
+            <Typography variant="subtitle1" noWrap>
+              + $5500
+            </Typography>
+            <Typography variant="h6" color="secondary" noWrap>
+              x 100
+            </Typography>
+          </Stack>
+        </ListItemSecondaryAction>
+      </ListItemButton>
+
+      <ListItemButton divider>
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "success.main",
+              bgcolor: "success.lighter",
+            }}
+          >
+            <BsBoxSeam />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={<Typography variant="subtitle1">{"Item 3"}</Typography>} secondary={"06/12/2022 16:30"} />
+        <ListItemSecondaryAction>
+          <Stack alignItems="flex-end">
+            <Typography variant="subtitle1" noWrap>
+              + $6750
+            </Typography>
+            <Typography variant="h6" color="secondary" noWrap>
+              x 50
+            </Typography>
+          </Stack>
+        </ListItemSecondaryAction>
+      </ListItemButton>
+
+      <ListItemButton divider>
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "success.main",
+              bgcolor: "success.lighter",
+            }}
+          >
+            <IoFastFoodOutline />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={<Typography variant="subtitle1">{"Item 4"}</Typography>} secondary={"06/12/2022 16:30"} />
+        <ListItemSecondaryAction>
+          <Stack alignItems="flex-end">
+            <Typography variant="subtitle1" noWrap>
+              + $8500
+            </Typography>
+            <Typography variant="h6" color="secondary" noWrap>
+              x 50
+            </Typography>
+          </Stack>
+        </ListItemSecondaryAction>
+      </ListItemButton>
+
+      <ListItemButton divider>
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "success.main",
+              bgcolor: "success.lighter",
+            }}
+          >
+            <IoFastFoodOutline />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={<Typography variant="subtitle1">{"Item 5"}</Typography>} secondary={"06/12/2022 16:30"} />
+        <ListItemSecondaryAction>
+          <Stack alignItems="flex-end">
+            <Typography variant="subtitle1" noWrap>
+              + $7650
+            </Typography>
+            <Typography variant="h6" color="secondary" noWrap>
+              x 100
+            </Typography>
+          </Stack>
+        </ListItemSecondaryAction>
+      </ListItemButton>
+
+      <ListItemButton divider>
+        <ListItemAvatar>
+          <Avatar
+            sx={{
+              color: "error.main",
+              bgcolor: "error.lighter",
+            }}
+          >
+            <IoWarningOutline />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={<Typography variant="subtitle1">{"Item 6"}</Typography>} secondary={"06/12/2022 16:30"} />
+        <ListItemSecondaryAction>
+          <Stack alignItems="flex-end">
+            <Typography variant="subtitle1" noWrap>
+              + $7650
+            </Typography>
+            <Typography variant="h6" color="secondary" noWrap>
+              x 100
+            </Typography>
+          </Stack>
+        </ListItemSecondaryAction>
+      </ListItemButton>
     </List>
   );
 }

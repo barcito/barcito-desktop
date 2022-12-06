@@ -117,6 +117,10 @@ const OrderStatus = ({ status }) => {
       color = "error";
       title = "Rechazado";
       break;
+    case "Cancelado":
+      color = "error";
+      title = "Cancelado";
+      break;
     default:
       color = "primary";
       title = "???";
@@ -175,7 +179,7 @@ export default function OrderTable({ usersOrdersData }) {
         >
           <OrderTableHead usersOrderedProducts={usersOrderedProducts} orderBy={orderBy} />
           <TableBody>
-            {stableSort(usersOrderedProducts, getComparator(order, orderBy)).map((row, index) => {
+            {/* {stableSort(usersOrderedProducts, getComparator(order, orderBy)).map((row, index) => {
               const isItemSelected = isSelected(row.data?.code);
               const labelId = `enhanced-table-checkbox-${index}`;
               return (
@@ -195,7 +199,86 @@ export default function OrderTable({ usersOrdersData }) {
                   </TableCell>
                 </TableRow>
               );
-            })}
+            })} */}
+            <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} tabIndex={-1}>
+              <TableCell component="th" id={1} scope="row" align="left">
+                <Link color="secondary" to="">
+                  041203941245
+                </Link>
+              </TableCell>
+              <TableCell align="left">Producto 1</TableCell>
+              <TableCell align="right">2</TableCell>
+              <TableCell align="left">
+                <OrderStatus status={"Pendiente"} />
+              </TableCell>
+              <TableCell align="right">
+                <NumberFormat value={"400"} displayType="text" thousandSeparator prefix="$" />
+              </TableCell>
+            </TableRow>
+
+            <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} tabIndex={-1}>
+              <TableCell component="th" id={1} scope="row" align="left">
+                <Link color="secondary" to="">
+                  041203941221
+                </Link>
+              </TableCell>
+              <TableCell align="left">Producto 2</TableCell>
+              <TableCell align="right">2</TableCell>
+              <TableCell align="left">
+                <OrderStatus status={"Preparado"} />
+              </TableCell>
+              <TableCell align="right">
+                <NumberFormat value={"400"} displayType="text" thousandSeparator prefix="$" />
+              </TableCell>
+            </TableRow>
+
+            <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} tabIndex={-1}>
+              <TableCell component="th" id={1} scope="row" align="left">
+                <Link color="secondary" to="">
+                  041201232412
+                </Link>
+              </TableCell>
+              <TableCell align="left">Producto 3</TableCell>
+              <TableCell align="right">2</TableCell>
+              <TableCell align="left">
+                <OrderStatus status={"Entregado"} />
+              </TableCell>
+              <TableCell align="right">
+                <NumberFormat value={"400"} displayType="text" thousandSeparator prefix="$" />
+              </TableCell>
+            </TableRow>
+
+            <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} tabIndex={-1}>
+              <TableCell component="th" id={1} scope="row" align="left">
+                <Link color="secondary" to="">
+                  041201233412
+                </Link>
+              </TableCell>
+              <TableCell align="left">Producto 4</TableCell>
+              <TableCell align="right">2</TableCell>
+              <TableCell align="left">
+                <OrderStatus status={"Rechazado"} />
+              </TableCell>
+              <TableCell align="right">
+                <NumberFormat value={"400"} displayType="text" thousandSeparator prefix="$" />
+              </TableCell>
+            </TableRow>
+
+            <TableRow hover role="checkbox" sx={{ "&:last-child td, &:last-child th": { border: 0 } }} tabIndex={-1}>
+              <TableCell component="th" id={1} scope="row" align="left">
+                <Link color="secondary" to="">
+                  041201233492
+                </Link>
+              </TableCell>
+              <TableCell align="left">Producto 5</TableCell>
+              <TableCell align="right">2</TableCell>
+              <TableCell align="left">
+                <OrderStatus status={"Cancelado"} />
+              </TableCell>
+              <TableCell align="right">
+                <NumberFormat value={"400"} displayType="text" thousandSeparator prefix="$" />
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
